@@ -1,0 +1,81 @@
+# Configuration for actions/labeler
+# https://github.com/actions/labeler
+
+# Core application code
+core:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/core/**/*'
+          - 'lib/domain/**/*'
+
+# Presentation layer
+ui:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/presentation/**/*'
+
+# Data layer
+data:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/data/**/*'
+
+# Application layer
+application:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/application/**/*'
+
+# Agent/AI features
+ai:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/agent/**/*'
+
+# Localization
+i18n:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'lib/l10n/**/*'
+          - '**/*.arb'
+
+# CI/CD
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**/*'
+
+# Documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**/*'
+
+# Tests
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'test/**/*'
+          - '**/*_test.dart'
+
+# Dependencies
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'pubspec.yaml'
+          - 'pubspec.lock'
+
+# Windows platform
+windows:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'windows/**/*'
+
+# Configuration
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'analysis_options.yaml'
+          - '*.yaml'
+          - '*.json'

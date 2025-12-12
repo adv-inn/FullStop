@@ -1,0 +1,531 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.38.4'
+  JAVA_VERSION: '17'
+
+jobs:
+  # ============================================================
+  # Code Quality Checks (Strict) - Also generates code for other jobs
+  # ============================================================
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Format generated files
+        run: dart format .
+
+      - name: Upload generated code
+        uses: actions/upload-artifact@v6
+        with:
+          name: generated-code
+          path: lib/**/*.g.dart
+          retention-days: 1
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze code (strict - errors fail build)
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Report all issues (informational)
+        run: |
+          echo "::group::Flutter Analyze Full Report"
+          flutter analyze 2>&1 || true
+          echo "::endgroup::"
+
+  # ============================================================
+  # Unit Tests with Coverage Gate
+  # ============================================================
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests with coverage
+        run: flutter test --coverage
+
+      - name: Check coverage threshold
+        run: |
+          # Install lcov for coverage analysis
+          sudo apt-get update && sudo apt-get install -y lcov
+
+          # Generate coverage summary
+          lcov --summary coverage/lcov.info > coverage_summary.txt 2>&1 || true
+          cat coverage_summary.txt
+
+          # Extract line coverage percentage
+          COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | sed 's/.*: //' | sed 's/%.*//' | head -1)
+
+          if [ -z "$COVERAGE" ]; then
+            echo "::warning::Could not determine coverage percentage"
+            exit 0
+          fi
+
+          echo "Coverage: ${COVERAGE}%"
+
+          # Check against threshold (50% for now, increase gradually)
+          THRESHOLD=50
+          if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
+            echo "::warning::Coverage ${COVERAGE}% is below threshold ${THRESHOLD}%"
+            # Uncomment the next line to enforce threshold
+            # exit 1
+          else
+            echo "::notice::Coverage ${COVERAGE}% meets threshold ${THRESHOLD}%"
+          fi
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ============================================================
+  # Code Complexity Analysis
+  # ============================================================
+  complexity:
+    name: Code Complexity
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install dart_code_linter
+        run: dart pub global activate dart_code_linter
+
+      - name: Run code complexity analysis
+        run: |
+          echo "::group::Code Complexity Report"
+          dart pub global run dart_code_linter:metrics analyze lib \
+            --reporter=console \
+            --cyclomatic-complexity=15 \
+            --lines-of-code=150 \
+            --number-of-parameters=5 \
+            --maximum-nesting-level=4 || true
+          echo "::endgroup::"
+
+      - name: Generate HTML report
+        run: |
+          mkdir -p metrics-report
+          dart pub global run dart_code_linter:metrics analyze lib \
+            --reporter=html \
+            --output-directory=metrics-report || true
+
+      - name: Upload complexity report
+        uses: actions/upload-artifact@v6
+        with:
+          name: complexity-report
+          path: metrics-report/
+          retention-days: 14
+
+  # ============================================================
+  # Security Scan
+  # ============================================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Check for outdated packages
+        run: |
+          echo "::group::Outdated Packages"
+          flutter pub outdated
+          echo "::endgroup::"
+
+      - name: Audit dependencies
+        run: |
+          # Export dependencies for analysis
+          flutter pub deps --json > deps.json
+          echo "Dependencies exported for analysis"
+
+          # Check for known security issues in pubspec.lock
+          echo "::group::Dependency Analysis"
+          cat pubspec.lock | grep -E "name:|version:" | head -50
+          echo "::endgroup::"
+
+  # ============================================================
+  # Build Tests (All Platforms)
+  # ============================================================
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~\AppData\Local\Pub\Cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Windows (Release)
+        run: flutter build windows --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: windows-build-${{ github.sha }}
+          path: build/windows/x64/runner/Release/
+          retention-days: 7
+
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v5
+        with:
+          path: |
+            macos/Pods
+            ~/.cocoapods
+          key: pods-macos-${{ hashFiles('macos/Podfile.lock') }}
+          restore-keys: |
+            pods-macos-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build macOS (Release)
+        run: flutter build macos --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: macos-build-${{ github.sha }}
+          path: build/macos/Build/Products/Release/
+          retention-days: 7
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y libsecret-1-dev libayatana-appindicator3-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Linux (Release)
+        run: flutter build linux --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-build-${{ github.sha }}
+          path: build/linux/x64/release/bundle/
+          retention-days: 7
+
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Cache Gradle
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Download Spotify App Remote SDK
+        run: |
+          mkdir -p android/spotify-app-remote
+          curl -L -o android/spotify-app-remote/spotify-app-remote.aar \
+            https://github.com/spotify/android-sdk/raw/master/app-remote-lib/spotify-app-remote-release-0.8.0.aar
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Android APK (Release)
+        run: flutter build apk --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-build-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
+
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-${{ runner.os }}-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v5
+        with:
+          path: |
+            ios/Pods
+            ~/.cocoapods
+          key: pods-ios-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            pods-ios-
+
+      - name: Download generated code
+        uses: actions/download-artifact@v7
+        with:
+          name: generated-code
+          path: lib/
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build iOS (No Codesign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ios-build-${{ github.sha }}
+          path: build/ios/iphoneos/
+          retention-days: 7

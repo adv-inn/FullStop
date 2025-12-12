@@ -1,0 +1,605 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Ensure only one release workflow runs at a time
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: '3.38.4'
+  JAVA_VERSION: '17'
+  APP_NAME: 'FullStop'
+
+jobs:
+  # ============================================================
+  # Pre-release Checks (Must Pass)
+  # ============================================================
+  pre-release-checks:
+    name: Pre-release Checks
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Format generated files
+        run: dart format .
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze code
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Run tests
+        run: flutter test
+
+  # ============================================================
+  # Build Windows Release
+  # ============================================================
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    needs: [pre-release-checks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Windows Release
+        run: flutter build windows --release --obfuscate --split-debug-info=build/debug-info/windows
+
+      - name: Create release directory structure
+        shell: pwsh
+        run: |
+          $version = "${{ needs.pre-release-checks.outputs.version }}"
+          $releaseDir = "release/${{ env.APP_NAME }}-$version-windows"
+
+          # Create release directory
+          New-Item -ItemType Directory -Force -Path $releaseDir
+
+          # Copy build output
+          Copy-Item -Path "build/windows/x64/runner/Release/*" -Destination $releaseDir -Recurse
+
+          # Create version info file
+          @"
+          ${{ env.APP_NAME }} v$version
+          Built: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC")
+          Commit: ${{ github.sha }}
+          "@ | Out-File -FilePath "$releaseDir/VERSION.txt" -Encoding utf8
+
+      - name: Create ZIP archive
+        shell: pwsh
+        run: |
+          $version = "${{ needs.pre-release-checks.outputs.version }}"
+          $releaseDir = "release/${{ env.APP_NAME }}-$version-windows"
+          $zipFile = "release/${{ env.APP_NAME }}-$version-windows-x64.zip"
+
+          Compress-Archive -Path "$releaseDir/*" -DestinationPath $zipFile -Force
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y
+
+      - name: Create installer script
+        shell: pwsh
+        run: |
+          $version = "${{ needs.pre-release-checks.outputs.version }}"
+          $issContent = @"
+          #define MyAppName "${{ env.APP_NAME }}"
+          #define MyAppVersion "$version"
+          #define MyAppPublisher "FullStop"
+          #define MyAppURL "https://github.com/0chencc/FullStop"
+          #define MyAppExeName "${{ env.APP_NAME }}.exe"
+
+          [Setup]
+          AppId={{8F4A3B2C-1D5E-4F6A-9B8C-7D2E3F4A5B6C}
+          AppName={#MyAppName}
+          AppVersion={#MyAppVersion}
+          AppPublisher={#MyAppPublisher}
+          AppPublisherURL={#MyAppURL}
+          AppSupportURL={#MyAppURL}
+          AppUpdatesURL={#MyAppURL}/releases
+          DefaultDirName={autopf}\{#MyAppName}
+          DefaultGroupName={#MyAppName}
+          AllowNoIcons=yes
+          LicenseFile=
+          OutputDir=release
+          OutputBaseFilename={#MyAppName}-{#MyAppVersion}-windows-x64-setup
+          SetupIconFile=windows\runner\resources\app_icon.ico
+          Compression=lzma2/ultra64
+          SolidCompression=yes
+          WizardStyle=modern
+          ArchitecturesInstallIn64BitMode=x64
+          ArchitecturesAllowed=x64
+
+          [Languages]
+          Name: "english"; MessagesFile: "compiler:Default.isl"
+
+          [Tasks]
+          Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+          [Files]
+          Source: "build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+          [Icons]
+          Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+          Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+          Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
+          [Run]
+          Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+          [Registry]
+          Root: HKCU; Subkey: "Software\Classes\sfo"; ValueType: string; ValueName: ""; ValueData: "URL:SFO Protocol"; Flags: uninsdeletekey
+          Root: HKCU; Subkey: "Software\Classes\sfo"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
+          Root: HKCU; Subkey: "Software\Classes\sfo\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+          "@
+
+          $issContent | Out-File -FilePath "installer.iss" -Encoding utf8
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: windows-release
+          path: |
+            release/*.zip
+            release/*.exe
+          retention-days: 30
+
+  # ============================================================
+  # Build macOS Release (Universal Binary - ARM64 + x86_64)
+  # ============================================================
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    needs: [pre-release-checks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build macOS Release
+        run: flutter build macos --release --obfuscate --split-debug-info=build/debug-info/macos
+
+      - name: Create DMG
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+          # Find the actual app name (could be different from APP_NAME)
+          APP_FILE=$(ls -d build/macos/Build/Products/Release/*.app | head -1)
+          APP_BASENAME=$(basename "$APP_FILE")
+          DMG_NAME="${{ env.APP_NAME }}-${VERSION}-macos-universal.dmg"
+
+          # Create release directory
+          mkdir -p release
+
+          # Create a temporary directory for DMG contents
+          mkdir -p dmg_contents
+          cp -R "$APP_FILE" dmg_contents/
+
+          # Create a symbolic link to Applications folder
+          ln -s /Applications dmg_contents/Applications
+
+          # Create DMG
+          hdiutil create -volname "${{ env.APP_NAME }}" \
+            -srcfolder dmg_contents \
+            -ov -format UDZO \
+            "release/${DMG_NAME}"
+
+          rm -rf dmg_contents
+
+      - name: Create ZIP archive
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+          mkdir -p release
+          # Find the actual app name
+          APP_FILE=$(ls -d build/macos/Build/Products/Release/*.app | head -1)
+          APP_BASENAME=$(basename "$APP_FILE")
+          cd build/macos/Build/Products/Release/
+          zip -r "../../../../../release/${{ env.APP_NAME }}-${VERSION}-macos-universal.zip" "$APP_BASENAME"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: macos-release
+          path: release/
+          retention-days: 30
+
+  # ============================================================
+  # Build Linux Release (AppImage + tar.gz)
+  # ============================================================
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    needs: [pre-release-checks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y libsecret-1-dev libayatana-appindicator3-dev
+          sudo apt-get install -y libfuse2 wget
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Linux Release
+        run: flutter build linux --release --obfuscate --split-debug-info=build/debug-info/linux
+
+      - name: Create tar.gz archive
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+          mkdir -p release
+          cd build/linux/x64/release/bundle
+          tar -czvf "../../../../../release/${{ env.APP_NAME }}-${VERSION}-linux-x64.tar.gz" .
+
+      - name: Download AppImage tools
+        run: |
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+          chmod +x appimagetool
+
+      - name: Create AppImage
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+
+          # Create AppDir structure
+          mkdir -p AppDir/usr/bin
+          mkdir -p AppDir/usr/lib
+          mkdir -p AppDir/usr/share/applications
+          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+
+          # Copy bundle contents
+          cp -r build/linux/x64/release/bundle/* AppDir/usr/bin/
+
+          # Create desktop entry
+          cat > AppDir/usr/share/applications/${{ env.APP_NAME }}.desktop << EOF
+          [Desktop Entry]
+          Type=Application
+          Name=${{ env.APP_NAME }}
+          Exec=fullstop
+          Icon=fullstop
+          Categories=AudioVideo;Audio;
+          Comment=Focus music player powered by Spotify
+          EOF
+
+          # Copy icon (use existing icon or create placeholder)
+          if [ -f "assets/icon/app_icon.png" ]; then
+            cp assets/icon/app_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/fullstop.png
+          else
+            # Create a simple placeholder icon
+            convert -size 256x256 xc:purple AppDir/usr/share/icons/hicolor/256x256/apps/fullstop.png 2>/dev/null || true
+          fi
+
+          # Create AppRun script
+          cat > AppDir/AppRun << 'EOF'
+          #!/bin/bash
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          export PATH="${HERE}/usr/bin:${PATH}"
+          export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
+          exec "${HERE}/usr/bin/fullstop" "$@"
+          EOF
+          chmod +x AppDir/AppRun
+
+          # Copy desktop and icon to AppDir root
+          cp AppDir/usr/share/applications/${{ env.APP_NAME }}.desktop AppDir/
+          cp AppDir/usr/share/icons/hicolor/256x256/apps/fullstop.png AppDir/ 2>/dev/null || touch AppDir/fullstop.png
+
+          # Build AppImage
+          ARCH=x86_64 ./appimagetool AppDir "release/${{ env.APP_NAME }}-${VERSION}-linux-x64.AppImage" || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-release
+          path: release/
+          retention-days: 30
+
+  # ============================================================
+  # Build Android Release (APK)
+  # ============================================================
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: [pre-release-checks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Download Spotify App Remote SDK
+        run: |
+          mkdir -p android/spotify-app-remote
+          curl -L -o android/spotify-app-remote/spotify-app-remote.aar \
+            https://github.com/spotify/android-sdk/raw/master/app-remote-lib/spotify-app-remote-release-0.8.0.aar
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Android APK (Release - unsigned)
+        run: flutter build apk --release --obfuscate --split-debug-info=build/debug-info/android
+
+      - name: Build Android App Bundle (Release - unsigned)
+        run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info/android
+
+      - name: Rename and organize artifacts
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+          mkdir -p release
+
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             "release/${{ env.APP_NAME }}-${VERSION}-android.apk"
+
+          cp build/app/outputs/bundle/release/app-release.aab \
+             "release/${{ env.APP_NAME }}-${VERSION}-android.aab"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-release
+          path: release/
+          retention-days: 30
+
+  # ============================================================
+  # Build iOS Release (IPA - No Codesign)
+  # ============================================================
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    needs: [pre-release-checks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Generate code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS Release (No Codesign)
+        run: flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info/ios
+
+      - name: Create IPA (unsigned)
+        run: |
+          VERSION="${{ needs.pre-release-checks.outputs.version }}"
+          mkdir -p release
+
+          # Create Payload directory structure for IPA
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+
+          # Create IPA (unsigned)
+          zip -r "release/${{ env.APP_NAME }}-${VERSION}-ios-unsigned.ipa" Payload
+
+          rm -rf Payload
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: ios-release
+          path: release/
+          retention-days: 30
+
+  # ============================================================
+  # Create GitHub Release
+  # ============================================================
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [pre-release-checks, build-windows, build-macos, build-linux, build-android, build-ios]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: artifacts/
+
+      - name: Organize release files
+        run: |
+          mkdir -p release
+
+          # Copy all artifacts to release directory
+          cp artifacts/windows-release/* release/ 2>/dev/null || true
+          cp artifacts/macos-release/* release/ 2>/dev/null || true
+          cp artifacts/linux-release/* release/ 2>/dev/null || true
+          cp artifacts/android-release/* release/ 2>/dev/null || true
+          cp artifacts/ios-release/* release/ 2>/dev/null || true
+
+          ls -la release/
+
+      - name: Generate checksums
+        run: |
+          cd release
+          sha256sum * > SHA256SUMS.txt || true
+          cat SHA256SUMS.txt
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          if [ -z "$PREV_TAG" ]; then
+            echo "No previous tag found, using all commits"
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges HEAD)
+          else
+            echo "Generating changelog from $PREV_TAG to HEAD"
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges $PREV_TAG..HEAD)
+          fi
+
+          # Write to file for multiline support
+          echo "$CHANGELOG" > changelog.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ env.APP_NAME }} v${{ needs.pre-release-checks.outputs.version }}"
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') || contains(github.ref_name, '-rc') }}
+          generate_release_notes: true
+          files: |
+            release/*
+          body: |
+            ## What's New
+
+            See the [full changelog](https://github.com/0chencc/FullStop/compare/${{ github.event.before }}...${{ github.ref_name }}) for details.
+
+            ## Downloads
+
+            ### Windows
+            | File | Description |
+            |------|-------------|
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-windows-x64-setup.exe` | Windows Installer (Recommended) |
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-windows-x64.zip` | Portable ZIP |
+
+            ### macOS
+            | File | Description |
+            |------|-------------|
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-macos-universal.dmg` | macOS Disk Image (Intel + Apple Silicon) |
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-macos-universal.zip` | macOS ZIP |
+
+            > **Note**: macOS builds are unsigned. You may need to right-click and select "Open" on first launch, or run `xattr -cr /Applications/FullStop.app` in Terminal.
+
+            ### Linux
+            | File | Description |
+            |------|-------------|
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-linux-x64.AppImage` | AppImage (Recommended) |
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-linux-x64.tar.gz` | Portable Archive |
+
+            ### Android
+            | File | Description |
+            |------|-------------|
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-android.apk` | Android APK |
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-android.aab` | Android App Bundle |
+
+            ### iOS
+            | File | Description |
+            |------|-------------|
+            | `${{ env.APP_NAME }}-${{ needs.pre-release-checks.outputs.version }}-ios-unsigned.ipa` | iOS IPA (Unsigned - requires signing) |
+
+            > **Note**: iOS IPA is unsigned. You need to sign it with your own Apple Developer certificate using tools like AltStore, Sideloadly, or Xcode.
+
+            ## Verification
+
+            Verify your download using SHA256 checksums in `SHA256SUMS.txt`:
+            ```bash
+            # On Windows (PowerShell)
+            Get-FileHash -Algorithm SHA256 <filename>
+
+            # On Linux/macOS
+            sha256sum -c SHA256SUMS.txt
+            ```
+
+            ## System Requirements
+
+            - **Windows**: Windows 10/11 (64-bit)
+            - **macOS**: macOS 11.0+ (Intel or Apple Silicon)
+            - **Linux**: Ubuntu 20.04+ or equivalent (64-bit)
+            - **Android**: Android 6.0+ (API 23+)
+            - **iOS**: iOS 12.0+
+            - Internet connection for Spotify API
+
+            ---
+
+            > **Note**: This release was built automatically by GitHub Actions from commit `${{ github.sha }}`.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

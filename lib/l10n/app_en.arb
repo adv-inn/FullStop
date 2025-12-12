@@ -1,0 +1,1761 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "FullStop",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "focusSessions": "Focus Moments",
+  "@focusSessions": {
+    "description": "Title for focus sessions screen"
+  },
+
+  "newSession": "New Session",
+  "@newSession": {
+    "description": "Button text to create new session"
+  },
+
+  "noSessionsYet": "No focus sessions yet",
+  "@noSessionsYet": {
+    "description": "Text shown when there are no sessions"
+  },
+
+  "createSessionHint": "Create a session to focus on your favorite artists",
+  "@createSessionHint": {
+    "description": "Hint text for creating a session"
+  },
+
+  "focusOnFavoriteArtists": "Focus on your favorite artists",
+  "@focusOnFavoriteArtists": {
+    "description": "App subtitle"
+  },
+
+  "connectWithSpotify": "Connect with Spotify",
+  "@connectWithSpotify": {
+    "description": "Login button text"
+  },
+
+  "connectingToSpotify": "Connecting to Spotify...",
+  "@connectingToSpotify": {
+    "description": "Loading text during login"
+  },
+
+  "completeLoginInBrowser": "Please complete the login in your browser.",
+  "@completeLoginInBrowser": {
+    "description": "Instruction for login"
+  },
+
+  "afterAgreeCloseBrowser": "After clicking \"Agree\", you can close the browser tab",
+  "@afterAgreeCloseBrowser": {
+    "description": "Hint about closing browser after authorization"
+  },
+
+  "cancelLogin": "Cancel Login",
+  "@cancelLogin": {
+    "description": "Cancel login button text"
+  },
+
+  "cancelHint": "Click to cancel and return to login screen",
+  "@cancelHint": {
+    "description": "Cancel button hint text"
+  },
+
+  "connectionFailed": "Connection Failed",
+  "@connectionFailed": {
+    "description": "Error title"
+  },
+
+  "errorCopied": "Error message copied to clipboard",
+  "@errorCopied": {
+    "description": "Snackbar message when error is copied"
+  },
+
+  "reconfigureCredentials": "Reconfigure Credentials",
+  "@reconfigureCredentials": {
+    "description": "Button to reconfigure API credentials"
+  },
+
+  "apiConfigured": "API configured",
+  "@apiConfigured": {
+    "description": "Status text when API is configured"
+  },
+
+  "change": "Change",
+  "@change": {
+    "description": "Change button text"
+  },
+
+  "credentialsStayOnDevice": "Your credentials stay on your device",
+  "@credentialsStayOnDevice": {
+    "description": "Security info text"
+  },
+
+  "controlsExistingSession": "Controls your existing Spotify session",
+  "@controlsExistingSession": {
+    "description": "Feature info text"
+  },
+
+  "requiresPremium": "Requires Spotify Premium",
+  "@requiresPremium": {
+    "description": "Premium requirement text"
+  },
+
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+
+  "premium": "Premium",
+  "@premium": {
+    "description": "Premium status label"
+  },
+
+  "free": "Free",
+  "@free": {
+    "description": "Free account label"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+
+  "chinese": "中文",
+  "@chinese": {
+    "description": "Chinese language name"
+  },
+
+  "japanese": "日本語",
+  "@japanese": {
+    "description": "Japanese language name"
+  },
+
+  "systemDefault": "System Default",
+  "@systemDefault": {
+    "description": "Use system default language"
+  },
+
+  "createSession": "Create Session",
+  "@createSession": {
+    "description": "Create session screen title"
+  },
+
+  "searchArtists": "Search artists...",
+  "@searchArtists": {
+    "description": "Search artists placeholder"
+  },
+
+  "addMoreArtists": "Add more...",
+  "@addMoreArtists": {
+    "description": "Placeholder when artists are already selected"
+  },
+
+  "selectedArtists": "Selected Artists",
+  "@selectedArtists": {
+    "description": "Selected artists section title"
+  },
+
+  "sessionName": "Session Name",
+  "@sessionName": {
+    "description": "Session name field label"
+  },
+
+  "sessionNameHint": "e.g., My Chill Mix",
+  "@sessionNameHint": {
+    "description": "Session name field hint"
+  },
+
+  "create": "Create",
+  "@create": {
+    "description": "Create button text"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+
+  "nowPlaying": "Now Playing",
+  "@nowPlaying": {
+    "description": "Now playing screen title"
+  },
+
+  "nothingPlaying": "Nothing playing",
+  "@nothingPlaying": {
+    "description": "Text when nothing is playing"
+  },
+
+  "play": "Play",
+  "@play": {
+    "description": "Play button"
+  },
+
+  "pause": "Pause",
+  "@pause": {
+    "description": "Pause button"
+  },
+
+  "previous": "Previous",
+  "@previous": {
+    "description": "Previous track button"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Next track button"
+  },
+
+  "setupGuide": "Setup Guide",
+  "@setupGuide": {
+    "description": "Setup guide screen title"
+  },
+
+  "welcomeToApp": "Welcome to Spotify Focus Someone!",
+  "@welcomeToApp": {
+    "description": "Welcome message"
+  },
+
+  "setupDescription": "To get started, you'll need to create a Spotify Developer App and enter your credentials.",
+  "@setupDescription": {
+    "description": "Setup description text"
+  },
+
+  "step1Title": "Go to Spotify Developer Dashboard",
+  "@step1Title": {
+    "description": "Setup step 1 title"
+  },
+
+  "step2Title": "Create a new app",
+  "@step2Title": {
+    "description": "Setup step 2 title"
+  },
+
+  "step3Title": "Add redirect URI",
+  "@step3Title": {
+    "description": "Setup step 3 title"
+  },
+
+  "step4Title": "Copy your credentials",
+  "@step4Title": {
+    "description": "Setup step 4 title"
+  },
+
+  "clientId": "Client ID",
+  "@clientId": {
+    "description": "Client ID field label"
+  },
+
+  "clientSecret": "Client Secret",
+  "@clientSecret": {
+    "description": "Client Secret field label"
+  },
+
+  "saveAndContinue": "Save & Continue",
+  "@saveAndContinue": {
+    "description": "Save and continue button"
+  },
+
+  "errorInvalidClient": "Invalid API credentials. Please check your Client ID and Secret.",
+  "@errorInvalidClient": {
+    "description": "Invalid client error message"
+  },
+
+  "errorRedirectUri": "Redirect URI mismatch! Your Spotify app must have the correct Redirect URI configured.",
+  "@errorRedirectUri": {
+    "description": "Redirect URI error message"
+  },
+
+  "errorNetwork": "Network error. Please check your internet connection.",
+  "@errorNetwork": {
+    "description": "Network error message"
+  },
+
+  "errorCancelled": "Login was cancelled. Please try again.",
+  "@errorCancelled": {
+    "description": "Login cancelled message"
+  },
+
+  "errorTimeout": "Authentication timed out. Please try again.",
+  "@errorTimeout": {
+    "description": "Timeout error message"
+  },
+
+  "errorAccessDenied": "Access denied. You need to authorize the app to access your Spotify account.",
+  "@errorAccessDenied": {
+    "description": "Access denied error message"
+  },
+
+  "errorNeedsReauth": "Permission denied. Please log out and log in again to grant the required permissions.",
+  "@errorNeedsReauth": {
+    "description": "Error when user needs to re-authenticate for new permissions"
+  },
+
+  "tracks": "{count, plural, =0{No tracks} =1{1 track} other{{count} tracks}}",
+  "@tracks": {
+    "description": "Track count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "artists": "{count, plural, =0{No artists} =1{1 artist} other{{count} artists}}",
+  "@artists": {
+    "description": "Artist count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "deleteSession": "Delete Session",
+  "@deleteSession": {
+    "description": "Delete session button"
+  },
+
+  "deleteSessionConfirm": "Are you sure you want to delete \"{name}\"?",
+  "@deleteSessionConfirm": {
+    "description": "Delete session confirmation message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+
+  "sessionDeleted": "Session deleted",
+  "@sessionDeleted": {
+    "description": "Session deleted confirmation"
+  },
+
+  "shuffle": "Shuffle",
+  "@shuffle": {
+    "description": "Shuffle playback option"
+  },
+
+  "shuffleOn": "Shuffle On",
+  "@shuffleOn": {
+    "description": "Shuffle is enabled"
+  },
+
+  "shuffleOff": "Shuffle Off",
+  "@shuffleOff": {
+    "description": "Shuffle is disabled"
+  },
+
+  "repeat": "Repeat",
+  "@repeat": {
+    "description": "Repeat playback option"
+  },
+
+  "repeatOff": "Play Once",
+  "@repeatOff": {
+    "description": "Repeat mode off"
+  },
+
+  "repeatAll": "Loop",
+  "@repeatAll": {
+    "description": "Repeat all tracks"
+  },
+
+  "repeatOne": "One",
+  "@repeatOne": {
+    "description": "Repeat one track"
+  },
+
+  "sessionNameOptional": "Session name (optional)",
+  "@sessionNameOptional": {
+    "description": "Session name field placeholder"
+  },
+
+  "searchForArtists": "Search for artists to add to your session",
+  "@searchForArtists": {
+    "description": "Search hint when no search query"
+  },
+
+  "noArtistsFound": "No artists found",
+  "@noArtistsFound": {
+    "description": "Text when search returns no results"
+  },
+
+  "createdSession": "Created session: {name}",
+  "@createdSession": {
+    "description": "Session created confirmation",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "more": "More",
+  "@more": {
+    "description": "More options button tooltip"
+  },
+
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button text"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+
+  "noTracksInSession": "No tracks in this session",
+  "@noTracksInSession": {
+    "description": "Empty state for session with no tracks"
+  },
+
+  "removeTrack": "Remove track",
+  "@removeTrack": {
+    "description": "Remove track button tooltip"
+  },
+
+  "sessionUpdated": "Session updated",
+  "@sessionUpdated": {
+    "description": "Session updated confirmation"
+  },
+
+  "editSession": "Edit Session",
+  "@editSession": {
+    "description": "Edit session title"
+  },
+
+  "dragToReorder": "Drag to reorder tracks",
+  "@dragToReorder": {
+    "description": "Hint for reordering tracks"
+  },
+
+  "creatingSession": "Creating session, fetching tracks...",
+  "@creatingSession": {
+    "description": "Loading text while creating session"
+  },
+
+  "smartSchedule": "Smart Schedule",
+  "@smartSchedule": {
+    "description": "Smart scheduling feature toggle"
+  },
+
+  "smartScheduleHint": "Filter tracks by tempo style",
+  "@smartScheduleHint": {
+    "description": "Hint for smart scheduling"
+  },
+
+  "styleSlow": "Slow",
+  "@styleSlow": {
+    "description": "Slow tempo style (60-80 BPM)"
+  },
+
+  "styleSlowDesc": "Ballads, emotional, relaxed",
+  "@styleSlowDesc": {
+    "description": "Description for slow style"
+  },
+
+  "styleMidTempo": "Mid-tempo",
+  "@styleMidTempo": {
+    "description": "Mid tempo style (90-110 BPM)"
+  },
+
+  "styleMidTempoDesc": "Easy listening, R&B groove",
+  "@styleMidTempoDesc": {
+    "description": "Description for mid-tempo style"
+  },
+
+  "styleUpTempo": "Up-tempo",
+  "@styleUpTempo": {
+    "description": "Up tempo style (120-140 BPM)"
+  },
+
+  "styleUpTempoDesc": "Energetic, pop, dance",
+  "@styleUpTempoDesc": {
+    "description": "Description for up-tempo style"
+  },
+
+  "styleFast": "Fast",
+  "@styleFast": {
+    "description": "Fast tempo style (150+ BPM)"
+  },
+
+  "styleFastDesc": "Rock, metal, intense",
+  "@styleFastDesc": {
+    "description": "Description for fast style"
+  },
+
+  "bpmRange": "{min}-{max} BPM",
+  "@bpmRange": {
+    "description": "BPM range display",
+    "placeholders": {
+      "min": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "selectStyle": "Select a style",
+  "@selectStyle": {
+    "description": "Prompt to select a music style"
+  },
+
+  "proxy": "Proxy",
+  "@proxy": {
+    "description": "Proxy settings section title"
+  },
+
+  "proxyEnabled": "Enable Proxy",
+  "@proxyEnabled": {
+    "description": "Toggle to enable proxy"
+  },
+
+  "proxyType": "Proxy Type",
+  "@proxyType": {
+    "description": "Proxy type selector label"
+  },
+
+  "proxyHost": "Host",
+  "@proxyHost": {
+    "description": "Proxy host field label"
+  },
+
+  "proxyPort": "Port",
+  "@proxyPort": {
+    "description": "Proxy port field label"
+  },
+
+  "proxyUsername": "Username (optional)",
+  "@proxyUsername": {
+    "description": "Proxy username field label"
+  },
+
+  "proxyPassword": "Password (optional)",
+  "@proxyPassword": {
+    "description": "Proxy password field label"
+  },
+
+  "proxyHint": "Use SOCKS5 or HTTP proxy to accelerate Spotify API access",
+  "@proxyHint": {
+    "description": "Hint text for proxy settings"
+  },
+
+  "proxySaved": "Proxy settings saved",
+  "@proxySaved": {
+    "description": "Toast message when proxy is saved"
+  },
+
+  "proxyCleared": "Proxy settings cleared",
+  "@proxyCleared": {
+    "description": "Toast message when proxy is cleared"
+  },
+
+  "proxyInvalid": "Invalid proxy configuration",
+  "@proxyInvalid": {
+    "description": "Error message for invalid proxy"
+  },
+
+  "testProxy": "Test Connection",
+  "@testProxy": {
+    "description": "Button to test proxy connection"
+  },
+
+  "proxyTestSuccess": "Proxy connection successful",
+  "@proxyTestSuccess": {
+    "description": "Message when proxy test succeeds"
+  },
+
+  "proxyTestFailed": "Proxy connection failed: {error}",
+  "@proxyTestFailed": {
+    "description": "Message when proxy test fails",
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+
+  "matchByStyle": "By Style",
+  "@matchByStyle": {
+    "description": "Smart schedule mode - match by music style"
+  },
+
+  "matchByArtistTrack": "By Artist",
+  "@matchByArtistTrack": {
+    "description": "Smart schedule mode - match by artist track"
+  },
+
+  "matchByPlaylist": "By Playlist",
+  "@matchByPlaylist": {
+    "description": "Smart schedule mode - match by playlist track"
+  },
+
+  "selectPlaylist": "Select a Playlist",
+  "@selectPlaylist": {
+    "description": "Prompt to select a playlist"
+  },
+
+  "selectTrackForMatch": "Select a track to match BPM",
+  "@selectTrackForMatch": {
+    "description": "Hint for track matching mode"
+  },
+
+  "yourPlaylists": "Your Playlists",
+  "@yourPlaylists": {
+    "description": "Section title for user playlists"
+  },
+
+  "loadingPlaylists": "Loading playlists...",
+  "@loadingPlaylists": {
+    "description": "Loading text for playlists"
+  },
+
+  "noPlaylists": "No playlists found",
+  "@noPlaylists": {
+    "description": "Empty state for playlists"
+  },
+
+  "matchingBpm": "Matching BPM: {bpm}",
+  "@matchingBpm": {
+    "description": "Shows the BPM being matched",
+    "placeholders": {
+      "bpm": {"type": "int"}
+    }
+  },
+
+  "selectArtistFirst": "Please select an artist first",
+  "@selectArtistFirst": {
+    "description": "Hint when no artist selected for artist track mode"
+  },
+
+  "loadingArtistTracks": "Loading artist tracks...",
+  "@loadingArtistTracks": {
+    "description": "Loading text for artist tracks"
+  },
+
+  "noArtistTracks": "No tracks found for selected artists",
+  "@noArtistTracks": {
+    "description": "Empty state for artist tracks"
+  },
+
+  "selectTrackFromArtist": "Select a track from the artist",
+  "@selectTrackFromArtist": {
+    "description": "Hint for selecting track from artist"
+  },
+
+  "selectTracksFromArtist": "Select tracks to match BPM",
+  "@selectTracksFromArtist": {
+    "description": "Hint for selecting multiple tracks from artist"
+  },
+
+  "selectedTracksCount": "{count} tracks selected",
+  "@selectedTracksCount": {
+    "description": "Shows count of selected tracks",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "bpmRangesHint": "BPM ranges: {ranges}",
+  "@bpmRangesHint": {
+    "description": "Shows BPM ranges for selected tracks",
+    "placeholders": {
+      "ranges": {"type": "String"}
+    }
+  },
+
+  "clearAll": "Clear all",
+  "@clearAll": {
+    "description": "Clear all button tooltip"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+
+  "loadingBpm": "Loading BPM...",
+  "@loadingBpm": {
+    "description": "Loading text while fetching BPM data"
+  },
+
+  "bpmUnavailable": "BPM data unavailable",
+  "@bpmUnavailable": {
+    "description": "Text shown when BPM data cannot be fetched (API restriction)"
+  },
+
+  "advancedFeatures": "BPM Features",
+  "@advancedFeatures": {
+    "description": "Section title for BPM features"
+  },
+
+  "getSongBpmAttribution": "Powered by GetSongBPM",
+  "@getSongBpmAttribution": {
+    "description": "Attribution for GetSongBPM API"
+  },
+
+  "getSongBpmHint": "BPM data is provided by GetSongBPM.com. Register for a free API key to enable BPM matching features.",
+  "@getSongBpmHint": {
+    "description": "Hint for GetSongBPM API"
+  },
+
+  "getSongBpmApiKey": "GetSongBPM API Key",
+  "@getSongBpmApiKey": {
+    "description": "Label for GetSongBPM API key field"
+  },
+
+  "getSongBpmApiKeyHint": "Enter your GetSongBPM API key",
+  "@getSongBpmApiKeyHint": {
+    "description": "Hint for GetSongBPM API key field"
+  },
+
+  "getSongBpmApiKeyConfigured": "API key configured",
+  "@getSongBpmApiKeyConfigured": {
+    "description": "Status when API key is configured"
+  },
+
+  "getSongBpmApiKeySaved": "API key saved successfully",
+  "@getSongBpmApiKeySaved": {
+    "description": "Toast when API key is saved"
+  },
+
+  "getSongBpmApiKeyError": "Failed to save API key",
+  "@getSongBpmApiKeyError": {
+    "description": "Toast when API key save fails"
+  },
+
+  "getSongBpmApiKeyEmpty": "Please enter an API key",
+  "@getSongBpmApiKeyEmpty": {
+    "description": "Error when API key is empty"
+  },
+
+  "getSongBpmApiKeyCleared": "API key cleared",
+  "@getSongBpmApiKeyCleared": {
+    "description": "Toast when API key is cleared"
+  },
+
+  "experimentalFeature": "Experimental Feature",
+  "@experimentalFeature": {
+    "description": "Experimental feature warning title"
+  },
+
+  "experimentalSmartScheduleWarning": "This mode fetches BPM for all tracks which may take several minutes. The session will be created in the background - you can continue using the app.",
+  "@experimentalSmartScheduleWarning": {
+    "description": "Experimental feature warning message for smart schedule"
+  },
+
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Button to continue with experimental feature"
+  },
+
+  "creatingSessionBackground": "Creating session in background...",
+  "@creatingSessionBackground": {
+    "description": "Background session creation notification title"
+  },
+
+  "fetchingTracksProgress": "Fetching tracks from {count} artists...",
+  "@fetchingTracksProgress": {
+    "description": "Progress message for fetching tracks",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "fetchingArtistTracks": "Fetching: {artistName}",
+  "@fetchingArtistTracks": {
+    "description": "Progress message showing which artist is being fetched",
+    "placeholders": {
+      "artistName": {"type": "String"}
+    }
+  },
+
+  "fetchingBpmProgress": "Analyzing BPM ({current}/{total})...",
+  "@fetchingBpmProgress": {
+    "description": "Progress message for fetching BPM data",
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+
+  "filteringTracks": "Filtering tracks by BPM...",
+  "@filteringTracks": {
+    "description": "Progress message for filtering tracks"
+  },
+
+  "sessionCreatedBackground": "Session \"{name}\" created with {count} tracks",
+  "@sessionCreatedBackground": {
+    "description": "Session created in background notification",
+    "placeholders": {
+      "name": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+
+  "sessionCreationFailed": "Failed to create session: {error}",
+  "@sessionCreationFailed": {
+    "description": "Session creation failed notification",
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+
+  "pendingSession": "Creating...",
+  "@pendingSession": {
+    "description": "Pending session indicator"
+  },
+
+  "viewPendingSession": "View",
+  "@viewPendingSession": {
+    "description": "View pending sessions"
+  },
+
+  "trackLimit": "Track Limit",
+  "@trackLimit": {
+    "description": "Track limit toggle label"
+  },
+
+  "trackLimitEnabled": "Limit to {count} tracks",
+  "@trackLimitEnabled": {
+    "description": "Track limit enabled label",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "trackLimitDisabled": "No track limit",
+  "@trackLimitDisabled": {
+    "description": "Track limit disabled label"
+  },
+
+  "trackLimitHint": "Limit the number of tracks in smart schedule sessions",
+  "@trackLimitHint": {
+    "description": "Hint for track limit setting"
+  },
+
+  "bpmCacheStats": "BPM Cache: {count} entries",
+  "@bpmCacheStats": {
+    "description": "BPM cache statistics",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "clearBpmCache": "Clear BPM Cache",
+  "@clearBpmCache": {
+    "description": "Button to clear BPM cache"
+  },
+
+  "bpmCacheCleared": "BPM cache cleared",
+  "@bpmCacheCleared": {
+    "description": "Toast when BPM cache is cleared"
+  },
+
+  "trayShowWindow": "Show FullStop",
+  "@trayShowWindow": {
+    "description": "System tray menu item to show main window"
+  },
+
+  "trayExit": "Exit",
+  "@trayExit": {
+    "description": "System tray menu item to exit app"
+  },
+
+  "trayPreviousTrack": "Previous Track",
+  "@trayPreviousTrack": {
+    "description": "System tray menu item for previous track"
+  },
+
+  "trayNextTrack": "Next Track",
+  "@trayNextTrack": {
+    "description": "System tray menu item for next track"
+  },
+
+  "trayTooltip": "FullStop - Spotify Controller",
+  "@trayTooltip": {
+    "description": "System tray tooltip"
+  },
+
+  "errorNoActiveDevice": "No active Spotify device found. Please open Spotify on your phone, computer, or other device first.",
+  "@errorNoActiveDevice": {
+    "description": "Error message when no active Spotify device is found"
+  },
+
+  "errorSpotifyConnectionFailed": "FullStop cannot connect to Spotify. Please manually open Spotify and play any music, then try again.",
+  "@errorSpotifyConnectionFailed": {
+    "description": "Error message when Spotify connection fails even after SDK wake attempt"
+  },
+
+  "connectingToSpotifyDevice": "Connecting to Spotify...",
+  "@connectingToSpotifyDevice": {
+    "description": "Status message when trying to connect to Spotify device"
+  },
+
+  "spotifyNotInstalled": "Spotify app not detected",
+  "@spotifyNotInstalled": {
+    "description": "Error message when Spotify app is not installed"
+  },
+
+  "traditionalSchedule": "Traditional",
+  "@traditionalSchedule": {
+    "description": "Traditional scheduling feature toggle"
+  },
+
+  "dispatchHitsOnly": "Hits Only",
+  "@dispatchHitsOnly": {
+    "description": "Dispatch mode - hits only"
+  },
+
+  "dispatchHitsOnlyDesc": "No skips needed. Every track's a banger.",
+  "@dispatchHitsOnlyDesc": {
+    "description": "Description for hits only mode"
+  },
+
+  "dispatchBalanced": "Balanced",
+  "@dispatchBalanced": {
+    "description": "Dispatch mode - balanced"
+  },
+
+  "dispatchBalancedDesc": "Familiar favorites with pleasant surprises.",
+  "@dispatchBalancedDesc": {
+    "description": "Description for balanced mode"
+  },
+
+  "dispatchDeepDive": "Deep Dive",
+  "@dispatchDeepDive": {
+    "description": "Dispatch mode - deep dive"
+  },
+
+  "dispatchDeepDiveDesc": "Hunt for that forgotten B-side gem.",
+  "@dispatchDeepDiveDesc": {
+    "description": "Description for deep dive mode"
+  },
+
+  "dispatchUnfiltered": "Unfiltered",
+  "@dispatchUnfiltered": {
+    "description": "Dispatch mode - unfiltered"
+  },
+
+  "dispatchUnfilteredDesc": "Relive the concert. Feel every encore.",
+  "@dispatchUnfilteredDesc": {
+    "description": "Description for unfiltered mode"
+  },
+
+  "trueShuffle": "True Shuffle",
+  "@trueShuffle": {
+    "description": "True shuffle feature toggle"
+  },
+
+  "trueShuffleDesc": "Smart dedupe & album spread",
+  "@trueShuffleDesc": {
+    "description": "Description for true shuffle feature"
+  },
+
+  "artistLimitReached": "Artist limit reached",
+  "@artistLimitReached": {
+    "description": "Toast message when artist limit is reached"
+  },
+
+  "artistLimitHint": "For best focus experience and dedupe quality, limit to {count} artists.",
+  "@artistLimitHint": {
+    "description": "Hint explaining the artist limit",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "selectedArtistsCount": "Selected ({current}/{max})",
+  "@selectedArtistsCount": {
+    "description": "Artist counter showing current/max",
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "tapToExpand": "Tap to expand",
+  "@tapToExpand": {
+    "description": "Hint text for expanding bottom sheet"
+  },
+
+  "cacheManagement": "Cache",
+  "@cacheManagement": {
+    "description": "Cache management section title"
+  },
+
+  "imageCacheSize": "Image Cache",
+  "@imageCacheSize": {
+    "description": "Image cache size label"
+  },
+
+  "clearCache": "Clear Cache",
+  "@clearCache": {
+    "description": "Clear cache button text"
+  },
+
+  "cacheCleared": "Cache cleared successfully",
+  "@cacheCleared": {
+    "description": "Toast message when cache is cleared"
+  },
+
+  "cacheClearFailed": "Failed to clear cache",
+  "@cacheClearFailed": {
+    "description": "Toast message when cache clear fails"
+  },
+
+  "calculating": "Calculating...",
+  "@calculating": {
+    "description": "Text shown while calculating cache size"
+  },
+
+  "rename": "Rename",
+  "@rename": {
+    "description": "Rename option in menu"
+  },
+
+  "renameSession": "Rename Session",
+  "@renameSession": {
+    "description": "Dialog title for renaming session"
+  },
+
+  "sessionRenamed": "Session renamed",
+  "@sessionRenamed": {
+    "description": "Toast when session is renamed"
+  },
+
+  "likeAllTracks": "Like All Tracks",
+  "@likeAllTracks": {
+    "description": "Option to like all tracks in session"
+  },
+
+  "likeAllTracksConfirm": "Add {count} tracks to your Liked Songs?",
+  "@likeAllTracksConfirm": {
+    "description": "Confirmation for liking all tracks",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "tracksAlreadyLiked": "All tracks are already liked",
+  "@tracksAlreadyLiked": {
+    "description": "Message when all tracks are already liked"
+  },
+
+  "tracksLiked": "{count} tracks added to Liked Songs",
+  "@tracksLiked": {
+    "description": "Success message for liking tracks",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "addToPlaylist": "Add to Playlist",
+  "@addToPlaylist": {
+    "description": "Option to add tracks to a playlist"
+  },
+
+  "createPlaylistFromSession": "Create Playlist from This",
+  "@createPlaylistFromSession": {
+    "description": "Option to create a new Spotify playlist from session tracks"
+  },
+
+  "createPlaylistConfirm": "Create a Spotify playlist \"{name}\" with {count} tracks?",
+  "@createPlaylistConfirm": {
+    "description": "Confirmation for creating playlist",
+    "placeholders": {
+      "name": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+
+  "playlistCreated": "Playlist \"{name}\" created",
+  "@playlistCreated": {
+    "description": "Success message for playlist creation",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+
+  "playlistCreationFailed": "Failed to create playlist",
+  "@playlistCreationFailed": {
+    "description": "Error message for playlist creation failure"
+  },
+
+  "checkingLikedStatus": "Checking liked status...",
+  "@checkingLikedStatus": {
+    "description": "Loading message when checking liked status"
+  },
+
+  "likingTracks": "Liking tracks...",
+  "@likingTracks": {
+    "description": "Loading message when liking tracks"
+  },
+
+  "creatingPlaylist": "Creating playlist...",
+  "@creatingPlaylist": {
+    "description": "Loading message when creating playlist"
+  },
+
+  "moveUp": "Move Up",
+  "@moveUp": {
+    "description": "Menu option to move session up in list"
+  },
+
+  "moveDown": "Move Down",
+  "@moveDown": {
+    "description": "Menu option to move session down in list"
+  },
+
+  "pinToTop": "Pin to top",
+  "@pinToTop": {
+    "description": "Tooltip for always on top button when unpinned"
+  },
+
+  "unpinFromTop": "Unpin from top",
+  "@unpinFromTop": {
+    "description": "Tooltip for always on top button when pinned"
+  },
+
+  "lastPlayed": "Last played: {time}",
+  "@lastPlayed": {
+    "description": "Last played time label",
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+
+  "moreArtists": "More Artists",
+  "@moreArtists": {
+    "description": "Header for overflow artists popup"
+  },
+
+  "expand": "Expand",
+  "@expand": {
+    "description": "Expand button text"
+  },
+
+  "collapse": "Collapse",
+  "@collapse": {
+    "description": "Collapse button text"
+  },
+
+  "minutesAgo": "{count}m ago",
+  "@minutesAgo": {
+    "description": "Minutes ago",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "hoursAgo": "{count}h ago",
+  "@hoursAgo": {
+    "description": "Hours ago",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "daysAgo": "{count}d ago",
+  "@daysAgo": {
+    "description": "Days ago",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "performance": "Performance",
+  "@performance": {
+    "description": "Performance settings section title"
+  },
+
+  "gpuAcceleration": "GPU Acceleration",
+  "@gpuAcceleration": {
+    "description": "GPU acceleration toggle label"
+  },
+
+  "gpuAccelerationDesc": "Use GPU for smoother animations",
+  "@gpuAccelerationDesc": {
+    "description": "GPU acceleration description"
+  },
+
+  "gpuAccelerationHint": "Enable GPU acceleration for smoother wave animations. Disable if you experience graphics issues or don't have a dedicated GPU.",
+  "@gpuAccelerationHint": {
+    "description": "GPU acceleration hint text"
+  },
+
+  "pinSession": "Pin to Top",
+  "@pinSession": {
+    "description": "Menu option to pin a session to the top of the list"
+  },
+
+  "unpinSession": "Unpin",
+  "@unpinSession": {
+    "description": "Menu option to unpin a session"
+  },
+
+  "pinSessionHint": "Max 3 pinned sessions",
+  "@pinSessionHint": {
+    "description": "Hint text explaining the pin limit"
+  },
+
+  "sessionPinned": "Session pinned",
+  "@sessionPinned": {
+    "description": "Toast message when session is pinned"
+  },
+
+  "sessionUnpinned": "Session unpinned",
+  "@sessionUnpinned": {
+    "description": "Toast message when session is unpinned"
+  },
+
+  "aboutVersion": "Version",
+  "@aboutVersion": {
+    "description": "Version label in about section"
+  },
+
+  "aboutPrivacySecurity": "Privacy & Security",
+  "@aboutPrivacySecurity": {
+    "description": "Privacy and security section title"
+  },
+
+  "aboutDeveloper": "Developer",
+  "@aboutDeveloper": {
+    "description": "Developer label"
+  },
+
+  "aboutGitHub": "GitHub",
+  "@aboutGitHub": {
+    "description": "GitHub link label"
+  },
+
+  "aboutStarProject": "Star the project",
+  "@aboutStarProject": {
+    "description": "GitHub star hint"
+  },
+
+  "aboutTwitter": "X (Twitter)",
+  "@aboutTwitter": {
+    "description": "Twitter/X link label"
+  },
+
+  "aboutFollowUpdates": "Follow for updates",
+  "@aboutFollowUpdates": {
+    "description": "Twitter follow hint"
+  },
+
+  "aboutPoweredBySpotify": "Powered by Spotify",
+  "@aboutPoweredBySpotify": {
+    "description": "Spotify attribution"
+  },
+
+  "aboutUsesSpotifyApi": "Uses Spotify Web API",
+  "@aboutUsesSpotifyApi": {
+    "description": "Spotify API attribution hint"
+  },
+
+  "privacySecureStorage": "Secure Local Storage",
+  "@privacySecureStorage": {
+    "description": "Privacy section title"
+  },
+
+  "privacySecureStorageDesc": "Your API credentials are encrypted and stored only on your device. They are never transmitted to any external server.",
+  "@privacySecureStorageDesc": {
+    "description": "Privacy section description"
+  },
+
+  "privacyDirectConnection": "Direct Spotify Connection",
+  "@privacyDirectConnection": {
+    "description": "Privacy section title"
+  },
+
+  "privacyDirectConnectionDesc": "This app connects directly to Spotify's official API. We don't relay your data through any intermediary servers.",
+  "@privacyDirectConnectionDesc": {
+    "description": "Privacy section description"
+  },
+
+  "privacyNoDataCollection": "No Data Collection",
+  "@privacyNoDataCollection": {
+    "description": "Privacy section title"
+  },
+
+  "privacyNoDataCollectionDesc": "We do not collect, store, or transmit any usage analytics, listening history, or personal information.",
+  "@privacyNoDataCollectionDesc": {
+    "description": "Privacy section description"
+  },
+
+  "privacyOAuthSecurity": "OAuth Security",
+  "@privacyOAuthSecurity": {
+    "description": "Privacy section title"
+  },
+
+  "privacyOAuthSecurityDesc": "Authentication uses a local HTTP server on ports 8888-8891, 8080, or 3000 with CSRF protection via state parameter.",
+  "@privacyOAuthSecurityDesc": {
+    "description": "Privacy section description"
+  },
+
+  "privacyYouControl": "You Control Your Data",
+  "@privacyYouControl": {
+    "description": "Privacy section title"
+  },
+
+  "privacyYouControlDesc": "You can clear your credentials at any time from this settings page. Uninstalling the app removes all stored data.",
+  "@privacyYouControlDesc": {
+    "description": "Privacy section description"
+  },
+
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+
+  "welcomeToFullStop": "Welcome to FullStop",
+  "@welcomeToFullStop": {
+    "description": "Welcome message on setup screen"
+  },
+
+  "updateCredentials": "Update Credentials",
+  "@updateCredentials": {
+    "description": "Title when reconfiguring credentials"
+  },
+
+  "connectSpotifyToStart": "Connect your Spotify account to get started",
+  "@connectSpotifyToStart": {
+    "description": "Subtitle on setup screen"
+  },
+
+  "updateSpotifyCredentials": "Update your Spotify API credentials",
+  "@updateSpotifyCredentials": {
+    "description": "Subtitle when reconfiguring"
+  },
+
+  "credentialsSecurelyStored": "Your credentials are stored securely on your device only",
+  "@credentialsSecurelyStored": {
+    "description": "Security notice text"
+  },
+
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy tooltip"
+  },
+
+  "step1CreateApp": "Step 1: Create a Spotify App",
+  "@step1CreateApp": {
+    "description": "Setup step 1 title"
+  },
+
+  "openDeveloperDashboard": "Open Spotify Developer Dashboard",
+  "@openDeveloperDashboard": {
+    "description": "Button to open Spotify developer dashboard"
+  },
+
+  "openDeveloperDashboardHint": "Click the button below to open the Spotify Developer Dashboard in your browser.",
+  "@openDeveloperDashboardHint": {
+    "description": "Hint for opening developer dashboard"
+  },
+
+  "createNewApp": "Create a New App",
+  "@createNewApp": {
+    "description": "Instruction to create new app"
+  },
+
+  "createNewAppDesc": "Click \"Create App\" and fill in:\n• App name: Any name (e.g., \"My Focus App\")\n• App description: Personal use\n• Website: Leave empty or use any URL\n• Check \"Web API\" option",
+  "@createNewAppDesc": {
+    "description": "Instructions for creating new app"
+  },
+
+  "createNewAppDescShort": "Click \"Create App\" and fill in the following fields. Check \"Web API\" option.",
+  "@createNewAppDescShort": {
+    "description": "Short instructions for creating new app"
+  },
+
+  "appNameLabel": "App name",
+  "@appNameLabel": {
+    "description": "Label for app name field"
+  },
+
+  "appNameCopied": "App name copied!",
+  "@appNameCopied": {
+    "description": "Toast when app name is copied"
+  },
+
+  "appDescriptionLabel": "App description",
+  "@appDescriptionLabel": {
+    "description": "Label for app description field"
+  },
+
+  "appDescriptionCopied": "App description copied!",
+  "@appDescriptionCopied": {
+    "description": "Toast when app description is copied"
+  },
+
+  "redirectUriLabel": "Redirect URI",
+  "@redirectUriLabel": {
+    "description": "Label for redirect URI field"
+  },
+
+  "setRedirectUri": "Set Redirect URI (IMPORTANT!)",
+  "@setRedirectUri": {
+    "description": "Redirect URI setup instruction"
+  },
+
+  "setRedirectUriDesc": "In \"Redirect URIs\" field, add this EXACT URI:",
+  "@setRedirectUriDesc": {
+    "description": "Redirect URI setup description"
+  },
+
+  "copy": "Copy",
+  "@copy": {
+    "description": "Copy button text"
+  },
+
+  "redirectUriCopied": "Redirect URI copied!",
+  "@redirectUriCopied": {
+    "description": "Toast when redirect URI is copied"
+  },
+
+  "redirectUriWarning": "Click \"Add\" after pasting, then click \"Save\" at the bottom!",
+  "@redirectUriWarning": {
+    "description": "Warning about saving redirect URI"
+  },
+
+  "step2EnterCredentials": "Step 2: Enter Your Credentials",
+  "@step2EnterCredentials": {
+    "description": "Setup step 2 title"
+  },
+
+  "updateYourCredentials": "Update Your Credentials",
+  "@updateYourCredentials": {
+    "description": "Title when updating credentials"
+  },
+
+  "findCredentialsHint": "Find your credentials in the app settings page on the Spotify Developer Dashboard.",
+  "@findCredentialsHint": {
+    "description": "Hint for finding credentials"
+  },
+
+  "modifyCredentialsHint": "Modify the credentials below. Leave unchanged if correct.",
+  "@modifyCredentialsHint": {
+    "description": "Hint when modifying credentials"
+  },
+
+  "enterClientId": "Enter your Client ID",
+  "@enterClientId": {
+    "description": "Client ID field placeholder"
+  },
+
+  "clientIdRequired": "Client ID is required",
+  "@clientIdRequired": {
+    "description": "Validation error for empty client ID"
+  },
+
+  "clientIdTooShort": "Client ID seems too short",
+  "@clientIdTooShort": {
+    "description": "Validation error for short client ID"
+  },
+
+  "enterClientSecret": "Enter your Client Secret",
+  "@enterClientSecret": {
+    "description": "Client Secret field placeholder"
+  },
+
+  "clientSecretRequired": "Client Secret is required",
+  "@clientSecretRequired": {
+    "description": "Validation error for empty client secret"
+  },
+
+  "clientSecretTooShort": "Client Secret seems too short",
+  "@clientSecretTooShort": {
+    "description": "Validation error for short client secret"
+  },
+
+  "whereToFindCredentials": "Where to find these?",
+  "@whereToFindCredentials": {
+    "description": "Help section title"
+  },
+
+  "whereToFindCredentialsDesc": "In your Spotify app's Settings page, you'll see Client ID. Click \"View client secret\" to reveal the secret.",
+  "@whereToFindCredentialsDesc": {
+    "description": "Help section description"
+  },
+
+  "step3ReadyToConnect": "Step 3: Ready to Connect",
+  "@step3ReadyToConnect": {
+    "description": "Setup step 3 title"
+  },
+
+  "credentialsSaved": "Credentials Saved!",
+  "@credentialsSaved": {
+    "description": "Success message when credentials are saved"
+  },
+
+  "waitingForCredentials": "Waiting for Credentials",
+  "@waitingForCredentials": {
+    "description": "Waiting state message"
+  },
+
+  "credentialsSavedDesc": "Your Spotify API credentials have been securely stored. You can now connect to Spotify.",
+  "@credentialsSavedDesc": {
+    "description": "Success description"
+  },
+
+  "waitingForCredentialsDesc": "Please go back to Step 2 and enter your credentials.",
+  "@waitingForCredentialsDesc": {
+    "description": "Hint when waiting for credentials"
+  },
+
+  "spotifyPremiumRequired": "Spotify Premium Required",
+  "@spotifyPremiumRequired": {
+    "description": "Premium requirement notice"
+  },
+
+  "spotifyPremiumRequiredDesc": "This app requires Spotify Premium for playback control features.",
+  "@spotifyPremiumRequiredDesc": {
+    "description": "Premium requirement description"
+  },
+
+  "back": "Back",
+  "@back": {
+    "description": "Back button text"
+  },
+
+  "nextEnterCredentials": "Next: Enter Credentials",
+  "@nextEnterCredentials": {
+    "description": "Next button text for step 1"
+  },
+
+  "saveCredentials": "Save Credentials",
+  "@saveCredentials": {
+    "description": "Save credentials button text"
+  },
+
+  "updateCredentialsButton": "Update Credentials",
+  "@updateCredentialsButton": {
+    "description": "Update credentials button text"
+  },
+
+  "connectToSpotify": "Connect to Spotify",
+  "@connectToSpotify": {
+    "description": "Final connect button text"
+  },
+
+  "reconfigureApiCredentials": "Reconfigure API Credentials",
+  "@reconfigureApiCredentials": {
+    "description": "Button to reconfigure API"
+  },
+
+  "changeClientIdSecret": "Change your Client ID and Secret",
+  "@changeClientIdSecret": {
+    "description": "Subtitle for reconfigure option"
+  },
+
+  "reconfigureDialogTitle": "Reconfigure API Credentials",
+  "@reconfigureDialogTitle": {
+    "description": "Dialog title for reconfigure"
+  },
+
+  "reconfigureDialogContent": "This will clear your current API credentials and log you out.\n\nYou will need to enter your Client ID and Secret again.",
+  "@reconfigureDialogContent": {
+    "description": "Dialog content for reconfigure"
+  },
+
+  "reconfigure": "Reconfigure",
+  "@reconfigure": {
+    "description": "Reconfigure button text"
+  },
+
+  "redirectUriForSpotifyApp": "Redirect URI for Spotify App",
+  "@redirectUriForSpotifyApp": {
+    "description": "Label for redirect URI info"
+  },
+
+  "spotifyApi": "Spotify API",
+  "@spotifyApi": {
+    "description": "Spotify API settings title"
+  },
+
+  "configured": "Configured ({clientId})",
+  "@configured": {
+    "description": "Status when API is configured",
+    "placeholders": {
+      "clientId": {"type": "String"}
+    }
+  },
+
+  "notConfigured": "Not configured",
+  "@notConfigured": {
+    "description": "Status when API is not configured"
+  },
+
+  "llmOpenAiCompatible": "OpenAI-Compatible API",
+  "@llmOpenAiCompatible": {
+    "description": "LLM section title"
+  },
+
+  "llmOpenAiCompatibleDesc": "Works with OpenAI, Ollama, and other OpenAI-compatible APIs.\nAPI Key is optional for local models like Ollama.",
+  "@llmOpenAiCompatibleDesc": {
+    "description": "LLM section description"
+  },
+
+  "enableAiFeatures": "Enable AI Features",
+  "@enableAiFeatures": {
+    "description": "Toggle for AI features"
+  },
+
+  "smartPlaylistCuration": "Smart playlist curation with LLM",
+  "@smartPlaylistCuration": {
+    "description": "AI features subtitle"
+  },
+
+  "llmBaseUrl": "Base URL *",
+  "@llmBaseUrl": {
+    "description": "LLM base URL field label"
+  },
+
+  "llmBaseUrlHint": "https://api.openai.com/v1",
+  "@llmBaseUrlHint": {
+    "description": "LLM base URL hint"
+  },
+
+  "llmBaseUrlHelper": "/chat/completions will be added automatically",
+  "@llmBaseUrlHelper": {
+    "description": "LLM base URL helper text"
+  },
+
+  "llmModel": "Model *",
+  "@llmModel": {
+    "description": "LLM model field label"
+  },
+
+  "llmModelHint": "gpt-4",
+  "@llmModelHint": {
+    "description": "LLM model hint"
+  },
+
+  "llmModelHelper": "e.g., gpt-4o-mini, llama3, qwen2, gemini-pro",
+  "@llmModelHelper": {
+    "description": "LLM model helper text"
+  },
+
+  "llmApiKey": "API Key (Optional)",
+  "@llmApiKey": {
+    "description": "LLM API key field label"
+  },
+
+  "llmApiKeyHint": "sk-...",
+  "@llmApiKeyHint": {
+    "description": "LLM API key hint"
+  },
+
+  "llmApiKeyHelper": "Leave empty for local models like Ollama",
+  "@llmApiKeyHelper": {
+    "description": "LLM API key helper text"
+  },
+
+  "test": "Test",
+  "@test": {
+    "description": "Test button text"
+  },
+
+  "llmExamples": "Examples:",
+  "@llmExamples": {
+    "description": "LLM examples title"
+  },
+
+  "llmConfigured": "LLM configured: {model}",
+  "@llmConfigured": {
+    "description": "LLM configured status",
+    "placeholders": {
+      "model": {"type": "String"}
+    }
+  },
+
+  "llmConfigSaved": "LLM configuration saved",
+  "@llmConfigSaved": {
+    "description": "Toast when LLM config is saved"
+  },
+
+  "llmConfigSaveFailed": "Failed to save configuration",
+  "@llmConfigSaveFailed": {
+    "description": "Toast when LLM config save fails"
+  },
+
+  "llmBaseUrlModelRequired": "Base URL and Model are required",
+  "@llmBaseUrlModelRequired": {
+    "description": "Validation error for LLM config"
+  },
+
+  "llmTesting": "Testing: {url}",
+  "@llmTesting": {
+    "description": "Testing connection message",
+    "placeholders": {
+      "url": {"type": "String"}
+    }
+  },
+
+  "llmTestSuccess": "Success! Response: {response}...",
+  "@llmTestSuccess": {
+    "description": "Test success message",
+    "placeholders": {
+      "response": {"type": "String"}
+    }
+  },
+
+  "connectionFailed": "Connection Failed",
+  "@connectionFailed": {
+    "description": "Connection failed dialog title"
+  },
+
+  "request": "Request:",
+  "@request": {
+    "description": "Request label in error dialog"
+  },
+
+  "llmError404": "Error 404: Endpoint not found. Please check if the API Endpoint URL is correct",
+  "@llmError404": {
+    "description": "LLM 404 error message"
+  },
+
+  "llmError401": "Error 401: Invalid API key or unauthorized access",
+  "@llmError401": {
+    "description": "LLM 401 error message"
+  },
+
+  "llmError403": "Error 403: Access forbidden. Check your API key permissions",
+  "@llmError403": {
+    "description": "LLM 403 error message"
+  },
+
+  "llmError429": "Error 429: Rate limit exceeded. Please wait and try again",
+  "@llmError429": {
+    "description": "LLM 429 error message"
+  },
+
+  "llmErrorServer": "Server error: The API server is temporarily unavailable",
+  "@llmErrorServer": {
+    "description": "LLM server error message"
+  },
+
+  "llmErrorTimeout": "Connection timeout: Server took too long to respond",
+  "@llmErrorTimeout": {
+    "description": "LLM timeout error message"
+  },
+
+  "llmErrorConnection": "Connection failed: Check your network and proxy settings",
+  "@llmErrorConnection": {
+    "description": "LLM connection error message"
+  }
+}

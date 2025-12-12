@@ -1,0 +1,600 @@
+{
+  "@@locale": "ja",
+
+  "appTitle": "FullStop",
+
+  "focusSessions": "フォーカスモーメント",
+
+  "newSession": "新規セッション",
+
+  "noSessionsYet": "フォーカスセッションがありません",
+
+  "createSessionHint": "お気に入りのアーティストに集中するセッションを作成しましょう",
+
+  "focusOnFavoriteArtists": "お気に入りのアーティストに集中",
+
+  "connectWithSpotify": "Spotifyに接続",
+
+  "connectingToSpotify": "Spotifyに接続中...",
+
+  "completeLoginInBrowser": "ブラウザでログインを完了してください。",
+
+  "afterAgreeCloseBrowser": "「同意する」をクリックした後、ブラウザタブを閉じることができます",
+
+  "cancelLogin": "ログインをキャンセル",
+
+  "cancelHint": "キャンセルしてログイン画面に戻る",
+
+  "connectionFailed": "接続に失敗しました",
+
+  "errorCopied": "エラーメッセージをクリップボードにコピーしました",
+
+  "reconfigureCredentials": "認証情報を再設定",
+
+  "apiConfigured": "API設定済み",
+
+  "change": "変更",
+
+  "credentialsStayOnDevice": "認証情報はお使いのデバイスにのみ保存されます",
+
+  "controlsExistingSession": "既存のSpotifyセッションを操作します",
+
+  "requiresPremium": "Spotify Premiumが必要です",
+
+  "logout": "ログアウト",
+
+  "premium": "Premium",
+
+  "free": "無料",
+
+  "settings": "設定",
+
+  "language": "言語",
+
+  "english": "English",
+
+  "chinese": "中文",
+
+  "japanese": "日本語",
+
+  "systemDefault": "システムのデフォルト",
+
+  "createSession": "セッションを作成",
+
+  "searchArtists": "アーティストを検索...",
+
+  "addMoreArtists": "さらに追加...",
+
+  "selectedArtists": "選択したアーティスト",
+
+  "sessionName": "セッション名",
+
+  "sessionNameHint": "例：リラックスミックス",
+
+  "create": "作成",
+
+  "cancel": "キャンセル",
+
+  "nowPlaying": "再生中",
+
+  "nothingPlaying": "再生中の曲はありません",
+
+  "play": "再生",
+
+  "pause": "一時停止",
+
+  "previous": "前へ",
+
+  "next": "次へ",
+
+  "setupGuide": "セットアップガイド",
+
+  "welcomeToApp": "Spotify Focus Someoneへようこそ！",
+
+  "setupDescription": "まず、Spotify開発者アプリを作成し、認証情報を入力する必要があります。",
+
+  "step1Title": "Spotify開発者ダッシュボードにアクセス",
+
+  "step2Title": "新しいアプリを作成",
+
+  "step3Title": "リダイレクトURIを追加",
+
+  "step4Title": "認証情報をコピー",
+
+  "clientId": "Client ID",
+
+  "clientSecret": "Client Secret",
+
+  "saveAndContinue": "保存して続行",
+
+  "errorInvalidClient": "API認証情報が無効です。Client IDとSecretを確認してください。",
+
+  "errorRedirectUri": "リダイレクトURIが一致しません！SpotifyアプリにリダイレクトURIが正しく設定されていることを確認してください。",
+
+  "errorNetwork": "ネットワークエラー。インターネット接続を確認してください。",
+
+  "errorCancelled": "ログインがキャンセルされました。もう一度お試しください。",
+
+  "errorTimeout": "認証がタイムアウトしました。もう一度お試しください。",
+
+  "errorAccessDenied": "アクセスが拒否されました。Spotifyアカウントへのアクセスを許可する必要があります。",
+
+  "errorNeedsReauth": "権限が不足しています。ログアウトして再度ログインし、必要な権限を付与してください。",
+
+  "tracks": "{count, plural, =0{トラックなし} =1{1 トラック} other{{count} トラック}}",
+
+  "artists": "{count, plural, =0{アーティストなし} =1{1 アーティスト} other{{count} アーティスト}}",
+
+  "deleteSession": "セッションを削除",
+
+  "deleteSessionConfirm": "「{name}」を削除しますか？",
+
+  "delete": "削除",
+
+  "sessionDeleted": "セッションが削除されました",
+
+  "shuffle": "シャッフル",
+
+  "repeat": "リピート",
+
+  "repeatOff": "再生後停止",
+
+  "repeatAll": "リピート",
+
+  "repeatOne": "1曲リピート",
+
+  "sessionNameOptional": "セッション名（任意）",
+
+  "searchForArtists": "セッションに追加するアーティストを検索",
+
+  "noArtistsFound": "アーティストが見つかりません",
+
+  "createdSession": "セッションを作成しました：{name}",
+
+  "more": "その他",
+
+  "edit": "編集",
+
+  "save": "保存",
+
+  "noTracksInSession": "このセッションにはトラックがありません",
+
+  "removeTrack": "トラックを削除",
+
+  "sessionUpdated": "セッションを更新しました",
+
+  "editSession": "セッションを編集",
+
+  "dragToReorder": "ドラッグしてトラックを並べ替え",
+
+  "creatingSession": "セッションを作成中、トラックを取得しています...",
+
+  "smartSchedule": "スマートスケジュール",
+
+  "smartScheduleHint": "テンポスタイルでフィルター",
+
+  "styleSlow": "スロー",
+
+  "styleSlowDesc": "バラード、感動的、リラックス",
+
+  "styleMidTempo": "ミッドテンポ",
+
+  "styleMidTempoDesc": "軽快、R&Bグルーヴ",
+
+  "styleUpTempo": "アップテンポ",
+
+  "styleUpTempoDesc": "活気、ポップ、ダンス",
+
+  "styleFast": "ファスト",
+
+  "styleFastDesc": "ロック、メタル、激しい",
+
+  "bpmRange": "{min}-{max} BPM",
+
+  "selectStyle": "スタイルを選択",
+
+  "proxy": "プロキシ設定",
+
+  "proxyEnabled": "プロキシを有効にする",
+
+  "proxyType": "プロキシタイプ",
+
+  "proxyHost": "ホスト",
+
+  "proxyPort": "ポート",
+
+  "proxyUsername": "ユーザー名（任意）",
+
+  "proxyPassword": "パスワード（任意）",
+
+  "proxyHint": "SOCKS5またはHTTPプロキシを使用してSpotify APIへのアクセスを高速化",
+
+  "proxySaved": "プロキシ設定を保存しました",
+
+  "proxyCleared": "プロキシ設定をクリアしました",
+
+  "proxyInvalid": "プロキシ設定が無効です",
+
+  "testProxy": "接続テスト",
+
+  "proxyTestSuccess": "プロキシ接続に成功しました",
+
+  "proxyTestFailed": "プロキシ接続に失敗しました：{error}",
+
+  "matchByStyle": "スタイル",
+
+  "matchByArtistTrack": "アーティスト",
+
+  "matchByPlaylist": "プレイリスト",
+
+  "selectPlaylist": "プレイリストを選択",
+
+  "selectTrackForMatch": "BPMをマッチングする曲を選択",
+
+  "yourPlaylists": "マイプレイリスト",
+
+  "loadingPlaylists": "プレイリストを読み込み中...",
+
+  "noPlaylists": "プレイリストがありません",
+
+  "matchingBpm": "マッチングBPM：{bpm}",
+
+  "selectArtistFirst": "先にアーティストを選択してください",
+
+  "loadingArtistTracks": "アーティストの曲を読み込み中...",
+
+  "noArtistTracks": "選択したアーティストの曲が見つかりません",
+
+  "selectTrackFromArtist": "アーティストの曲から選択",
+
+  "selectTracksFromArtist": "BPMにマッチする曲を選択",
+
+  "selectedTracksCount": "{count}曲選択中",
+
+  "bpmRangesHint": "BPM範囲：{ranges}",
+
+  "clearAll": "すべてクリア",
+
+  "retry": "再試行",
+
+  "loadingBpm": "BPM読み込み中...",
+
+  "bpmUnavailable": "BPMデータ利用不可",
+
+  "advancedFeatures": "BPM機能",
+
+  "getSongBpmAttribution": "GetSongBPM提供",
+
+  "getSongBpmHint": "BPMデータはGetSongBPM.comから提供されています。BPMマッチング機能を有効にするには、無料のAPIキーを登録してください。",
+
+  "getSongBpmApiKey": "GetSongBPM APIキー",
+
+  "getSongBpmApiKeyHint": "GetSongBPM APIキーを入力",
+
+  "getSongBpmApiKeyConfigured": "APIキー設定済み",
+
+  "getSongBpmApiKeySaved": "APIキーを保存しました",
+
+  "getSongBpmApiKeyError": "APIキーの保存に失敗しました",
+
+  "getSongBpmApiKeyEmpty": "APIキーを入力してください",
+
+  "getSongBpmApiKeyCleared": "APIキーをクリアしました",
+
+  "experimentalFeature": "実験的機能",
+
+  "experimentalSmartScheduleWarning": "このモードはすべての曲のBPMを取得するため、数分かかる場合があります。セッションはバックグラウンドで作成されますので、アプリを引き続きご利用いただけます。",
+
+  "continueButton": "続ける",
+
+  "creatingSessionBackground": "バックグラウンドでセッション作成中...",
+
+  "fetchingTracksProgress": "{count}アーティストから曲を取得中...",
+
+  "fetchingArtistTracks": "取得中：{artistName}",
+
+  "fetchingBpmProgress": "BPM分析中 ({current}/{total})...",
+
+  "filteringTracks": "BPMでフィルタリング中...",
+
+  "sessionCreatedBackground": "セッション「{name}」が作成されました（{count}曲）",
+
+  "sessionCreationFailed": "セッション作成失敗：{error}",
+
+  "pendingSession": "作成中...",
+
+  "viewPendingSession": "表示",
+
+  "trackLimit": "トラック制限",
+
+  "trackLimitEnabled": "{count}曲に制限",
+
+  "trackLimitDisabled": "制限なし",
+
+  "trackLimitHint": "スマートスケジュールセッションのトラック数を制限",
+
+  "bpmCacheStats": "BPMキャッシュ：{count}件",
+
+  "clearBpmCache": "BPMキャッシュをクリア",
+
+  "bpmCacheCleared": "BPMキャッシュをクリアしました",
+
+  "trayShowWindow": "FullStopを表示",
+
+  "trayExit": "終了",
+
+  "trayPreviousTrack": "前のトラック",
+
+  "trayNextTrack": "次のトラック",
+
+  "trayTooltip": "FullStop - Spotifyコントローラー",
+
+  "errorNoActiveDevice": "アクティブなSpotifyデバイスが見つかりません。スマートフォン、パソコン、または他のデバイスでSpotifyを先に開いてください。",
+
+  "traditionalSchedule": "トラディショナル",
+
+  "dispatchHitsOnly": "ヒット曲のみ",
+  "dispatchHitsOnlyDesc": "スキップ不要、全曲サビまで歌える。",
+
+  "dispatchBalanced": "バランス",
+  "dispatchBalancedDesc": "定番の中に嬉しい発見、飽きのこない選曲。",
+
+  "dispatchDeepDive": "ディープダイブ",
+  "dispatchDeepDiveDesc": "忘れられたB面の宝石を探して。",
+
+  "dispatchUnfiltered": "ノーフィルター",
+  "dispatchUnfilteredDesc": "ライブ会場に戻り、アンコールの熱狂を。",
+
+  "trueShuffle": "トゥルーシャッフル",
+  "trueShuffleDesc": "スマート重複排除 & アルバム分散",
+
+  "moveUp": "上に移動",
+
+  "moveDown": "下に移動",
+
+  "pinToTop": "最前面に固定",
+
+  "unpinFromTop": "最前面を解除",
+
+  "lastPlayed": "最後に再生：{time}",
+
+  "moreArtists": "その他のアーティスト",
+
+  "expand": "展開",
+
+  "collapse": "閉じる",
+
+  "minutesAgo": "{count}分前",
+
+  "hoursAgo": "{count}時間前",
+
+  "daysAgo": "{count}日前",
+
+  "performance": "パフォーマンス",
+
+  "gpuAcceleration": "GPUアクセラレーション",
+
+  "gpuAccelerationDesc": "GPUでアニメーションを滑らかに",
+
+  "gpuAccelerationHint": "波形アニメーションを滑らかにするためにGPUアクセラレーションを有効にします。グラフィックの問題が発生した場合や、専用GPUがない場合は無効にしてください。",
+
+  "pinSession": "上にピン留め",
+
+  "unpinSession": "ピン留めを解除",
+
+  "pinSessionHint": "最大3つのセッションをピン留め",
+
+  "sessionPinned": "セッションをピン留めしました",
+
+  "sessionUnpinned": "ピン留めを解除しました",
+
+  "aboutVersion": "バージョン",
+
+  "aboutPrivacySecurity": "プライバシーとセキュリティ",
+
+  "aboutDeveloper": "開発者",
+
+  "aboutGitHub": "GitHub",
+
+  "aboutStarProject": "プロジェクトにスターを",
+
+  "aboutTwitter": "X (Twitter)",
+
+  "aboutFollowUpdates": "最新情報をフォロー",
+
+  "aboutPoweredBySpotify": "Spotifyを使用",
+
+  "aboutUsesSpotifyApi": "Spotify Web APIを使用",
+
+  "privacySecureStorage": "安全なローカルストレージ",
+
+  "privacySecureStorageDesc": "APIクレデンシャルは暗号化され、デバイスにのみ保存されます。外部サーバーに送信されることはありません。",
+
+  "privacyDirectConnection": "Spotifyへの直接接続",
+
+  "privacyDirectConnectionDesc": "このアプリはSpotifyの公式APIに直接接続します。中間サーバーを経由してデータを送信することはありません。",
+
+  "privacyNoDataCollection": "データ収集なし",
+
+  "privacyNoDataCollectionDesc": "使用状況分析、再生履歴、個人情報を収集、保存、送信することはありません。",
+
+  "privacyOAuthSecurity": "OAuthセキュリティ",
+
+  "privacyOAuthSecurityDesc": "認証はポート8888-8891、8080、または3000のローカルHTTPサーバーを使用し、stateパラメータによるCSRF保護を行います。",
+
+  "privacyYouControl": "データはあなたの管理下に",
+
+  "privacyYouControlDesc": "設定ページからいつでもクレデンシャルを削除できます。アプリをアンインストールすると、すべての保存データが削除されます。",
+
+  "close": "閉じる",
+
+  "welcomeToFullStop": "FullStopへようこそ",
+
+  "updateCredentials": "クレデンシャルを更新",
+
+  "connectSpotifyToStart": "Spotifyアカウントを接続して開始",
+
+  "updateSpotifyCredentials": "Spotify APIクレデンシャルを更新",
+
+  "credentialsSecurelyStored": "クレデンシャルはデバイスにのみ安全に保存されます",
+
+  "privacyPolicy": "プライバシーポリシー",
+
+  "step1CreateApp": "ステップ1：Spotifyアプリを作成",
+
+  "openDeveloperDashboard": "Spotify開発者ダッシュボードを開く",
+
+  "openDeveloperDashboardHint": "下のボタンをクリックして、ブラウザでSpotify開発者ダッシュボードを開きます。",
+
+  "createNewApp": "新しいアプリを作成",
+
+  "createNewAppDesc": "「Create App」をクリックして入力：\n• App name：任意の名前（例：「My Focus App」）\n• App description：個人使用\n• Website：空欄またはURLを入力\n• 「Web API」オプションをチェック",
+
+  "createNewAppDescShort": "「Create App」をクリックして以下のフィールドを入力し、「Web API」オプションをチェック。",
+
+  "appNameLabel": "App name（アプリ名）",
+
+  "appNameCopied": "アプリ名をコピーしました！",
+
+  "appDescriptionLabel": "App description（アプリの説明）",
+
+  "appDescriptionCopied": "アプリの説明をコピーしました！",
+
+  "redirectUriLabel": "Redirect URI（リダイレクトURI）",
+
+  "setRedirectUri": "リダイレクトURIを設定（重要！）",
+
+  "setRedirectUriDesc": "「Redirect URIs」フィールドに以下のURIを追加：",
+
+  "copy": "コピー",
+
+  "redirectUriCopied": "リダイレクトURIをコピーしました！",
+
+  "redirectUriWarning": "貼り付け後「Add」をクリックし、下の「Save」をクリック！",
+
+  "step2EnterCredentials": "ステップ2：クレデンシャルを入力",
+
+  "updateYourCredentials": "クレデンシャルを更新",
+
+  "findCredentialsHint": "Spotify開発者ダッシュボードのアプリ設定ページでクレデンシャルを確認できます。",
+
+  "modifyCredentialsHint": "以下のクレデンシャルを変更してください。正しい場合は変更不要です。",
+
+  "enterClientId": "Client IDを入力",
+
+  "clientIdRequired": "Client IDは必須です",
+
+  "clientIdTooShort": "Client IDが短すぎます",
+
+  "enterClientSecret": "Client Secretを入力",
+
+  "clientSecretRequired": "Client Secretは必須です",
+
+  "clientSecretTooShort": "Client Secretが短すぎます",
+
+  "whereToFindCredentials": "どこで見つけられますか？",
+
+  "whereToFindCredentialsDesc": "SpotifyアプリのSettingsページでClient IDが表示されます。「View client secret」をクリックしてシークレットを表示します。",
+
+  "step3ReadyToConnect": "ステップ3：接続準備完了",
+
+  "credentialsSaved": "クレデンシャルを保存しました！",
+
+  "waitingForCredentials": "クレデンシャルを待機中",
+
+  "credentialsSavedDesc": "Spotify APIクレデンシャルが安全に保存されました。Spotifyに接続できます。",
+
+  "waitingForCredentialsDesc": "ステップ2に戻ってクレデンシャルを入力してください。",
+
+  "spotifyPremiumRequired": "Spotify Premiumが必要",
+
+  "spotifyPremiumRequiredDesc": "このアプリの再生コントロール機能にはSpotify Premiumが必要です。",
+
+  "back": "戻る",
+
+  "nextEnterCredentials": "次へ：クレデンシャルを入力",
+
+  "saveCredentials": "クレデンシャルを保存",
+
+  "updateCredentialsButton": "クレデンシャルを更新",
+
+  "connectToSpotify": "Spotifyに接続",
+
+  "reconfigureApiCredentials": "APIクレデンシャルを再設定",
+
+  "changeClientIdSecret": "Client IDとSecretを変更",
+
+  "reconfigureDialogTitle": "APIクレデンシャルを再設定",
+
+  "reconfigureDialogContent": "現在のAPIクレデンシャルを削除してログアウトします。\n\nClient IDとSecretを再入力する必要があります。",
+
+  "reconfigure": "再設定",
+
+  "redirectUriForSpotifyApp": "SpotifyアプリのリダイレクトURI",
+
+  "spotifyApi": "Spotify API",
+
+  "configured": "設定済み（{clientId}）",
+
+  "notConfigured": "未設定",
+
+  "llmOpenAiCompatible": "OpenAI互換API",
+
+  "llmOpenAiCompatibleDesc": "OpenAI、Ollama、その他のOpenAI互換APIで動作します。\nOllamaなどのローカルモデルではAPI Keyは不要です。",
+
+  "enableAiFeatures": "AI機能を有効化",
+
+  "smartPlaylistCuration": "LLMによるスマートプレイリストキュレーション",
+
+  "llmBaseUrl": "Base URL *",
+
+  "llmBaseUrlHint": "https://api.openai.com/v1",
+
+  "llmBaseUrlHelper": "/chat/completionsが自動的に追加されます",
+
+  "llmModel": "モデル *",
+
+  "llmModelHint": "gpt-4",
+
+  "llmModelHelper": "例：gpt-4o-mini、llama3、qwen2、gemini-pro",
+
+  "llmApiKey": "API Key（オプション）",
+
+  "llmApiKeyHint": "sk-...",
+
+  "llmApiKeyHelper": "Ollamaなどのローカルモデルでは空欄可",
+
+  "test": "テスト",
+
+  "llmExamples": "例：",
+
+  "llmConfigured": "LLM設定済み：{model}",
+
+  "llmConfigSaved": "LLM設定を保存しました",
+
+  "llmConfigSaveFailed": "設定の保存に失敗しました",
+
+  "llmBaseUrlModelRequired": "Base URLとモデルは必須です",
+
+  "llmTesting": "テスト中：{url}",
+
+  "llmTestSuccess": "成功！レスポンス：{response}...",
+
+  "connectionFailed": "接続失敗",
+
+  "request": "リクエスト：",
+
+  "llmError404": "エラー404：エンドポイントが見つかりません。API Endpoint URLを確認してください",
+
+  "llmError401": "エラー401：無効なAPI Keyまたは未認証アクセス",
+
+  "llmError403": "エラー403：アクセスが禁止されています。API Keyの権限を確認してください",
+
+  "llmError429": "エラー429：レート制限を超えました。しばらく待ってから再試行してください",
+
+  "llmErrorServer": "サーバーエラー：APIサーバーが一時的に利用できません",
+
+  "llmErrorTimeout": "接続タイムアウト：サーバーの応答に時間がかかりすぎています",
+
+  "llmErrorConnection": "接続失敗：ネットワークとプロキシ設定を確認してください"
+}

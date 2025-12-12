@@ -1,0 +1,56 @@
+# Dependabot configuration
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+
+version: 2
+updates:
+  # Flutter/Dart dependencies (pub)
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps(dart)"
+    labels:
+      - "dependencies"
+      - "dart"
+    groups:
+      flutter-packages:
+        patterns:
+          - "flutter*"
+          - "riverpod"
+          - "flutter_riverpod"
+      security-packages:
+        patterns:
+          - "flutter_secure_storage*"
+      network-packages:
+        patterns:
+          - "dio"
+          - "socks5_proxy"
+      ui-packages:
+        patterns:
+          - "window_manager"
+          - "system_tray"
+          - "url_launcher*"
+    ignore:
+      # Ignore major version updates that might break things
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(actions)"
+    labels:
+      - "dependencies"
+      - "github-actions"

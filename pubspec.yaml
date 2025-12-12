@@ -1,0 +1,101 @@
+name: fullstop
+description: "FullStop - A focused Spotify controller inspired by G.E.M.'s song「句號」"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.4.9
+
+  # Network & API
+  dio: ^5.4.0
+  socks5_proxy: ^1.0.4
+
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.2
+
+  # Security
+  flutter_secure_storage: ^9.0.0
+
+  # Utilities
+  json_annotation: ^4.9.0
+  dartz: ^0.10.1
+  equatable: ^2.0.5
+  uuid: ^4.3.3
+  logger: ^2.0.2+1
+  url_launcher: ^6.2.4
+  path: ^1.9.0
+  path_provider: ^2.1.2
+
+  # Image Caching
+  cached_network_image: ^3.4.1
+
+  # Deep Linking / Custom URL Scheme
+  app_links: ^6.4.0
+
+  # Spotify SDK for waking up Spotify app
+  spotify_sdk: ^3.0.2
+
+  # Window Management (for custom title bar on desktop)
+  window_manager: ^0.4.3
+
+  # System Tray (for background mode) - uses native Windows TrackPopupMenu
+  system_tray: ^2.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+  # Code Generation
+  build_runner: ^2.4.8
+  json_serializable: ^6.8.0
+  hive_generator: ^2.0.1
+
+  # App Icon Generator
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  image_path: "assets/icon/logo.png"
+  windows:
+    generate: true
+    icon_size: 256
+    image_path: "assets/icon/logo.png"
+
+dependency_overrides:
+  # Override uuid to resolve system_tray compatibility
+  # system_tray requires uuid ^3.0.6, but we use features that work in both versions
+  uuid: ^4.3.3
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/icon/logo.png
+    - assets/icon/app_icon.ico
+
+  fonts:
+    - family: NotoSansSC
+      fonts:
+        - asset: assets/fonts/NotoSansSC-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoSansSC-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NotoSansSC-Bold.ttf
+          weight: 700

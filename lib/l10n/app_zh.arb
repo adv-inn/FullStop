@@ -1,0 +1,658 @@
+{
+  "@@locale": "zh",
+
+  "appTitle": "FullStop 句号",
+
+  "focusSessions": "专注时刻",
+
+  "newSession": "新建会话",
+
+  "noSessionsYet": "暂无专注会话",
+
+  "createSessionHint": "创建一个会话来专注聆听你喜爱的艺术家",
+
+  "focusOnFavoriteArtists": "专注聆听你喜爱的艺术家",
+
+  "connectWithSpotify": "连接 Spotify",
+
+  "connectingToSpotify": "正在连接 Spotify...",
+
+  "completeLoginInBrowser": "请在浏览器中完成登录。",
+
+  "afterAgreeCloseBrowser": "点击「同意」后，可以关闭浏览器标签页",
+
+  "cancelLogin": "取消登录",
+
+  "cancelHint": "点击取消并返回登录界面",
+
+  "connectionFailed": "连接失败",
+
+  "errorCopied": "错误信息已复制到剪贴板",
+
+  "reconfigureCredentials": "重新配置凭据",
+
+  "apiConfigured": "API 已配置",
+
+  "change": "更改",
+
+  "credentialsStayOnDevice": "您的凭据仅保存在本地设备",
+
+  "controlsExistingSession": "控制您现有的 Spotify 会话",
+
+  "requiresPremium": "需要 Spotify Premium",
+
+  "logout": "退出登录",
+
+  "premium": "Premium",
+
+  "free": "免费版",
+
+  "settings": "设置",
+
+  "language": "语言",
+
+  "english": "English",
+
+  "chinese": "中文",
+
+  "japanese": "日本語",
+
+  "systemDefault": "跟随系统",
+
+  "createSession": "创建会话",
+
+  "searchArtists": "搜索艺术家...",
+
+  "addMoreArtists": "继续添加...",
+
+  "selectedArtists": "已选艺术家",
+
+  "sessionName": "会话名称",
+
+  "sessionNameHint": "例如：我的放松音乐",
+
+  "create": "创建",
+
+  "cancel": "取消",
+
+  "nowPlaying": "正在播放",
+
+  "nothingPlaying": "当前无播放内容",
+
+  "play": "播放",
+
+  "pause": "暂停",
+
+  "previous": "上一首",
+
+  "next": "下一首",
+
+  "setupGuide": "设置向导",
+
+  "welcomeToApp": "欢迎使用 Spotify 专注听歌！",
+
+  "setupDescription": "首先，您需要创建一个 Spotify 开发者应用并输入您的凭据。",
+
+  "step1Title": "前往 Spotify 开发者控制台",
+
+  "step2Title": "创建新应用",
+
+  "step3Title": "添加重定向 URI",
+
+  "step4Title": "复制您的凭据",
+
+  "clientId": "Client ID",
+
+  "clientSecret": "Client Secret",
+
+  "saveAndContinue": "保存并继续",
+
+  "errorInvalidClient": "API 凭据无效。请检查您的 Client ID 和 Secret。",
+
+  "errorRedirectUri": "重定向 URI 不匹配！请确保您的 Spotify 应用配置了正确的重定向 URI。",
+
+  "errorNetwork": "网络错误。请检查您的网络连接。",
+
+  "errorCancelled": "登录已取消。请重试。",
+
+  "errorTimeout": "认证超时。请重试。",
+
+  "errorAccessDenied": "访问被拒绝。您需要授权应用访问您的 Spotify 账户。",
+
+  "errorNeedsReauth": "权限不足。请退出登录后重新登录以授予所需权限。",
+
+  "tracks": "{count, plural, =0{无曲目} =1{1 首曲目} other{{count} 首曲目}}",
+
+  "artists": "{count, plural, =0{无艺术家} =1{1 位艺术家} other{{count} 位艺术家}}",
+
+  "deleteSession": "删除会话",
+
+  "deleteSessionConfirm": "确定要删除「{name}」吗？",
+
+  "delete": "删除",
+
+  "sessionDeleted": "会话已删除",
+
+  "shuffle": "随机播放",
+
+  "shuffleOn": "随机播放已开启",
+
+  "shuffleOff": "随机播放已关闭",
+
+  "repeat": "循环",
+
+  "repeatOff": "播完结束",
+
+  "repeatAll": "循环歌单",
+
+  "repeatOne": "单曲循环",
+
+  "sessionNameOptional": "会话名称（可选）",
+
+  "searchForArtists": "搜索艺术家以添加到会话",
+
+  "noArtistsFound": "未找到艺术家",
+
+  "createdSession": "已创建会话：{name}",
+
+  "more": "更多",
+
+  "edit": "编辑",
+
+  "save": "保存",
+
+  "noTracksInSession": "此会话暂无曲目",
+
+  "removeTrack": "移除曲目",
+
+  "sessionUpdated": "会话已更新",
+
+  "editSession": "编辑会话",
+
+  "dragToReorder": "拖动以重新排序曲目",
+
+  "creatingSession": "正在创建会话，获取曲目中...",
+
+  "smartSchedule": "智能调度",
+
+  "smartScheduleHint": "按曲风筛选歌曲",
+
+  "styleSlow": "慢板",
+
+  "styleSlowDesc": "抒情、悲伤、慵懒",
+
+  "styleMidTempo": "中速",
+
+  "styleMidTempoDesc": "轻松、律动、R&B",
+
+  "styleUpTempo": "快板",
+
+  "styleUpTempoDesc": "活力、流行、舞曲",
+
+  "styleFast": "极速",
+
+  "styleFastDesc": "摇滚、金属、激烈",
+
+  "bpmRange": "{min}-{max} BPM",
+
+  "selectStyle": "选择曲风",
+
+  "proxy": "代理设置",
+
+  "proxyEnabled": "启用代理",
+
+  "proxyType": "代理类型",
+
+  "proxyHost": "主机地址",
+
+  "proxyPort": "端口",
+
+  "proxyUsername": "用户名（可选）",
+
+  "proxyPassword": "密码（可选）",
+
+  "proxyHint": "使用 SOCKS5 或 HTTP 代理加速访问 Spotify API",
+
+  "proxySaved": "代理设置已保存",
+
+  "proxyCleared": "代理设置已清除",
+
+  "proxyInvalid": "代理配置无效",
+
+  "testProxy": "测试连接",
+
+  "proxyTestSuccess": "代理连接成功",
+
+  "proxyTestFailed": "代理连接失败：{error}",
+
+  "matchByStyle": "按曲风",
+
+  "matchByArtistTrack": "按艺术家",
+
+  "matchByPlaylist": "按歌单",
+
+  "selectPlaylist": "选择歌单",
+
+  "selectTrackForMatch": "选择一首歌曲来匹配 BPM",
+
+  "yourPlaylists": "我的歌单",
+
+  "loadingPlaylists": "正在加载歌单...",
+
+  "noPlaylists": "暂无歌单",
+
+  "matchingBpm": "匹配 BPM：{bpm}",
+
+  "selectArtistFirst": "请先选择艺术家",
+
+  "loadingArtistTracks": "正在加载艺术家曲目...",
+
+  "noArtistTracks": "未找到已选艺术家的曲目",
+
+  "selectTrackFromArtist": "从艺术家曲目中选择",
+
+  "selectTracksFromArtist": "选择曲目匹配 BPM",
+
+  "selectedTracksCount": "已选择 {count} 首曲目",
+
+  "bpmRangesHint": "BPM 范围：{ranges}",
+
+  "clearAll": "清除全部",
+
+  "retry": "重试",
+
+  "loadingBpm": "正在获取 BPM...",
+
+  "bpmUnavailable": "BPM 数据不可用",
+
+  "advancedFeatures": "BPM 功能",
+
+  "getSongBpmAttribution": "由 GetSongBPM 提供支持",
+
+  "getSongBpmHint": "BPM 数据由 GetSongBPM.com 提供。注册免费 API 密钥以启用 BPM 匹配功能。",
+
+  "getSongBpmApiKey": "GetSongBPM API 密钥",
+
+  "getSongBpmApiKeyHint": "输入您的 GetSongBPM API 密钥",
+
+  "getSongBpmApiKeyConfigured": "API 密钥已配置",
+
+  "getSongBpmApiKeySaved": "API 密钥保存成功",
+
+  "getSongBpmApiKeyError": "保存 API 密钥失败",
+
+  "getSongBpmApiKeyEmpty": "请输入 API 密钥",
+
+  "getSongBpmApiKeyCleared": "API 密钥已清除",
+
+  "experimentalFeature": "实验性功能",
+
+  "experimentalSmartScheduleWarning": "此模式需要为所有曲目获取 BPM 数据，可能需要几分钟时间。会话将在后台创建，您可以继续使用应用。",
+
+  "continueButton": "继续",
+
+  "creatingSessionBackground": "正在后台创建会话...",
+
+  "fetchingTracksProgress": "正在从 {count} 位艺术家获取曲目...",
+
+  "fetchingArtistTracks": "正在获取：{artistName}",
+
+  "fetchingBpmProgress": "正在分析 BPM ({current}/{total})...",
+
+  "filteringTracks": "正在按 BPM 筛选曲目...",
+
+  "sessionCreatedBackground": "已创建会话「{name}」，共 {count} 首曲目",
+
+  "sessionCreationFailed": "创建会话失败：{error}",
+
+  "pendingSession": "创建中...",
+
+  "viewPendingSession": "查看",
+
+  "trackLimit": "曲目限制",
+
+  "trackLimitEnabled": "限制为 {count} 首曲目",
+
+  "trackLimitDisabled": "无曲目限制",
+
+  "trackLimitHint": "限制智能调度会话中的曲目数量",
+
+  "bpmCacheStats": "BPM 缓存：{count} 条记录",
+
+  "clearBpmCache": "清除 BPM 缓存",
+
+  "bpmCacheCleared": "BPM 缓存已清除",
+
+  "trayShowWindow": "显示 FullStop",
+
+  "trayExit": "退出",
+
+  "trayPreviousTrack": "上一首",
+
+  "trayNextTrack": "下一首",
+
+  "trayTooltip": "FullStop - Spotify 控制器",
+
+  "errorNoActiveDevice": "未找到活跃的 Spotify 设备。请先在手机、电脑或其他设备上打开 Spotify。",
+
+  "errorSpotifyConnectionFailed": "FullStop 无法连接到 Spotify。请手动打开 Spotify 并播放任意音乐，然后重试。",
+
+  "connectingToSpotifyDevice": "正在连接 Spotify...",
+
+  "spotifyNotInstalled": "未检测到 Spotify 客户端",
+
+  "traditionalSchedule": "传统调度",
+
+  "dispatchHitsOnly": "仅限金曲",
+  "dispatchHitsOnlyDesc": "闭眼入坑，首首都是大合唱。",
+
+  "dispatchBalanced": "经典平衡",
+  "dispatchBalancedDesc": "熟悉中偶遇惊喜，久听不累。",
+
+  "dispatchDeepDive": "深度挖掘",
+  "dispatchDeepDiveDesc": "寻找那首被遗忘的宝藏 B 面。",
+
+  "dispatchUnfiltered": "原汁原味",
+  "dispatchUnfilteredDesc": "重返现场，感受每一次安可。",
+
+  "trueShuffle": "真随机",
+  "trueShuffleDesc": "智能去重 & 专辑隔离",
+
+  "artistLimitReached": "已达艺术家上限",
+  "artistLimitHint": "为保证最佳专注体验与去重效果，建议限制在 {count} 位艺术家以内。",
+  "selectedArtistsCount": "已选 ({current}/{max})",
+
+  "tapToExpand": "点击展开",
+
+  "cacheManagement": "缓存",
+
+  "imageCacheSize": "图片缓存",
+
+  "clearCache": "清除缓存",
+
+  "cacheCleared": "缓存已清除",
+
+  "cacheClearFailed": "清除缓存失败",
+
+  "calculating": "计算中...",
+
+  "rename": "重命名",
+
+  "renameSession": "重命名会话",
+
+  "sessionRenamed": "会话已重命名",
+
+  "likeAllTracks": "全部加入点赞",
+
+  "likeAllTracksConfirm": "将 {count} 首曲目添加到「喜欢的歌曲」？",
+
+  "tracksAlreadyLiked": "所有曲目已在点赞列表中",
+
+  "tracksLiked": "已将 {count} 首曲目添加到「喜欢的歌曲」",
+
+  "addToPlaylist": "添加到歌单",
+
+  "createPlaylistFromSession": "以此创建歌单",
+
+  "createPlaylistConfirm": "创建 Spotify 歌单「{name}」，包含 {count} 首曲目？",
+
+  "playlistCreated": "已创建歌单「{name}」",
+
+  "playlistCreationFailed": "创建歌单失败",
+
+  "checkingLikedStatus": "正在检查点赞状态...",
+
+  "likingTracks": "正在添加点赞...",
+
+  "creatingPlaylist": "正在创建歌单...",
+
+  "moveUp": "上移",
+
+  "moveDown": "下移",
+
+  "pinToTop": "置顶",
+
+  "unpinFromTop": "取消置顶",
+
+  "lastPlayed": "上次播放：{time}",
+
+  "moreArtists": "更多艺术家",
+
+  "expand": "展开",
+
+  "collapse": "收起",
+
+  "minutesAgo": "{count}分钟前",
+
+  "hoursAgo": "{count}小时前",
+
+  "daysAgo": "{count}天前",
+
+  "performance": "性能",
+
+  "gpuAcceleration": "GPU 加速",
+
+  "gpuAccelerationDesc": "使用 GPU 提升动画流畅度",
+
+  "gpuAccelerationHint": "启用 GPU 加速以获得更流畅的波浪动画效果。如果遇到图形问题或没有独立显卡，请关闭此选项。",
+
+  "pinSession": "置顶会话",
+
+  "unpinSession": "取消置顶",
+
+  "pinSessionHint": "最多置顶3个会话",
+
+  "sessionPinned": "会话已置顶",
+
+  "sessionUnpinned": "已取消置顶",
+
+  "aboutVersion": "版本",
+
+  "aboutPrivacySecurity": "隐私与安全",
+
+  "aboutDeveloper": "开发者",
+
+  "aboutGitHub": "GitHub",
+
+  "aboutStarProject": "为项目点个Star",
+
+  "aboutTwitter": "X (Twitter)",
+
+  "aboutFollowUpdates": "关注获取更新",
+
+  "aboutPoweredBySpotify": "由 Spotify 提供支持",
+
+  "aboutUsesSpotifyApi": "使用 Spotify Web API",
+
+  "privacySecureStorage": "安全本地存储",
+
+  "privacySecureStorageDesc": "您的 API 凭据经过加密，仅存储在您的设备上，从不会传输到任何外部服务器。",
+
+  "privacyDirectConnection": "直连 Spotify",
+
+  "privacyDirectConnectionDesc": "本应用直接连接 Spotify 官方 API，不通过任何中间服务器中转您的数据。",
+
+  "privacyNoDataCollection": "无数据收集",
+
+  "privacyNoDataCollectionDesc": "我们不收集、存储或传输任何使用分析、播放历史或个人信息。",
+
+  "privacyOAuthSecurity": "OAuth 安全",
+
+  "privacyOAuthSecurityDesc": "身份验证使用本地 HTTP 服务器（端口 8888-8891、8080 或 3000），并通过 state 参数进行 CSRF 保护。",
+
+  "privacyYouControl": "数据由您掌控",
+
+  "privacyYouControlDesc": "您可以随时在设置页面清除凭据。卸载应用将删除所有存储的数据。",
+
+  "close": "关闭",
+
+  "welcomeToFullStop": "欢迎使用 FullStop",
+
+  "updateCredentials": "更新凭据",
+
+  "connectSpotifyToStart": "连接您的 Spotify 账户以开始使用",
+
+  "updateSpotifyCredentials": "更新您的 Spotify API 凭据",
+
+  "credentialsSecurelyStored": "您的凭据仅安全存储在您的设备上",
+
+  "privacyPolicy": "隐私政策",
+
+  "step1CreateApp": "第一步：创建 Spotify 应用",
+
+  "openDeveloperDashboard": "打开 Spotify 开发者控制台",
+
+  "openDeveloperDashboardHint": "点击下方按钮，在浏览器中打开 Spotify 开发者控制台。",
+
+  "createNewApp": "创建新应用",
+
+  "createNewAppDesc": "点击「Create App」并填写：\n• App name：任意名称（如 \"My Focus App\"）\n• App description：个人使用\n• Website：留空或填写任意 URL\n• 勾选「Web API」选项",
+
+  "createNewAppDescShort": "点击「Create App」并填写以下字段，勾选「Web API」选项。",
+
+  "appNameLabel": "App name（应用名称）",
+
+  "appNameCopied": "应用名称已复制！",
+
+  "appDescriptionLabel": "App description（应用描述）",
+
+  "appDescriptionCopied": "应用描述已复制！",
+
+  "redirectUriLabel": "Redirect URI（重定向 URI）",
+
+  "setRedirectUri": "设置重定向 URI（重要！）",
+
+  "setRedirectUriDesc": "在「Redirect URIs」字段中添加以下 URI：",
+
+  "copy": "复制",
+
+  "redirectUriCopied": "重定向 URI 已复制！",
+
+  "redirectUriWarning": "粘贴后点击「Add」，然后点击底部的「Save」！",
+
+  "step2EnterCredentials": "第二步：输入凭据",
+
+  "updateYourCredentials": "更新您的凭据",
+
+  "findCredentialsHint": "在 Spotify 开发者控制台的应用设置页面中找到您的凭据。",
+
+  "modifyCredentialsHint": "修改下方凭据，如正确则无需更改。",
+
+  "enterClientId": "输入您的 Client ID",
+
+  "clientIdRequired": "Client ID 为必填项",
+
+  "clientIdTooShort": "Client ID 似乎太短",
+
+  "enterClientSecret": "输入您的 Client Secret",
+
+  "clientSecretRequired": "Client Secret 为必填项",
+
+  "clientSecretTooShort": "Client Secret 似乎太短",
+
+  "whereToFindCredentials": "在哪里找到这些？",
+
+  "whereToFindCredentialsDesc": "在您的 Spotify 应用设置页面中，您会看到 Client ID。点击「View client secret」查看密钥。",
+
+  "step3ReadyToConnect": "第三步：准备连接",
+
+  "credentialsSaved": "凭据已保存！",
+
+  "waitingForCredentials": "等待输入凭据",
+
+  "credentialsSavedDesc": "您的 Spotify API 凭据已安全存储。现在可以连接 Spotify 了。",
+
+  "waitingForCredentialsDesc": "请返回第二步输入您的凭据。",
+
+  "spotifyPremiumRequired": "需要 Spotify Premium",
+
+  "spotifyPremiumRequiredDesc": "本应用需要 Spotify Premium 订阅才能使用播放控制功能。",
+
+  "back": "返回",
+
+  "nextEnterCredentials": "下一步：输入凭据",
+
+  "saveCredentials": "保存凭据",
+
+  "updateCredentialsButton": "更新凭据",
+
+  "connectToSpotify": "连接 Spotify",
+
+  "reconfigureApiCredentials": "重新配置 API 凭据",
+
+  "changeClientIdSecret": "更改您的 Client ID 和 Secret",
+
+  "reconfigureDialogTitle": "重新配置 API 凭据",
+
+  "reconfigureDialogContent": "这将清除当前的 API 凭据并登出。\n\n您需要重新输入 Client ID 和 Secret。",
+
+  "reconfigure": "重新配置",
+
+  "redirectUriForSpotifyApp": "Spotify 应用的重定向 URI",
+
+  "spotifyApi": "Spotify API",
+
+  "configured": "已配置（{clientId}）",
+
+  "notConfigured": "未配置",
+
+  "llmOpenAiCompatible": "OpenAI 兼容 API",
+
+  "llmOpenAiCompatibleDesc": "支持 OpenAI、Ollama 及其他 OpenAI 兼容 API。\n本地模型（如 Ollama）可不填 API Key。",
+
+  "enableAiFeatures": "启用 AI 功能",
+
+  "smartPlaylistCuration": "使用 LLM 智能策划播放列表",
+
+  "llmBaseUrl": "Base URL *",
+
+  "llmBaseUrlHint": "https://api.openai.com/v1",
+
+  "llmBaseUrlHelper": "将自动添加 /chat/completions",
+
+  "llmModel": "模型 *",
+
+  "llmModelHint": "gpt-4",
+
+  "llmModelHelper": "例如：gpt-4o-mini、llama3、qwen2、gemini-pro",
+
+  "llmApiKey": "API Key（可选）",
+
+  "llmApiKeyHint": "sk-...",
+
+  "llmApiKeyHelper": "本地模型（如 Ollama）可留空",
+
+  "test": "测试",
+
+  "llmExamples": "示例：",
+
+  "llmConfigured": "LLM 已配置：{model}",
+
+  "llmConfigSaved": "LLM 配置已保存",
+
+  "llmConfigSaveFailed": "保存配置失败",
+
+  "llmBaseUrlModelRequired": "Base URL 和模型为必填项",
+
+  "llmTesting": "测试中：{url}",
+
+  "llmTestSuccess": "成功！响应：{response}...",
+
+  "connectionFailed": "连接失败",
+
+  "request": "请求：",
+
+  "llmError404": "错误 404：未找到端点，请检查 API 端点 URL 是否正确",
+
+  "llmError401": "错误 401：无效的 API Key 或未授权访问",
+
+  "llmError403": "错误 403：访问被禁止，请检查 API Key 权限",
+
+  "llmError429": "错误 429：请求频率超限，请稍后重试",
+
+  "llmErrorServer": "服务器错误：API 服务器暂时不可用",
+
+  "llmErrorTimeout": "连接超时：服务器响应时间过长",
+
+  "llmErrorConnection": "连接失败：请检查网络和代理设置"
+}
