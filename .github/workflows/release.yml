@@ -1,9 +1,10 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 # Ensure only one release workflow runs at a time
 concurrency:
@@ -22,16 +23,23 @@ jobs:
   pre-release-checks:
     name: Pre-release Checks
     runs-on: ubuntu-latest
+    # Only run if CI succeeded AND it was triggered by a tag push (v*)
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'v')
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Extract version from tag
         id: version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          TAG="${{ github.event.workflow_run.head_branch }}"
+          VERSION=${TAG#v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Building version: $VERSION"
 
@@ -70,6 +78,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -201,6 +211,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -271,6 +283,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Install Linux dependencies
         run: |
@@ -374,6 +388,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -434,6 +450,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -485,6 +503,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
+          ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
 
       - name: Download all artifacts
@@ -532,9 +551,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: "${{ env.APP_NAME }} v${{ needs.pre-release-checks.outputs.version }}"
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ github.event.workflow_run.head_branch }}
           draft: false
-          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') || contains(github.ref_name, '-rc') }}
+          prerelease: ${{ contains(github.event.workflow_run.head_branch, '-beta') || contains(github.event.workflow_run.head_branch, '-alpha') || contains(github.event.workflow_run.head_branch, '-rc') }}
           generate_release_notes: true
           files: |
             release/*

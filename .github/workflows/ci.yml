@@ -36,9 +36,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -94,9 +92,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -168,9 +164,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -232,9 +226,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -280,9 +272,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~\AppData\Local\Pub\Cache
-            .dart_tool
+          path: ~\AppData\Local\Pub\Cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -324,9 +314,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -384,9 +372,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -434,9 +420,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
@@ -494,9 +478,7 @@ jobs:
       - name: Cache pub dependencies
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
+          path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             pub-${{ runner.os }}-
