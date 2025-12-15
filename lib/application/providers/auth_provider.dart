@@ -33,7 +33,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(status: AuthStatus.loading);
 
     final authRepo = ref.read(authRepositoryProvider);
-    final isAuthenticated = await authRepo.isAuthenticated();
+    var isAuthenticated = await authRepo.isAuthenticated();
+
+    // If not authenticated, try to refresh the token
+    if (!isAuthenticated) {
+      final refreshResult = await authRepo.refreshToken();
+      isAuthenticated = refreshResult.isRight();
+    }
 
     if (isAuthenticated) {
       final userResult = await authRepo.getCurrentUser();
