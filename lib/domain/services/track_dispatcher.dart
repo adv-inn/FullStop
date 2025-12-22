@@ -120,6 +120,13 @@ class TrackScorer {
     return score;
   }
 
+  /// 检查曲目是否为干扰版本（Remix、伴奏、Club Mix 等）
+  ///
+  /// 用于过滤掉不需要的曲目版本
+  static bool isDistraction(Track track) {
+    return _containsDistraction(track.name.toLowerCase());
+  }
+
   /// 检查是否包含干扰关键词 (Kill List)
   static bool _containsDistraction(String name) {
     const distractions = [
@@ -298,6 +305,9 @@ class TrueShufflePipeline {
   /// 2. Artist Rights Loss: Taylor's Version 等重录版人气较低被丢弃
   ///
   /// 此方法被 TrueShufflePipeline.preDedupe 和 MultiArtistPipeline 共用
+  ///
+  /// 注意：去重后会再过滤掉干扰版本（Remix、伴奏等），
+  /// 确保最终结果不包含这些版本（即使它们是唯一版本）
   static List<Track> _dedupeByName(List<Track> tracks) {
     final uniqueMap = <String, Track>{};
     final scoreMap = <String, int>{}; // 缓存分数避免重复计算
@@ -318,20 +328,28 @@ class TrueShufflePipeline {
       }
     }
 
-    return uniqueMap.values.toList();
+    // 过滤掉仍然是干扰版本的曲目
+    // 如果选出的"最佳版本"仍是 Remix/伴奏等，说明没有原版可选，直接排除
+    return uniqueMap.values
+        .where((track) => !TrackScorer.isDistraction(track))
+        .toList();
   }
 
   /// 归一化歌名 - 去除 Live、Remix、Acoustic 等后缀
   ///
   /// 用于智能去重，将同一首歌的不同版本识别为同一首
   /// 例如: "First Love (Live)" → "first love"
+  /// 例如: "倒流时间（伴奏）" → "倒流时间"
   static String normalizeTrackName(String name) {
     return name
         .replaceAll(RegExp(r'\s*\([^)]*\)\s*'), '') // (Live), (Remix)
+        .replaceAll(RegExp(r'\s*（[^）]*）\s*'), '') // 中文全角括号（伴奏）
         .replaceAll(RegExp(r'\s*\[[^\]]*\]\s*'), '') // [Live], [Remix]
+        .replaceAll(RegExp(r'\s*【[^】]*】\s*'), '') // 中文方括号【Live】
         .replaceAll(
           RegExp(
-            r'\s*[-–—]\s*(Live|Remix|Acoustic|Instrumental|Radio|Edit|Version|Ver\.|Mix|Remaster|Remastered|Extended|Original|Demo|Bonus|Deluxe).*',
+            // 匹配破折号后的修饰词，如 "- Dance Remix", "- Club Mix"
+            r'\s*[-–—]\s*(\w+\s+)?(Live|Remix|Acoustic|Instrumental|Radio|Edit|Version|Ver\.|Mix|Remaster|Remastered|Extended|Original|Demo|Bonus|Deluxe).*',
             caseSensitive: false,
           ),
           '',
@@ -562,13 +580,27 @@ class MultiArtistPipeline {
     }).toList();
   }
 
-  /// Step 2: 轮询抽取实现公平混合
+  /// Step 2: 轮询抽取实现公平混合 + 全局回填
   List<Track> _roundRobinMix(List<List<Track>> pools, int targetCount) {
     final result = <Track>[];
 
+    // Phase 1: 公平轮询（Round Robin）
     while (result.length < targetCount) {
       final addedCount = _takeOneFromEachPool(pools, result, targetCount);
       if (addedCount == 0) break; // 所有池子都空了
+    }
+
+    // Phase 2: 全局回填（Global Backfill）
+    // 如果总数还不够，从所有池子的剩余歌曲中继续取
+    if (result.length < targetCount) {
+      final allLeftovers = <Track>[];
+      for (final pool in pools) {
+        allLeftovers.addAll(pool);
+      }
+      allLeftovers.shuffle(_random);
+
+      final deficit = targetCount - result.length;
+      result.addAll(allLeftovers.take(deficit));
     }
 
     return result;
