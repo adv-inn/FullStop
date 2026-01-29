@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:window_manager/window_manager.dart';
 import '../../core/services/window_service.dart';
 
@@ -59,6 +60,30 @@ class WindowManagerService implements WindowService, WindowListener {
   Future<void> setAlwaysOnTop(bool isAlwaysOnTop) async {
     if (!_isDesktop) return;
     await windowManager.setAlwaysOnTop(isAlwaysOnTop);
+  }
+
+  @override
+  Future<Size> getSize() async {
+    if (!_isDesktop) return Size.zero;
+    return await windowManager.getSize();
+  }
+
+  @override
+  Future<void> setSize(Size size) async {
+    if (!_isDesktop) return;
+    await windowManager.setSize(size);
+  }
+
+  @override
+  Future<void> setMinimumSize(Size size) async {
+    if (!_isDesktop) return;
+    await windowManager.setMinimumSize(size);
+  }
+
+  @override
+  Future<void> setMaximumSize(Size size) async {
+    if (!_isDesktop) return;
+    await windowManager.setMaximumSize(size);
   }
 
   @override

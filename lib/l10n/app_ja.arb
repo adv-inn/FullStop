@@ -596,5 +596,9 @@
 
   "llmErrorTimeout": "接続タイムアウト：サーバーの応答に時間がかかりすぎています",
 
-  "llmErrorConnection": "接続失敗：ネットワークとプロキシ設定を確認してください"
+  "llmErrorConnection": "接続失敗：ネットワークとプロキシ設定を確認してください",
+
+  "miniPlayer": "ミニプレーヤー",
+
+  "exitMiniPlayer": "ミニプレーヤーを終了"
 }

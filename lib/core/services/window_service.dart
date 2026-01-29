@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 /// Abstract interface for window management
 /// This decouples UI components from platform-specific window management
 abstract class WindowService {
@@ -21,6 +23,18 @@ abstract class WindowService {
 
   /// Set always on top state
   Future<void> setAlwaysOnTop(bool isAlwaysOnTop);
+
+  /// Get the current window size
+  Future<Size> getSize();
+
+  /// Set the window size
+  Future<void> setSize(Size size);
+
+  /// Set the minimum window size
+  Future<void> setMinimumSize(Size size);
+
+  /// Set the maximum window size (use Size.infinite to remove limit)
+  Future<void> setMaximumSize(Size size);
 
   /// Add a listener for window state changes
   void addListener(WindowStateListener listener);

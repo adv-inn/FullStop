@@ -2079,6 +2079,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connection failed: Check your network and proxy settings'**
   String get llmErrorConnection;
+
+  /// Tooltip for mini player mode button
+  ///
+  /// In en, this message translates to:
+  /// **'Mini Player'**
+  String get miniPlayer;
+
+  /// Tooltip for exiting mini player mode
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Mini Player'**
+  String get exitMiniPlayer;
 }
 
 class _AppLocalizationsDelegate

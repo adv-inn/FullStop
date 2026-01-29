@@ -1092,4 +1092,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get llmErrorConnection => '接続失敗：ネットワークとプロキシ設定を確認してください';
+
+  @override
+  String get miniPlayer => 'ミニプレーヤー';
+
+  @override
+  String get exitMiniPlayer => 'ミニプレーヤーを終了';
 }

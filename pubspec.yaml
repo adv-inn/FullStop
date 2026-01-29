@@ -17,11 +17,11 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # State Management
-  flutter_riverpod: ^2.4.9
+  flutter_riverpod: ^2.6.1
 
   # Network & API
   dio: ^5.4.0
-  socks5_proxy: ^1.0.4
+  socks5_proxy: ^2.1.1
 
   # Local Storage
   hive: ^2.2.3
@@ -29,7 +29,7 @@ dependencies:
   shared_preferences: ^2.2.2
 
   # Security
-  flutter_secure_storage: ^9.0.0
+  flutter_secure_storage: ^10.0.0
 
   # Utilities
   json_annotation: ^4.9.0
@@ -45,13 +45,13 @@ dependencies:
   cached_network_image: ^3.4.1
 
   # Deep Linking / Custom URL Scheme
-  app_links: ^6.4.0
+  app_links: ^7.0.0
 
   # Spotify SDK for waking up Spotify app
   spotify_sdk: ^3.0.2
 
   # Window Management (for custom title bar on desktop)
-  window_manager: ^0.4.3
+  window_manager: ^0.5.1
 
   # System Tray (for background mode) - uses native Windows TrackPopupMenu
   system_tray: ^2.0.3
@@ -72,6 +72,11 @@ dev_dependencies:
 
 flutter_launcher_icons:
   image_path: "assets/icon/logo.png"
+  ios: true
+  remove_alpha_ios: true
+  macos:
+    generate: true
+    image_path: "assets/icon/logo.png"
   windows:
     generate: true
     icon_size: 256

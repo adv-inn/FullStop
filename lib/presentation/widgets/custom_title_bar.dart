@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../core/services/window_service.dart';
+import '../../application/di/core_providers.dart';
 import '../../application/providers/navigation_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../themes/app_theme.dart';
@@ -35,13 +36,15 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
     with WindowStateListenerMixin {
   bool _isMaximized = false;
   bool _isAlwaysOnTop = false;
+  // Store reference to avoid using ref in dispose
+  WindowService? _windowService;
 
   @override
   void initState() {
     super.initState();
     if (Platform.isWindows) {
-      final windowService = ref.read(windowServiceProvider);
-      windowService.addListener(this);
+      _windowService = ref.read(windowServiceProvider);
+      _windowService!.addListener(this);
       _updateMaximizedState();
       _updateAlwaysOnTopState();
     }
@@ -49,9 +52,8 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
 
   @override
   void dispose() {
-    if (Platform.isWindows) {
-      final windowService = ref.read(windowServiceProvider);
-      windowService.removeListener(this);
+    if (Platform.isWindows && _windowService != null) {
+      _windowService!.removeListener(this);
     }
     super.dispose();
   }
@@ -90,6 +92,26 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
     }
   }
 
+  Future<void> _toggleMiniMode(WidgetRef ref) async {
+    final miniPlayerService = ref.read(miniPlayerServiceProvider);
+    final navigationNotifier = ref.read(navigationProvider.notifier);
+    final navState = ref.read(navigationProvider);
+
+    if (navState.miniPlayerMode) {
+      await miniPlayerService.exitMiniMode();
+      navigationNotifier.setMiniPlayerMode(false);
+    } else {
+      await miniPlayerService.enterMiniMode();
+      navigationNotifier.setMiniPlayerMode(true);
+      // Update always on top state since mini mode enables it
+      if (mounted) {
+        setState(() {
+          _isAlwaysOnTop = true;
+        });
+      }
+    }
+  }
+
   @override
   void onWindowMaximize() {
     setState(() {
@@ -122,47 +144,52 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
           : (widget.backgroundColor ?? AppTheme.spotifyBlack),
       child: Row(
         children: [
-          // Draggable area with title - use DragToMoveArea for proper Windows dragging
+          // Title bar area - use official DragToMoveArea from window_manager
           Expanded(
             child: DragToMoveArea(
-              child: GestureDetector(
-                onDoubleTap: () => _toggleMaximize(windowService),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 12),
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      // In transparent mode, show back button instead of logo
-                      if (isTransparent) ...[
-                        _TransparentModeBackButton(
-                          onPressed: () =>
-                              ref.read(navigationProvider.notifier).goBack(),
+              child: Container(
+                padding: const EdgeInsets.only(left: 12),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    // In transparent mode, show back button instead of logo
+                    if (isTransparent) ...[
+                      _TransparentModeBackButton(
+                        onPressed: () =>
+                            ref.read(navigationProvider.notifier).goBack(),
+                      ),
+                    ] else ...[
+                      // App icon
+                      const AppLogo(size: 16),
+                      const SizedBox(width: 8),
+                      // Leading widget
+                      if (widget.leading != null) widget.leading!,
+                      // Title - static "FullStop"
+                      Text(
+                        widget.title,
+                        style: const TextStyle(
+                          color: AppTheme.spotifyWhite,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none,
                         ),
-                      ] else ...[
-                        // App icon
-                        const AppLogo(size: 16),
-                        const SizedBox(width: 8),
-                        // Leading widget
-                        if (widget.leading != null) widget.leading!,
-                        // Title - static "FullStop"
-                        Text(
-                          widget.title,
-                          style: const TextStyle(
-                            color: AppTheme.spotifyWhite,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ],
-                      const Spacer(),
-                      // Custom actions (only in normal mode)
-                      if (!isTransparent && actions.isNotEmpty) ...actions,
+                      ),
                     ],
-                  ),
+                    const Spacer(),
+                    // Custom actions (only in normal mode)
+                    if (!isTransparent && actions.isNotEmpty) ...actions,
+                  ],
                 ),
               ),
             ),
+          ),
+          // Mini player toggle button
+          _MiniPlayerToggleButton(
+            isMiniMode: navState.miniPlayerMode,
+            onPressed: () => _toggleMiniMode(ref),
+            tooltip: navState.miniPlayerMode
+                ? AppLocalizations.of(context)?.exitMiniPlayer ?? 'Exit Mini Player'
+                : AppLocalizations.of(context)?.miniPlayer ?? 'Mini Player',
           ),
           // Always on top button
           _AlwaysOnTopButton(
@@ -175,6 +202,7 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
           // Window control buttons
           _WindowControls(
             isMaximized: _isMaximized,
+            isMiniMode: navState.miniPlayerMode,
             onMinimize: windowService.minimize,
             onMaximize: () => _toggleMaximize(windowService),
             onClose: windowService.close,
@@ -196,12 +224,14 @@ class _CustomTitleBarState extends ConsumerState<CustomTitleBar>
 /// Window control buttons (minimize, maximize, close)
 class _WindowControls extends StatelessWidget {
   final bool isMaximized;
+  final bool isMiniMode;
   final VoidCallback onMinimize;
   final VoidCallback onMaximize;
   final VoidCallback onClose;
 
   const _WindowControls({
     required this.isMaximized,
+    required this.isMiniMode,
     required this.onMinimize,
     required this.onMaximize,
     required this.onClose,
@@ -217,12 +247,14 @@ class _WindowControls extends StatelessWidget {
           onPressed: onMinimize,
           tooltip: 'Minimize',
         ),
-        _WindowControlButton(
-          icon: isMaximized ? Icons.filter_none : Icons.crop_square,
-          onPressed: onMaximize,
-          tooltip: isMaximized ? 'Restore' : 'Maximize',
-          iconSize: isMaximized ? 14 : 16,
-        ),
+        // Hide maximize button in mini player mode
+        if (!isMiniMode)
+          _WindowControlButton(
+            icon: isMaximized ? Icons.filter_none : Icons.crop_square,
+            onPressed: onMaximize,
+            tooltip: isMaximized ? 'Restore' : 'Maximize',
+            iconSize: isMaximized ? 14 : 16,
+          ),
         _WindowControlButton(
           icon: Icons.close,
           onPressed: onClose,
@@ -373,3 +405,50 @@ class _AlwaysOnTopButtonState extends State<_AlwaysOnTopButton> {
     );
   }
 }
+
+/// Mini player toggle button
+class _MiniPlayerToggleButton extends StatefulWidget {
+  final bool isMiniMode;
+  final VoidCallback onPressed;
+  final String tooltip;
+
+  const _MiniPlayerToggleButton({
+    required this.isMiniMode,
+    required this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_MiniPlayerToggleButton> createState() => _MiniPlayerToggleButtonState();
+}
+
+class _MiniPlayerToggleButtonState extends State<_MiniPlayerToggleButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Tooltip(
+        message: widget.tooltip,
+        child: GestureDetector(
+          onTap: widget.onPressed,
+          child: Container(
+            width: 36,
+            height: 32,
+            color: _isHovered ? AppTheme.spotifyDarkGray : Colors.transparent,
+            child: Icon(
+              widget.isMiniMode ? Icons.open_in_full : Icons.picture_in_picture_alt,
+              color: widget.isMiniMode
+                  ? AppTheme.spotifyGreen
+                  : AppTheme.spotifyLightGray,
+              size: 14,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

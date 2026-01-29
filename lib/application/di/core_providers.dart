@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:socks5_proxy/socks_client.dart' as socks5;
 import '../../core/config/app_config.dart';
 import '../../core/services/deep_link_service.dart';
+import '../../core/services/mini_player_service.dart';
 import '../../core/services/token_refresh_service.dart';
 import '../../core/services/url_launcher_service.dart';
 import '../../core/services/window_service.dart';
@@ -177,6 +178,11 @@ final urlLauncherServiceProvider = Provider<UrlLauncherService>((ref) {
 
 final windowServiceProvider = Provider<WindowService>((ref) {
   return WindowManagerService();
+});
+
+final miniPlayerServiceProvider = Provider<MiniPlayerService>((ref) {
+  final windowService = ref.watch(windowServiceProvider);
+  return MiniPlayerService(windowService);
 });
 
 // Auth Local Data Source (needed by apiDioProvider, so kept here)

@@ -51,7 +51,11 @@ LRESULT
 FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
                               WPARAM const wparam,
                               LPARAM const lparam) noexcept {
-  // Give Flutter, including plugins, an opportunity to handle window messages.
+  // NOTE: WM_NCHITTEST for custom title bar dragging is handled in
+  // Win32Window::WndProc to intercept it before Flutter/window_manager.
+  // This fixes mouse drift on non-100% DPI scaling (e.g., 125%).
+
+  // Give Flutter, including plugins, an opportunity to handle window messages
   if (flutter_controller_) {
     std::optional<LRESULT> result =
         flutter_controller_->HandleTopLevelWindowProc(hwnd, message, wparam,

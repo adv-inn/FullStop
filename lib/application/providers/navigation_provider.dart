@@ -12,12 +12,17 @@ class NavigationState {
   /// Used for full-bleed content screens like session detail
   final bool transparentMode;
 
+  /// When true, the app enters mini player mode
+  /// Only the title bar and now playing bar are shown
+  final bool miniPlayerMode;
+
   const NavigationState({
     this.title = 'FullStop',
     this.canGoBack = false,
     this.actions = const [],
     this.navigatorKey,
     this.transparentMode = false,
+    this.miniPlayerMode = false,
   });
 
   NavigationState copyWith({
@@ -26,6 +31,7 @@ class NavigationState {
     List<Widget>? actions,
     GlobalKey<NavigatorState>? navigatorKey,
     bool? transparentMode,
+    bool? miniPlayerMode,
   }) {
     return NavigationState(
       title: title ?? this.title,
@@ -33,6 +39,7 @@ class NavigationState {
       actions: actions ?? this.actions,
       navigatorKey: navigatorKey ?? this.navigatorKey,
       transparentMode: transparentMode ?? this.transparentMode,
+      miniPlayerMode: miniPlayerMode ?? this.miniPlayerMode,
     );
   }
 }
@@ -59,12 +66,18 @@ class NavigationNotifier extends StateNotifier<NavigationState> {
       canGoBack: false,
       actions: [],
       transparentMode: false,
+      miniPlayerMode: false,
     );
   }
 
   /// Enable transparent mode for full-bleed content screens
   void setTransparentMode(bool transparent) {
     state = state.copyWith(transparentMode: transparent);
+  }
+
+  /// Enable or disable mini player mode
+  void setMiniPlayerMode(bool miniPlayer) {
+    state = state.copyWith(miniPlayerMode: miniPlayer);
   }
 
   void goBack() {
