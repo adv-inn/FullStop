@@ -27,9 +27,10 @@ bool FlutterWindow::OnCreate() {
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
-  flutter_controller_->engine()->SetNextFrameCallback([&]() {
-    this->Show();
-  });
+  // Let window_manager plugin control window visibility to prevent flashing
+  // flutter_controller_->engine()->SetNextFrameCallback([&]() {
+  //   this->Show();
+  // });
 
   // Flutter can complete the first frame before the "show window" callback is
   // registered. The following call ensures a frame is pending to ensure the
@@ -51,21 +52,12 @@ LRESULT
 FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
                               WPARAM const wparam,
                               LPARAM const lparam) noexcept {
-  // NOTE: WM_NCHITTEST for custom title bar dragging is handled in
-  // Win32Window::WndProc to intercept it before Flutter/window_manager.
-  // This fixes mouse drift on non-100% DPI scaling (e.g., 125%).
-
-  // Give Flutter, including plugins, an opportunity to handle window messages
+  // Give Flutter, including plugins, an opportunity to handle window messages.
   if (flutter_controller_) {
     std::optional<LRESULT> result =
         flutter_controller_->HandleTopLevelWindowProc(hwnd, message, wparam,
                                                       lparam);
     if (result) {
-      // After Flutter handles DPI change, force a redraw to fix rendering issues
-      // when moving between monitors with different DPI settings
-      if (message == WM_DPICHANGED) {
-        flutter_controller_->ForceRedraw();
-      }
       return *result;
     }
   }
@@ -74,15 +66,6 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
     case WM_FONTCHANGE:
       flutter_controller_->engine()->ReloadSystemFonts();
       break;
-    case WM_DPICHANGED: {
-      // Handle DPI change - let parent resize the window first
-      LRESULT result = Win32Window::MessageHandler(hwnd, message, wparam, lparam);
-      // Then force Flutter to redraw
-      if (flutter_controller_) {
-        flutter_controller_->ForceRedraw();
-      }
-      return result;
-    }
   }
 
   return Win32Window::MessageHandler(hwnd, message, wparam, lparam);
