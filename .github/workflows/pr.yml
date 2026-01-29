@@ -1,14 +1,23 @@
-name: CI
+name: PR Check
 
 on:
-  push:
-    branches: [main, develop]
-    tags:
-      - 'v*'
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: [main, develop]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'fastlane/**'
+  workflow_dispatch:
+    inputs:
+      run_all_builds:
+        description: 'Run all platform builds'
+        required: false
+        default: false
+        type: boolean
 
-# Cancel in-progress runs for the same branch
+# Cancel in-progress runs for the same PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -19,14 +28,55 @@ env:
 
 jobs:
   # ============================================================
-  # Code Quality Checks (Strict) - Also generates code for other jobs
+  # Path Detection - Determine which platforms need building
+  # ============================================================
+  changes:
+    name: Detect Changes
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      core: ${{ steps.filter.outputs.core }}
+      android: ${{ steps.filter.outputs.android }}
+      windows: ${{ steps.filter.outputs.windows }}
+      ios: ${{ steps.filter.outputs.ios }}
+      macos: ${{ steps.filter.outputs.macos }}
+      linux: ${{ steps.filter.outputs.linux }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            core:
+              - 'lib/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+              - 'test/**'
+              - 'assets/**'
+              - '.github/workflows/**'
+            android:
+              - 'android/**'
+            windows:
+              - 'windows/**'
+            ios:
+              - 'ios/**'
+            macos:
+              - 'macos/**'
+            linux:
+              - 'linux/**'
+
+  # ============================================================
+  # Code Quality Checks (Always runs)
   # ============================================================
   code-quality:
     name: Code Quality
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -36,7 +86,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -53,7 +103,7 @@ jobs:
         run: dart format .
 
       - name: Upload generated code
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: generated-code
           path: lib/**/*.g.dart
@@ -72,17 +122,16 @@ jobs:
           echo "::endgroup::"
 
   # ============================================================
-  # Unit Tests with Coverage Gate
+  # Unit Tests with Coverage
   # ============================================================
   test:
     name: Tests
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 2
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -92,7 +141,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -100,7 +149,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -113,48 +162,39 @@ jobs:
 
       - name: Check coverage threshold
         run: |
-          # Install lcov for coverage analysis
           sudo apt-get update && sudo apt-get install -y lcov
-
-          # Generate coverage summary
           lcov --summary coverage/lcov.info > coverage_summary.txt 2>&1 || true
           cat coverage_summary.txt
-
-          # Extract line coverage percentage
           COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | sed 's/.*: //' | sed 's/%.*//' | head -1)
-
           if [ -z "$COVERAGE" ]; then
             echo "::warning::Could not determine coverage percentage"
             exit 0
           fi
-
           echo "Coverage: ${COVERAGE}%"
-
-          # Check against threshold (50% for now, increase gradually)
           THRESHOLD=50
           if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
             echo "::warning::Coverage ${COVERAGE}% is below threshold ${THRESHOLD}%"
-            # Uncomment the next line to enforce threshold
-            # exit 1
           else
             echo "::notice::Coverage ${COVERAGE}% meets threshold ${THRESHOLD}%"
           fi
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
 
   # ============================================================
   # Code Complexity Analysis
   # ============================================================
   complexity:
     name: Code Complexity
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -164,7 +204,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -172,7 +212,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -194,29 +234,16 @@ jobs:
             --maximum-nesting-level=4 || true
           echo "::endgroup::"
 
-      - name: Generate HTML report
-        run: |
-          mkdir -p metrics-report
-          dart pub global run dart_code_linter:metrics analyze lib \
-            --reporter=html \
-            --output-directory=metrics-report || true
-
-      - name: Upload complexity report
-        uses: actions/upload-artifact@v6
-        with:
-          name: complexity-report
-          path: metrics-report/
-          retention-days: 14
-
   # ============================================================
   # Security Scan
   # ============================================================
   security:
     name: Security Scan
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -224,14 +251,6 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
-
-      - name: Cache pub dependencies
-        uses: actions/cache@v5
-        with:
-          path: ~/.pub-cache
-          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
-          restore-keys: |
-            pub-${{ runner.os }}-
 
       - name: Get dependencies
         run: flutter pub get
@@ -244,25 +263,24 @@ jobs:
 
       - name: Audit dependencies
         run: |
-          # Export dependencies for analysis
           flutter pub deps --json > deps.json
-          echo "Dependencies exported for analysis"
-
-          # Check for known security issues in pubspec.lock
           echo "::group::Dependency Analysis"
           cat pubspec.lock | grep -E "name:|version:" | head -50
           echo "::endgroup::"
 
   # ============================================================
-  # Build Tests (All Platforms)
+  # Platform Builds (Smart - only affected platforms)
   # ============================================================
   build-windows:
     name: Build Windows
+    needs: [changes, code-quality]
+    if: |
+      !github.event.pull_request.draft &&
+      (needs.changes.outputs.core == 'true' || needs.changes.outputs.windows == 'true' || github.event.inputs.run_all_builds == 'true')
     runs-on: windows-latest
-    needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -272,7 +290,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~\AppData\Local\Pub\Cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -280,7 +298,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -292,19 +310,22 @@ jobs:
         run: flutter build windows --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: windows-build-${{ github.sha }}
           path: build/windows/x64/runner/Release/
-          retention-days: 7
+          retention-days: 3
 
   build-macos:
     name: Build macOS
+    needs: [changes, code-quality]
+    if: |
+      !github.event.pull_request.draft &&
+      (needs.changes.outputs.core == 'true' || needs.changes.outputs.macos == 'true' || github.event.inputs.run_all_builds == 'true')
     runs-on: macos-latest
-    needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -314,7 +335,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -322,7 +343,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Cache CocoaPods
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             macos/Pods
@@ -332,7 +353,7 @@ jobs:
             pods-macos-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -344,19 +365,22 @@ jobs:
         run: flutter build macos --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: macos-build-${{ github.sha }}
           path: build/macos/Build/Products/Release/
-          retention-days: 7
+          retention-days: 3
 
   build-linux:
     name: Build Linux
+    needs: [changes, code-quality]
+    if: |
+      !github.event.pull_request.draft &&
+      (needs.changes.outputs.core == 'true' || needs.changes.outputs.linux == 'true' || github.event.inputs.run_all_builds == 'true')
     runs-on: ubuntu-latest
-    needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Install Linux dependencies
         run: |
@@ -372,7 +396,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -380,7 +404,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -392,22 +416,25 @@ jobs:
         run: flutter build linux --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: linux-build-${{ github.sha }}
           path: build/linux/x64/release/bundle/
-          retention-days: 7
+          retention-days: 3
 
   build-android:
     name: Build Android
+    needs: [changes, code-quality]
+    if: |
+      !github.event.pull_request.draft &&
+      (needs.changes.outputs.core == 'true' || needs.changes.outputs.android == 'true' || github.event.inputs.run_all_builds == 'true')
     runs-on: ubuntu-latest
-    needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
@@ -420,7 +447,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -428,7 +455,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Cache Gradle
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -444,7 +471,7 @@ jobs:
             https://github.com/spotify/android-sdk/raw/master/app-remote-lib/spotify-app-remote-release-0.8.0.aar
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -456,19 +483,22 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: android-build-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
-          retention-days: 7
+          retention-days: 3
 
   build-ios:
     name: Build iOS
+    needs: [changes, code-quality]
+    if: |
+      !github.event.pull_request.draft &&
+      (needs.changes.outputs.core == 'true' || needs.changes.outputs.ios == 'true' || github.event.inputs.run_all_builds == 'true')
     runs-on: macos-latest
-    needs: [code-quality]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -478,7 +508,7 @@ jobs:
           cache: true
 
       - name: Cache pub dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
@@ -486,7 +516,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Cache CocoaPods
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             ios/Pods
@@ -496,7 +526,7 @@ jobs:
             pods-ios-
 
       - name: Download generated code
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: generated-code
           path: lib/
@@ -508,8 +538,8 @@ jobs:
         run: flutter build ios --release --no-codesign
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: ios-build-${{ github.sha }}
           path: build/ios/iphoneos/
-          retention-days: 7
+          retention-days: 3
