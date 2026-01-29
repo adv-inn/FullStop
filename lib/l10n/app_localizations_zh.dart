@@ -1084,4 +1084,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get llmErrorConnection => '连接失败：请检查网络和代理设置';
+
+  @override
+  String get miniPlayer => '迷你播放器';
+
+  @override
+  String get exitMiniPlayer => '退出迷你播放器';
 }

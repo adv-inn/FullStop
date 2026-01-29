@@ -1117,4 +1117,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get llmErrorConnection =>
       'Connection failed: Check your network and proxy settings';
+
+  @override
+  String get miniPlayer => 'Mini Player';
+
+  @override
+  String get exitMiniPlayer => 'Exit Mini Player';
 }

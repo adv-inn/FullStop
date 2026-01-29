@@ -1757,5 +1757,15 @@
   "llmErrorConnection": "Connection failed: Check your network and proxy settings",
   "@llmErrorConnection": {
     "description": "LLM connection error message"
+  },
+
+  "miniPlayer": "Mini Player",
+  "@miniPlayer": {
+    "description": "Tooltip for mini player mode button"
+  },
+
+  "exitMiniPlayer": "Exit Mini Player",
+  "@exitMiniPlayer": {
+    "description": "Tooltip for exiting mini player mode"
   }
 }
