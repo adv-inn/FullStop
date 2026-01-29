@@ -15,6 +15,7 @@ import 'presentation/screens/login_screen.dart';
 import 'presentation/screens/setup_guide_screen.dart';
 import 'presentation/themes/app_theme.dart';
 import 'presentation/widgets/custom_title_bar.dart';
+import 'presentation/widgets/mini_player_content.dart';
 
 class SpotifyFocusSomeoneApp extends ConsumerWidget {
   const SpotifyFocusSomeoneApp({super.key});
@@ -157,25 +158,41 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
     if (Platform.isWindows) {
       final navState = ref.watch(navigationProvider);
       final isTransparent = navState.transparentMode;
+      final isMiniMode = navState.miniPlayerMode;
 
-      // Always use Stack layout to preserve CustomTitleBar state
-      // In transparent mode: content fills entire window
-      // In normal mode: content has top padding for title bar
+      // Always use Stack layout to preserve CustomTitleBar and Navigator state
+      // This prevents Navigator rebuild when toggling mini mode
       return Stack(
         children: [
-          // Content area
-          Padding(
-            padding: EdgeInsets.only(top: isTransparent ? 0 : 32),
-            child: Navigator(
-              key: _navigatorKey,
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) => const _AppRouter(),
-                  settings: settings,
-                );
-              },
+          // Main content area - hidden but kept alive in mini mode
+          Offstage(
+            offstage: isMiniMode,
+            child: Padding(
+              padding: EdgeInsets.only(top: isTransparent ? 0 : 32),
+              child: Navigator(
+                key: _navigatorKey,
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(
+                    builder: (context) => const _AppRouter(),
+                    settings: settings,
+                  );
+                },
+              ),
             ),
           ),
+          // Mini player content - shown only in mini mode
+          // Wrapped in Material to provide default text styles (prevents yellow underline)
+          if (isMiniMode)
+            Positioned(
+              top: 32, // Below title bar
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Material(
+                color: AppTheme.spotifyBlack,
+                child: const MiniPlayerContent(),
+              ),
+            ),
           // Title bar always on top
           const Positioned(top: 0, left: 0, right: 0, child: CustomTitleBar()),
         ],

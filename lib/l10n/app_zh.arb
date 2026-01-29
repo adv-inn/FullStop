@@ -654,5 +654,9 @@
 
   "llmErrorTimeout": "连接超时：服务器响应时间过长",
 
-  "llmErrorConnection": "连接失败：请检查网络和代理设置"
+  "llmErrorConnection": "连接失败：请检查网络和代理设置",
+
+  "miniPlayer": "迷你播放器",
+
+  "exitMiniPlayer": "退出迷你播放器"
 }
