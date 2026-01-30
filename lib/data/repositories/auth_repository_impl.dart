@@ -81,38 +81,49 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     final credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
 
-    final response = await dio.post(
-      AppConfig.spotifyTokenUrl,
-      data: {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': AppConfig.spotifyRedirectUri,
-      },
-      options: Options(
-        headers: {
-          'Authorization': 'Basic $credentials',
-          'Content-Type': 'application/x-www-form-urlencoded',
+    AppLogger.info('Exchanging code for tokens...');
+    AppLogger.info('Client ID: ${clientId.substring(0, 4)}...${clientId.substring(clientId.length - 4)}');
+    AppLogger.info('Redirect URI: ${AppConfig.spotifyRedirectUri}');
+    AppLogger.info('Code: ${code.substring(0, 10)}...');
+
+    try {
+      final response = await dio.post(
+        AppConfig.spotifyTokenUrl,
+        data: {
+          'grant_type': 'authorization_code',
+          'code': code,
+          'redirect_uri': AppConfig.spotifyRedirectUri,
         },
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
+        options: Options(
+          headers: {
+            'Authorization': 'Basic $credentials',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
 
-    final data = response.data as Map<String, dynamic>;
+      final data = response.data as Map<String, dynamic>;
 
-    final accessToken = data['access_token'] as String;
-    final refreshToken = data['refresh_token'] as String;
-    final expiresIn = data['expires_in'] as int;
-    final expiry = DateTime.now().add(Duration(seconds: expiresIn));
+      final accessToken = data['access_token'] as String;
+      final refreshToken = data['refresh_token'] as String;
+      final expiresIn = data['expires_in'] as int;
+      final expiry = DateTime.now().add(Duration(seconds: expiresIn));
 
-    await localDataSource.saveTokens(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      expiry: expiry,
-    );
+      await localDataSource.saveTokens(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        expiry: expiry,
+      );
 
-    AppLogger.info('Tokens saved successfully');
+      AppLogger.info('Tokens saved successfully');
 
-    return data;
+      return data;
+    } on DioException catch (e) {
+      AppLogger.error('Token exchange failed with status: ${e.response?.statusCode}');
+      AppLogger.error('Response data: ${e.response?.data}');
+      rethrow;
+    }
   }
 
   @override

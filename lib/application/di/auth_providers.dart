@@ -1,16 +1,37 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/services/oauth_service.dart';
 import '../../data/datasources/credentials_local_datasource.dart';
+import '../../data/datasources/credentials_shared_prefs_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/entities/proxy_settings.dart';
 import '../../domain/repositories/auth_repository.dart';
 import 'core_providers.dart';
 import 'spotify_providers.dart';
 
 /// Authentication-related providers
 
+// SharedPreferences provider (async initialization required)
+final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
+  return await SharedPreferences.getInstance();
+});
+
 // Credentials Local Data Source
+// Uses SharedPreferences on macOS/iOS to avoid Keychain issues during development
 final credentialsLocalDataSourceProvider = Provider<CredentialsLocalDataSource>(
   (ref) {
+    // On macOS and iOS, use SharedPreferences to avoid Keychain/signing issues
+    if (Platform.isMacOS || Platform.isIOS) {
+      final prefsAsync = ref.watch(sharedPreferencesProvider);
+      return prefsAsync.when(
+        data: (prefs) => CredentialsSharedPrefsDataSource(prefs),
+        loading: () => _PlaceholderCredentialsDataSource(),
+        error: (_, __) => _PlaceholderCredentialsDataSource(),
+      );
+    }
+    // On other platforms, use secure storage
     final secureStorage = ref.watch(secureStorageProvider);
     return CredentialsLocalDataSourceImpl(secureStorage);
   },
@@ -42,3 +63,51 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
     oauthService: oauthService,
   );
 });
+
+/// Placeholder implementation while SharedPreferences is loading
+class _PlaceholderCredentialsDataSource implements CredentialsLocalDataSource {
+  @override
+  Future<void> clearGetSongBpmApiKey() async {}
+  @override
+  Future<void> clearLlmCredentials() async {}
+  @override
+  Future<void> clearAppProxySettings() async {}
+  @override
+  Future<void> clearSpotifyCredentials() async {}
+  @override
+  Future<bool> getAudioFeaturesEnabled() async => false;
+  @override
+  Future<String?> getGetSongBpmApiKey() async => null;
+  @override
+  Future<bool> getGpuAccelerationEnabled() async => false;
+  @override
+  Future<String?> getLlmApiKey() async => null;
+  @override
+  Future<String?> getLlmBaseUrl() async => null;
+  @override
+  Future<String?> getLlmModel() async => null;
+  @override
+  Future<AppProxySettings> getAppProxySettings() async => const AppProxySettings();
+  @override
+  Future<String?> getSpotifyClientId() async => null;
+  @override
+  Future<String?> getSpotifyClientSecret() async => null;
+  @override
+  Future<bool> hasGetSongBpmApiKey() async => false;
+  @override
+  Future<bool> hasLlmConfig() async => false;
+  @override
+  Future<bool> hasSpotifyCredentials() async => false;
+  @override
+  Future<void> saveAppProxySettings(AppProxySettings config) async {}
+  @override
+  Future<void> saveLlmCredentials({String apiKey = '', required String model, required String baseUrl}) async {}
+  @override
+  Future<void> saveSpotifyCredentials({required String clientId, required String clientSecret}) async {}
+  @override
+  Future<void> setAudioFeaturesEnabled(bool enabled) async {}
+  @override
+  Future<void> setGetSongBpmApiKey(String apiKey) async {}
+  @override
+  Future<void> setGpuAccelerationEnabled(bool enabled) async {}
+}

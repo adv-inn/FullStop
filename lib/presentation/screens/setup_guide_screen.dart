@@ -413,6 +413,7 @@ class _SetupGuideScreenState extends ConsumerState<SetupGuideScreen> {
           const SizedBox(height: 8),
           TextFormField(
             controller: _clientIdController,
+            style: const TextStyle(color: AppTheme.spotifyWhite),
             decoration: InputDecoration(
               hintText: l10n.enterClientId,
               prefixIcon: const Icon(Icons.key),
@@ -443,6 +444,7 @@ class _SetupGuideScreenState extends ConsumerState<SetupGuideScreen> {
           TextFormField(
             controller: _clientSecretController,
             obscureText: _obscureSecret,
+            style: const TextStyle(color: AppTheme.spotifyWhite),
             decoration: InputDecoration(
               hintText: l10n.enterClientSecret,
               prefixIcon: const Icon(Icons.lock),

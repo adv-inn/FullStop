@@ -88,6 +88,7 @@ class AppTheme {
         filled: true,
         fillColor: spotifyDarkGray,
         hintStyle: const TextStyle(color: spotifyLightGray),
+        labelStyle: const TextStyle(color: spotifyLightGray),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
@@ -96,6 +97,11 @@ class AppTheme {
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: spotifyGreen),
         ),
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: spotifyGreen,
+        selectionColor: Color(0x401DB954),
+        selectionHandleColor: spotifyGreen,
       ),
       iconTheme: const IconThemeData(color: spotifyWhite),
       sliderTheme: const SliderThemeData(

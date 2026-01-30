@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socks5_proxy/socks_client.dart' as socks5;
 import '../../core/config/app_config.dart';
 import '../../core/services/deep_link_service.dart';
@@ -13,11 +14,18 @@ import '../../core/services/url_launcher_service.dart';
 import '../../core/services/window_service.dart';
 import '../../core/utils/logger.dart';
 import '../../data/datasources/auth_local_datasource.dart';
+import '../../data/datasources/auth_shared_prefs_datasource.dart';
 import '../../data/datasources/credentials_local_datasource.dart';
 import '../../domain/entities/proxy_settings.dart';
 import '../../data/services/app_links_deep_link_service.dart';
 import '../../data/services/default_url_launcher_service.dart';
 import '../../data/services/window_manager_service.dart';
+import 'auth_providers.dart' show credentialsLocalDataSourceProvider;
+
+// SharedPreferences provider for macOS/iOS
+final sharedPrefsProvider = FutureProvider<SharedPreferences>((ref) async {
+  return await SharedPreferences.getInstance();
+});
 
 /// Core infrastructure providers
 /// These are low-level services that other modules depend on
@@ -26,6 +34,10 @@ import '../../data/services/window_manager_service.dart';
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    mOptions: MacOsOptions(),
+    iOptions: IOSOptions(
+      accountName: 'com.sfo.fullstop',
+    ),
   );
 });
 
@@ -114,23 +126,17 @@ final apiDioProvider = Provider<Dio>((ref) {
   // Configure proxy if available
   _configureDioProxy(dio, _currentProxyConfig);
 
-  final authLocalDataSource = ref.read(authLocalDataSourceProvider);
-  final secureStorage = ref.read(secureStorageProvider);
-  final credentialsLocalDataSource = CredentialsLocalDataSourceImpl(
-    secureStorage,
-  );
+  // Use ref.read inside interceptor to get fresh data source each time
+  // This ensures we don't use a stale placeholder when SharedPreferences loads
   final authDio = ref.read(authDioProvider);
-
-  final tokenRefreshService = _getOrCreateTokenRefreshService(
-    authLocalDataSource,
-    credentialsLocalDataSource,
-    authDio,
-  );
 
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {
+        // Dynamically get the data source to ensure we have the latest
+        final authLocalDataSource = ref.read(authLocalDataSourceProvider);
         final token = await authLocalDataSource.getAccessToken();
+        AppLogger.info('API Request - Token available: ${token != null}');
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
@@ -140,6 +146,17 @@ final apiDioProvider = Provider<Dio>((ref) {
         // Handle 401 Unauthorized - attempt to refresh token
         if (error.response?.statusCode == 401) {
           AppLogger.info('Received 401, attempting to refresh token...');
+          AppLogger.info('Request URL: ${error.requestOptions.uri}');
+
+          // Get fresh data sources for token refresh
+          final authLocalDataSource = ref.read(authLocalDataSourceProvider);
+          final credentialsDataSource = ref.read(credentialsLocalDataSourceProvider);
+
+          final tokenRefreshService = _getOrCreateTokenRefreshService(
+            authLocalDataSource,
+            credentialsDataSource,
+            authDio,
+          );
 
           final newToken = await tokenRefreshService.refreshToken();
 
@@ -186,10 +203,39 @@ final miniPlayerServiceProvider = Provider<MiniPlayerService>((ref) {
 });
 
 // Auth Local Data Source (needed by apiDioProvider, so kept here)
+// Uses SharedPreferences on macOS/iOS to avoid Keychain issues during development
 final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
+  if (Platform.isMacOS || Platform.isIOS) {
+    final prefsAsync = ref.watch(sharedPrefsProvider);
+    return prefsAsync.when(
+      data: (prefs) => AuthSharedPrefsDataSource(prefs),
+      loading: () => _PlaceholderAuthDataSource(),
+      error: (_, __) => _PlaceholderAuthDataSource(),
+    );
+  }
   final secureStorage = ref.watch(secureStorageProvider);
   return AuthLocalDataSourceImpl(secureStorage);
 });
+
+/// Placeholder implementation while SharedPreferences is loading
+class _PlaceholderAuthDataSource implements AuthLocalDataSource {
+  @override
+  Future<void> clearTokens() async {}
+  @override
+  Future<String?> getAccessToken() async => null;
+  @override
+  Future<String?> getRefreshToken() async => null;
+  @override
+  Future<DateTime?> getTokenExpiry() async => null;
+  @override
+  Future<bool> hasValidToken() async => false;
+  @override
+  Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+    required DateTime expiry,
+  }) async {}
+}
 
 // Dio instance for LLM API calls (with proxy support)
 final llmDioProvider = Provider<Dio>((ref) {
