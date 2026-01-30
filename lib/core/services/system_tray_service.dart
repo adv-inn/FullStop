@@ -50,6 +50,7 @@ class SystemTrayService {
   SystemTrayService._internal();
 
   final SystemTray _systemTray = SystemTray();
+  final AppWindow _appWindow = AppWindow();
 
   bool _isInitialized = false;
   TrayCallback? _onShowWindow;
@@ -275,18 +276,29 @@ class SystemTrayService {
   /// Show the main window
   /// Uses opacity trick to prevent transparent window flash on restore
   Future<void> showWindow() async {
-    // Set opacity to 0 before showing to prevent transparent flash
-    await windowManager.setOpacity(0);
-    await windowManager.show();
-    await windowManager.focus();
-    // Small delay to let Flutter render, then restore opacity
-    await Future<void>.delayed(const Duration(milliseconds: 50));
-    await windowManager.setOpacity(1);
+    if (Platform.isMacOS) {
+      // On macOS, use system_tray's AppWindow to avoid window_manager nil crash
+      await _appWindow.show();
+    } else {
+      // On Windows/Linux, use window_manager with opacity trick
+      await windowManager.setOpacity(0);
+      await windowManager.show();
+      await windowManager.focus();
+      // Small delay to let Flutter render, then restore opacity
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      await windowManager.setOpacity(1);
+    }
   }
 
   /// Hide the window to tray
   Future<void> hideToTray() async {
-    await windowManager.hide();
+    try {
+      await windowManager.hide();
+    } catch (e) {
+      // Fallback: use AppWindow.hide() which minimizes on macOS
+      AppLogger.warning('windowManager.hide() failed, using fallback', e);
+      await _appWindow.hide();
+    }
   }
 
   /// Dispose of tray resources

@@ -9,6 +9,7 @@ import 'application/providers/credentials_provider.dart';
 import 'application/providers/locale_provider.dart';
 import 'application/providers/navigation_provider.dart';
 import 'application/providers/playback_provider.dart';
+import 'domain/entities/playback_state.dart';
 import 'core/services/system_tray_service.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/login_screen.dart';
@@ -55,6 +56,7 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
   final _systemTray = SystemTrayService();
   final _navigatorKey = GlobalKey<NavigatorState>();
   bool _isExiting = false;
+  ProviderSubscription? _playbackSubscription;
 
   @override
   void initState() {
@@ -80,6 +82,7 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
 
   @override
   void dispose() {
+    _playbackSubscription?.close();
     windowManager.removeListener(this);
     _systemTray.dispose();
     super.dispose();
@@ -124,11 +127,12 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
     );
 
     // Listen to playback state changes to update tray
-    ref.listenManual(playbackProvider, (previous, next) {
+    _playbackSubscription = ref.listenManual(playbackProvider, (previous, next) {
+      final state = next as PlaybackState;
       _systemTray.updatePlaybackState(
-        isPlaying: next.isPlaying,
-        trackName: next.currentTrack?.name,
-        artistName: next.currentTrack?.artistNames,
+        isPlaying: state.isPlaying,
+        trackName: state.currentTrack?.name,
+        artistName: state.currentTrack?.artistNames,
       );
     });
   }
