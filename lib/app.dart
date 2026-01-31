@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 import 'l10n/app_localizations.dart';
+import 'application/di/core_providers.dart' show sharedPrefsProvider;
 import 'application/providers/auth_provider.dart';
 import 'application/providers/credentials_provider.dart';
 import 'application/providers/locale_provider.dart';
@@ -38,6 +39,19 @@ class SpotifyFocusSomeoneApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      // On macOS with fullSizeContentView, inform Scaffold about the
+      // title bar area so AppBar adds internal top padding automatically.
+      builder: Platform.isMacOS
+          ? (context, child) {
+              final mq = MediaQuery.of(context);
+              return MediaQuery(
+                data: mq.copyWith(
+                  padding: mq.padding.copyWith(top: mq.padding.top + 28),
+                ),
+                child: child!,
+              );
+            }
+          : null,
       home: const _AppShell(),
     );
   }
@@ -251,18 +265,31 @@ class _AuthWrapper extends ConsumerStatefulWidget {
 }
 
 class _AuthWrapperState extends ConsumerState<_AuthWrapper> {
-  @override
-  void initState() {
-    super.initState();
-    // Check auth status when credentials are ready
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(authProvider.notifier).checkAuthStatus();
-    });
-  }
+  bool _hasCheckedAuth = false;
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+
+    // On macOS/iOS, wait for SharedPreferences to be ready before checking auth.
+    // Without this, the placeholder data source returns null tokens and
+    // checkAuthStatus() always concludes "unauthenticated".
+    if (Platform.isMacOS || Platform.isIOS) {
+      final prefsReady = ref.watch(sharedPrefsProvider).hasValue;
+      if (!prefsReady) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+    }
+
+    // Trigger auth check once when data sources are ready
+    if (!_hasCheckedAuth) {
+      _hasCheckedAuth = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(authProvider.notifier).checkAuthStatus();
+      });
+    }
 
     return switch (authState.status) {
       // Only show loading spinner for initial state (checking stored tokens)
