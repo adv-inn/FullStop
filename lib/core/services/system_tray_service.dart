@@ -140,7 +140,7 @@ class SystemTrayService {
       }
 
       await _systemTray.initSystemTray(
-        title: _localizedStrings.tooltip,
+        title: '',
         iconPath: iconPath,
         toolTip: _localizedStrings.tooltip,
       );
@@ -256,10 +256,19 @@ class SystemTrayService {
     if (!playingChanged && !trackChanged) return;
 
     try {
-      // Update tooltip only when track changes
+      // Update title and tooltip when track changes
       if (trackChanged) {
         final tooltip = newTrackName ?? 'FullStop';
         await _systemTray.setToolTip(tooltip);
+        // Show track info next to tray icon when playing, hide when idle
+        final title = (isPlaying && newTrackName != null) ? newTrackName : '';
+        await _systemTray.setTitle(title);
+      }
+
+      // Update title visibility when play state changes (track same)
+      if (playingChanged && !trackChanged) {
+        final title = (isPlaying && newTrackName != null) ? newTrackName : '';
+        await _systemTray.setTitle(title);
       }
 
       // Update state

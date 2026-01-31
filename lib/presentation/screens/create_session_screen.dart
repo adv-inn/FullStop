@@ -70,10 +70,12 @@ class _CreateSessionScreenState extends ConsumerState<CreateSessionScreen> {
 
           // Bottom sheet (only show when artists are selected)
           if (createState.selectedArtists.isNotEmpty)
-            SessionSettingsBottomSheet(
-              key: _bottomSheetKey,
-              onStartPressed: _createSession,
-              isCreating: createState.isCreating,
+            Flexible(
+              child: SessionSettingsBottomSheet(
+                key: _bottomSheetKey,
+                onStartPressed: _createSession,
+                isCreating: createState.isCreating,
+              ),
             ),
         ],
       ),

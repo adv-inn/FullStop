@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../application/providers/create_session_provider.dart';
@@ -26,6 +27,9 @@ class SessionSettingsBottomSheet extends ConsumerStatefulWidget {
 
 class SessionSettingsBottomSheetState
     extends ConsumerState<SessionSettingsBottomSheet> {
+  static final bool _isDesktop =
+      Platform.isMacOS || Platform.isWindows || Platform.isLinux;
+
   bool _trueShuffle = true;
   RepeatMode _repeatMode = RepeatMode.context;
   bool _isExpanded = false;
@@ -114,22 +118,28 @@ class SessionSettingsBottomSheetState
             const SizedBox(height: 8),
 
             // Collapsible content with animation
-            AnimatedCrossFade(
-              duration: const Duration(milliseconds: 250),
-              crossFadeState: _isExpanded
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              sizeCurve: Curves.easeInOut,
-              firstChild: _buildCollapsedContent(l10n, createState),
-              secondChild: _buildExpandedContent(l10n, createState),
+            Flexible(
+              child: AnimatedCrossFade(
+                duration: const Duration(milliseconds: 250),
+                crossFadeState: _isExpanded
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                sizeCurve: Curves.easeInOut,
+                firstChild: _buildCollapsedContent(l10n, createState),
+                secondChild: SingleChildScrollView(
+                  child: _buildExpandedContent(l10n, createState),
+                ),
+              ),
             ),
 
             // Start button (always visible)
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+              padding: _isDesktop
+                  ? const EdgeInsets.fromLTRB(20, 8, 20, 12)
+                  : const EdgeInsets.fromLTRB(20, 12, 20, 16),
               child: SizedBox(
                 width: double.infinity,
-                height: 56,
+                height: _isDesktop ? 40 : 56,
                 child: ElevatedButton(
                   onPressed: createState.canCreate && !widget.isCreating
                       ? widget.onStartPressed
@@ -140,22 +150,22 @@ class SessionSettingsBottomSheetState
                     disabledBackgroundColor: AppTheme.spotifyLightGray
                         .withValues(alpha: 0.3),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: BorderRadius.circular(_isDesktop ? 20 : 28),
                     ),
                   ),
                   child: widget.isCreating
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
+                      ? SizedBox(
+                          width: _isDesktop ? 20 : 24,
+                          height: _isDesktop ? 20 : 24,
+                          child: const CircularProgressIndicator(
                             strokeWidth: 2,
                             color: Colors.black,
                           ),
                         )
                       : Text(
                           l10n.play.toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 16,
+                          style: TextStyle(
+                            fontSize: _isDesktop ? 13 : 16,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.2,
                           ),
