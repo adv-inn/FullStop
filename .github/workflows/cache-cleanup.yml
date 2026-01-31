@@ -1,0 +1,144 @@
+name: Cache Cleanup
+
+on:
+  # PR 合并/关闭后自动清理该分支的缓存
+  pull_request:
+    types: [closed]
+
+  # 每周日 UTC 00:00 定期清理过期缓存
+  schedule:
+    - cron: '0 0 * * 0'
+
+  workflow_dispatch:
+    inputs:
+      cleanup_mode:
+        description: 'Cleanup mode'
+        required: true
+        default: 'stale'
+        type: choice
+        options:
+          - stale    # 清理 7 天未命中的缓存
+          - all      # 清理所有缓存（慎用）
+
+jobs:
+  # ============================================================
+  # PR 分支缓存清理 - PR 关闭后清理该分支产生的所有缓存
+  # ============================================================
+  cleanup-pr-branch:
+    name: Cleanup PR Branch Cache
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Cleanup caches for branch ${{ github.event.pull_request.head.ref }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: refs/heads/${{ github.event.pull_request.head.ref }}
+        run: |
+          echo "Cleaning up caches for branch: $BRANCH"
+
+          CACHE_KEYS=$(gh actions-cache list --repo "$REPO" --branch "$BRANCH" --limit 100 | cut -f 1)
+
+          if [ -z "$CACHE_KEYS" ]; then
+            echo "No caches found for branch $BRANCH"
+            exit 0
+          fi
+
+          DELETED=0
+          while IFS= read -r key; do
+            echo "Deleting cache: $key"
+            gh actions-cache delete "$key" --repo "$REPO" --branch "$BRANCH" --confirm || true
+            DELETED=$((DELETED + 1))
+          done <<< "$CACHE_KEYS"
+
+          echo "Deleted $DELETED cache(s) for branch $BRANCH"
+
+  # ============================================================
+  # 定期清理 - 删除超过 7 天未被访问的缓存
+  # ============================================================
+  cleanup-stale:
+    name: Cleanup Stale Caches
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.cleanup_mode == 'stale')
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Cleanup stale caches (>7 days)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Fetching all caches..."
+
+          THRESHOLD_DATE=$(date -u -d "7 days ago" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null \
+            || date -u -v-7d +%Y-%m-%dT%H:%M:%SZ)
+
+          echo "Deleting caches last accessed before: $THRESHOLD_DATE"
+
+          DELETED=0
+          PAGE=1
+
+          while true; do
+            RESPONSE=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${REPO}/actions/caches?per_page=100&page=${PAGE}&sort=last_accessed_at&direction=asc")
+
+            TOTAL=$(echo "$RESPONSE" | jq '.total_count')
+            KEYS=$(echo "$RESPONSE" | jq -r ".actions_caches[] | select(.last_accessed_at < \"$THRESHOLD_DATE\") | .key")
+
+            if [ -z "$KEYS" ]; then
+              break
+            fi
+
+            while IFS= read -r key; do
+              echo "Deleting stale cache: $key"
+              gh actions-cache delete "$key" --repo "$REPO" --confirm || true
+              DELETED=$((DELETED + 1))
+            done <<< "$KEYS"
+
+            COUNT=$(echo "$RESPONSE" | jq '.actions_caches | length')
+            if [ "$COUNT" -lt 100 ]; then
+              break
+            fi
+
+            PAGE=$((PAGE + 1))
+          done
+
+          echo "::notice::Deleted $DELETED stale cache(s) (total caches in repo: $TOTAL)"
+
+  # ============================================================
+  # 全量清理 - 手动触发，删除所有缓存
+  # ============================================================
+  cleanup-all:
+    name: Cleanup All Caches
+    if: github.event_name == 'workflow_dispatch' && inputs.cleanup_mode == 'all'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete all caches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "⚠ Deleting ALL caches for $REPO"
+
+          DELETED=0
+
+          while true; do
+            CACHE_KEYS=$(gh actions-cache list --repo "$REPO" --limit 100 | cut -f 1)
+
+            if [ -z "$CACHE_KEYS" ]; then
+              break
+            fi
+
+            while IFS= read -r key; do
+              echo "Deleting cache: $key"
+              gh actions-cache delete "$key" --repo "$REPO" --confirm || true
+              DELETED=$((DELETED + 1))
+            done <<< "$CACHE_KEYS"
+          done
+
+          echo "::notice::Deleted $DELETED cache(s) in total"
