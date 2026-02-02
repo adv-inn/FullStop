@@ -31,29 +31,41 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Cleanup caches for branch ${{ github.event.pull_request.head.ref }}
+      - name: Cleanup caches for PR #${{ github.event.pull_request.number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
-          BRANCH: refs/heads/${{ github.event.pull_request.head.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: refs/heads/${{ github.event.pull_request.head.ref }}
+          MERGE_BRANCH: refs/pull/${{ github.event.pull_request.number }}/merge
         run: |
-          echo "Cleaning up caches for branch: $BRANCH"
-
-          CACHE_KEYS=$(gh actions-cache list --repo "$REPO" --branch "$BRANCH" --limit 100 | cut -f 1)
-
-          if [ -z "$CACHE_KEYS" ]; then
-            echo "No caches found for branch $BRANCH"
-            exit 0
-          fi
+          echo "Cleaning up caches for PR #${PR_NUMBER}"
 
           DELETED=0
-          while IFS= read -r key; do
-            echo "Deleting cache: $key"
-            gh actions-cache delete "$key" --repo "$REPO" --branch "$BRANCH" --confirm || true
-            DELETED=$((DELETED + 1))
-          done <<< "$CACHE_KEYS"
 
-          echo "Deleted $DELETED cache(s) for branch $BRANCH"
+          for BRANCH in "$HEAD_BRANCH" "$MERGE_BRANCH"; do
+            echo "Checking branch: $BRANCH"
+
+            CACHE_IDS=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${REPO}/actions/caches?ref=${BRANCH}&per_page=100" \
+              --jq '.actions_caches[].id')
+
+            if [ -z "$CACHE_IDS" ]; then
+              echo "  No caches found"
+              continue
+            fi
+
+            while IFS= read -r id; do
+              echo "  Deleting cache ID: $id"
+              gh api --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/${REPO}/actions/caches/${id}" || true
+              DELETED=$((DELETED + 1))
+            done <<< "$CACHE_IDS"
+          done
+
+          echo "::notice::Deleted $DELETED cache(s) for PR #${PR_NUMBER}"
 
   # ============================================================
   # 定期清理 - 删除超过 7 天未被访问的缓存
@@ -86,17 +98,20 @@ jobs:
               "/repos/${REPO}/actions/caches?per_page=100&page=${PAGE}&sort=last_accessed_at&direction=asc")
 
             TOTAL=$(echo "$RESPONSE" | jq '.total_count')
-            KEYS=$(echo "$RESPONSE" | jq -r ".actions_caches[] | select(.last_accessed_at < \"$THRESHOLD_DATE\") | .key")
+            STALE=$(echo "$RESPONSE" | jq -r \
+              ".actions_caches[] | select(.last_accessed_at < \"$THRESHOLD_DATE\") | .id")
 
-            if [ -z "$KEYS" ]; then
+            if [ -z "$STALE" ]; then
               break
             fi
 
-            while IFS= read -r key; do
-              echo "Deleting stale cache: $key"
-              gh actions-cache delete "$key" --repo "$REPO" --confirm || true
+            while IFS= read -r id; do
+              echo "Deleting stale cache ID: $id"
+              gh api --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/${REPO}/actions/caches/${id}" || true
               DELETED=$((DELETED + 1))
-            done <<< "$KEYS"
+            done <<< "$STALE"
 
             COUNT=$(echo "$RESPONSE" | jq '.actions_caches | length')
             if [ "$COUNT" -lt 100 ]; then
@@ -123,22 +138,27 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          echo "⚠ Deleting ALL caches for $REPO"
+          echo "Deleting ALL caches for $REPO"
 
           DELETED=0
 
           while true; do
-            CACHE_KEYS=$(gh actions-cache list --repo "$REPO" --limit 100 | cut -f 1)
+            CACHE_IDS=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${REPO}/actions/caches?per_page=100" \
+              --jq '.actions_caches[].id')
 
-            if [ -z "$CACHE_KEYS" ]; then
+            if [ -z "$CACHE_IDS" ]; then
               break
             fi
 
-            while IFS= read -r key; do
-              echo "Deleting cache: $key"
-              gh actions-cache delete "$key" --repo "$REPO" --confirm || true
+            while IFS= read -r id; do
+              echo "Deleting cache ID: $id"
+              gh api --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/${REPO}/actions/caches/${id}" || true
               DELETED=$((DELETED + 1))
-            done <<< "$CACHE_KEYS"
+            done <<< "$CACHE_IDS"
           done
 
           echo "::notice::Deleted $DELETED cache(s) in total"
