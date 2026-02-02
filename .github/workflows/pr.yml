@@ -103,7 +103,7 @@ jobs:
         run: dart format .
 
       - name: Upload generated code
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: generated-code
           path: lib/**/*.g.dart
@@ -310,7 +310,7 @@ jobs:
         run: flutter build windows --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: windows-build-${{ github.sha }}
           path: build/windows/x64/runner/Release/
@@ -365,7 +365,7 @@ jobs:
         run: flutter build macos --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: macos-build-${{ github.sha }}
           path: build/macos/Build/Products/Release/
@@ -416,7 +416,7 @@ jobs:
         run: flutter build linux --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: linux-build-${{ github.sha }}
           path: build/linux/x64/release/bundle/
@@ -483,7 +483,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-build-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
@@ -538,7 +538,7 @@ jobs:
         run: flutter build ios --release --no-codesign
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ios-build-${{ github.sha }}
           path: build/ios/iphoneos/
