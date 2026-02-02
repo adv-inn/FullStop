@@ -149,7 +149,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -212,7 +212,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -298,7 +298,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -353,7 +353,7 @@ jobs:
             pods-macos-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -404,7 +404,7 @@ jobs:
             pub-${{ runner.os }}-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -471,7 +471,7 @@ jobs:
             https://github.com/spotify/android-sdk/raw/master/app-remote-lib/spotify-app-remote-release-0.8.0.aar
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
@@ -526,7 +526,7 @@ jobs:
             pods-ios-
 
       - name: Download generated code
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: generated-code
           path: lib/
