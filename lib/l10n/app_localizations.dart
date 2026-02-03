@@ -364,12 +364,6 @@ abstract class AppLocalizations {
   /// **'Setup Guide'**
   String get setupGuide;
 
-  /// Welcome message
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to Spotify Focus Someone!'**
-  String get welcomeToApp;
-
   /// Setup description text
   ///
   /// In en, this message translates to:
@@ -1093,7 +1087,7 @@ abstract class AppLocalizations {
   /// System tray tooltip
   ///
   /// In en, this message translates to:
-  /// **'FullStop - Spotify Controller'**
+  /// **'FullStop - Spotify Focus Player'**
   String get trayTooltip;
 
   /// Error message when no active Spotify device is found

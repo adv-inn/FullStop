@@ -89,7 +89,6 @@
 
   "setupGuide": "セットアップガイド",
 
-  "welcomeToApp": "Spotify Focus Someoneへようこそ！",
 
   "setupDescription": "まず、Spotify開発者アプリを作成し、認証情報を入力する必要があります。",
 
@@ -327,7 +326,7 @@
 
   "trayNextTrack": "次のトラック",
 
-  "trayTooltip": "FullStop - Spotifyコントローラー",
+  "trayTooltip": "FullStop - Spotify集中再生",
 
   "errorNoActiveDevice": "アクティブなSpotifyデバイスが見つかりません。スマートフォン、パソコン、または他のデバイスでSpotifyを先に開いてください。",
 

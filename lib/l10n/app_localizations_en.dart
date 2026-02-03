@@ -145,9 +145,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setupGuide => 'Setup Guide';
 
   @override
-  String get welcomeToApp => 'Welcome to Spotify Focus Someone!';
-
-  @override
   String get setupDescription =>
       'To get started, you\'ll need to create a Spotify Developer App and enter your credentials.';
 
@@ -564,7 +561,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trayNextTrack => 'Next Track';
 
   @override
-  String get trayTooltip => 'FullStop - Spotify Controller';
+  String get trayTooltip => 'FullStop - Spotify Focus Player';
 
   @override
   String get errorNoActiveDevice =>

@@ -1,7 +1,4 @@
 class AppConstants {
-  // App info
-  static const String appName = 'Spotify Focus Someone';
-  static const String appVersion = '1.0.0';
 
   // Storage keys
   static const String accessTokenKey = 'spotify_access_token';

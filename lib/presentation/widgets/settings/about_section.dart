@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fullstop/l10n/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../themes/app_theme.dart';
 
@@ -253,10 +254,20 @@ class AboutSection extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
-        ListTile(
-          leading: const Icon(Icons.info_outline),
-          title: Text(l10n.aboutVersion),
-          subtitle: const Text('1.0.0'),
+        FutureBuilder<PackageInfo>(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            final version = snapshot.data?.version ?? '';
+            final buildNumber = snapshot.data?.buildNumber ?? '';
+            final display = buildNumber.isNotEmpty
+                ? '$version+$buildNumber'
+                : version;
+            return ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: Text(l10n.aboutVersion),
+              subtitle: Text(display),
+            );
+          },
         ),
         ListTile(
           leading: const Icon(Icons.privacy_tip_outlined),

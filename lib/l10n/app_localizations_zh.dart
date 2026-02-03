@@ -141,9 +141,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get setupGuide => '设置向导';
 
   @override
-  String get welcomeToApp => '欢迎使用 Spotify 专注听歌！';
-
-  @override
   String get setupDescription => '首先，您需要创建一个 Spotify 开发者应用并输入您的凭据。';
 
   @override
@@ -552,7 +549,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get trayNextTrack => '下一首';
 
   @override
-  String get trayTooltip => 'FullStop - Spotify 控制器';
+  String get trayTooltip => 'FullStop - Spotify 专注播放';
 
   @override
   String get errorNoActiveDevice =>

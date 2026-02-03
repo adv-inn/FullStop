@@ -141,9 +141,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get setupGuide => 'セットアップガイド';
 
   @override
-  String get welcomeToApp => 'Spotify Focus Someoneへようこそ！';
-
-  @override
   String get setupDescription => 'まず、Spotify開発者アプリを作成し、認証情報を入力する必要があります。';
 
   @override
@@ -554,7 +551,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get trayNextTrack => '次のトラック';
 
   @override
-  String get trayTooltip => 'FullStop - Spotifyコントローラー';
+  String get trayTooltip => 'FullStop - Spotify集中再生';
 
   @override
   String get errorNoActiveDevice =>

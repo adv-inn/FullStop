@@ -221,10 +221,6 @@
     "description": "Setup guide screen title"
   },
 
-  "welcomeToApp": "Welcome to Spotify Focus Someone!",
-  "@welcomeToApp": {
-    "description": "Welcome message"
-  },
 
   "setupDescription": "To get started, you'll need to create a Spotify Developer App and enter your credentials.",
   "@setupDescription": {
@@ -885,7 +881,7 @@
     "description": "System tray menu item for next track"
   },
 
-  "trayTooltip": "FullStop - Spotify Controller",
+  "trayTooltip": "FullStop - Spotify Focus Player",
   "@trayTooltip": {
     "description": "System tray tooltip"
   },

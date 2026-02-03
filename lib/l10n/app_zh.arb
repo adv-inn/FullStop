@@ -89,7 +89,6 @@
 
   "setupGuide": "设置向导",
 
-  "welcomeToApp": "欢迎使用 Spotify 专注听歌！",
 
   "setupDescription": "首先，您需要创建一个 Spotify 开发者应用并输入您的凭据。",
 
@@ -331,7 +330,7 @@
 
   "trayNextTrack": "下一首",
 
-  "trayTooltip": "FullStop - Spotify 控制器",
+  "trayTooltip": "FullStop - Spotify 专注播放",
 
   "errorNoActiveDevice": "未找到活跃的 Spotify 设备。请先在手机、电脑或其他设备上打开 Spotify。",
 
