@@ -4,15 +4,6 @@ import '../../domain/entities/proxy_settings.dart';
 
 /// Data source for storing and retrieving API credentials securely
 abstract class CredentialsLocalDataSource {
-  Future<String?> getSpotifyClientId();
-  Future<String?> getSpotifyClientSecret();
-  Future<void> saveSpotifyCredentials({
-    required String clientId,
-    required String clientSecret,
-  });
-  Future<void> clearSpotifyCredentials();
-  Future<bool> hasSpotifyCredentials();
-
   // LLM credentials (optional)
   Future<String?> getLlmApiKey();
   Future<String?> getLlmModel();
@@ -36,6 +27,11 @@ abstract class CredentialsLocalDataSource {
   Future<bool> getGpuAccelerationEnabled();
   Future<void> setGpuAccelerationEnabled(bool enabled);
 
+  // Custom Spotify Client ID
+  Future<String?> getCustomSpotifyClientId();
+  Future<void> saveCustomSpotifyClientId(String clientId);
+  Future<void> clearCustomSpotifyClientId();
+
   // GetSongBPM API
   Future<String?> getGetSongBpmApiKey();
   Future<void> setGetSongBpmApiKey(String apiKey);
@@ -47,48 +43,6 @@ class CredentialsLocalDataSourceImpl implements CredentialsLocalDataSource {
   final FlutterSecureStorage _secureStorage;
 
   CredentialsLocalDataSourceImpl(this._secureStorage);
-
-  // Spotify credentials
-  @override
-  Future<String?> getSpotifyClientId() async {
-    return await _secureStorage.read(key: AppConstants.spotifyClientIdKey);
-  }
-
-  @override
-  Future<String?> getSpotifyClientSecret() async {
-    return await _secureStorage.read(key: AppConstants.spotifyClientSecretKey);
-  }
-
-  @override
-  Future<void> saveSpotifyCredentials({
-    required String clientId,
-    required String clientSecret,
-  }) async {
-    await _secureStorage.write(
-      key: AppConstants.spotifyClientIdKey,
-      value: clientId,
-    );
-    await _secureStorage.write(
-      key: AppConstants.spotifyClientSecretKey,
-      value: clientSecret,
-    );
-  }
-
-  @override
-  Future<void> clearSpotifyCredentials() async {
-    await _secureStorage.delete(key: AppConstants.spotifyClientIdKey);
-    await _secureStorage.delete(key: AppConstants.spotifyClientSecretKey);
-  }
-
-  @override
-  Future<bool> hasSpotifyCredentials() async {
-    final clientId = await getSpotifyClientId();
-    final clientSecret = await getSpotifyClientSecret();
-    return clientId != null &&
-        clientId.isNotEmpty &&
-        clientSecret != null &&
-        clientSecret.isNotEmpty;
-  }
 
   // LLM credentials
   @override
@@ -234,6 +188,25 @@ class CredentialsLocalDataSourceImpl implements CredentialsLocalDataSource {
       key: AppConstants.gpuAccelerationEnabledKey,
       value: enabled.toString(),
     );
+  }
+
+  // Custom Spotify Client ID
+  @override
+  Future<String?> getCustomSpotifyClientId() async {
+    return await _secureStorage.read(key: AppConstants.customSpotifyClientIdKey);
+  }
+
+  @override
+  Future<void> saveCustomSpotifyClientId(String clientId) async {
+    await _secureStorage.write(
+      key: AppConstants.customSpotifyClientIdKey,
+      value: clientId,
+    );
+  }
+
+  @override
+  Future<void> clearCustomSpotifyClientId() async {
+    await _secureStorage.delete(key: AppConstants.customSpotifyClientIdKey);
   }
 
   // GetSongBPM API

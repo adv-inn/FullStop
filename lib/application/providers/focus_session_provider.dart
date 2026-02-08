@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/errors/failures.dart';
+import 'credentials_provider.dart';
 import '../../core/services/device_activation_service.dart';
 import '../../domain/entities/focus_session.dart';
 import '../../domain/entities/track.dart';
 import '../../domain/repositories/focus_session_repository.dart';
 import '../../domain/usecases/focus/play_focus_session.dart';
 import '../di/injection_container.dart';
-import 'credentials_provider.dart';
 
 enum FocusSessionStatus { initial, loading, success, error }
 
@@ -132,18 +132,13 @@ class FocusSessionNotifier extends StateNotifier<FocusSessionState> {
     );
 
     try {
-      final futureRepo = ref.read(focusSessionRepositoryProvider.future);
-      final futureCredentials = ref.read(spotifyCredentialsProvider.future);
-
-      final parallelResults = await (futureRepo, futureCredentials).wait;
-      final focusRepoAsync = parallelResults.$1;
-      final credentials = parallelResults.$2;
+      final focusRepoAsync = await ref.read(focusSessionRepositoryProvider.future);
       final playbackRepo = ref.read(playbackRepositoryProvider);
 
       final playUseCase = PlayFocusSession(
         focusRepository: focusRepoAsync,
         playbackRepository: playbackRepo,
-        clientId: credentials?.clientId,
+        clientId: ref.read(effectiveSpotifyClientIdProvider),
       );
 
       final result = await playUseCase(
@@ -197,11 +192,9 @@ class FocusSessionNotifier extends StateNotifier<FocusSessionState> {
     state = state.copyWith(optimisticIsPlaying: true);
 
     final playbackRepo = ref.read(playbackRepositoryProvider);
-    final credentials = await ref.read(spotifyCredentialsProvider.future);
-
     final activationService = DeviceActivationService.instance(
       playbackRepository: playbackRepo,
-      clientId: credentials?.clientId,
+      clientId: ref.read(effectiveSpotifyClientIdProvider),
     );
 
     String? deviceId;

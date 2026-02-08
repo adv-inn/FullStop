@@ -1,58 +1,48 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/config/app_config.dart';
 import '../../data/datasources/credentials_local_datasource.dart';
 import '../di/injection_container.dart';
 
 /// State for credentials configuration
 class CredentialsState {
   final bool isLoading;
-  final bool hasSpotifyCredentials;
   final bool hasLlmConfig;
-  final String? spotifyClientId;
-  final String? spotifyClientSecret;
   final String? llmApiKey;
   final String? llmModel;
   final String? llmBaseUrl;
+  final String? customSpotifyClientId;
   final String? error;
 
   const CredentialsState({
     this.isLoading = true,
-    this.hasSpotifyCredentials = false,
     this.hasLlmConfig = false,
-    this.spotifyClientId,
-    this.spotifyClientSecret,
     this.llmApiKey,
     this.llmModel,
     this.llmBaseUrl,
+    this.customSpotifyClientId,
     this.error,
   });
 
   CredentialsState copyWith({
     bool? isLoading,
-    bool? hasSpotifyCredentials,
     bool? hasLlmConfig,
-    String? spotifyClientId,
-    String? spotifyClientSecret,
     String? llmApiKey,
     String? llmModel,
     String? llmBaseUrl,
+    String? customSpotifyClientId,
     String? error,
-    bool clearSpotifyCredentials = false,
     bool clearLlmConfig = false,
+    bool clearCustomClientId = false,
   }) {
     return CredentialsState(
       isLoading: isLoading ?? this.isLoading,
-      hasSpotifyCredentials:
-          hasSpotifyCredentials ?? this.hasSpotifyCredentials,
       hasLlmConfig: hasLlmConfig ?? this.hasLlmConfig,
-      spotifyClientId: clearSpotifyCredentials
-          ? null
-          : (spotifyClientId ?? this.spotifyClientId),
-      spotifyClientSecret: clearSpotifyCredentials
-          ? null
-          : (spotifyClientSecret ?? this.spotifyClientSecret),
       llmApiKey: clearLlmConfig ? null : (llmApiKey ?? this.llmApiKey),
       llmModel: clearLlmConfig ? null : (llmModel ?? this.llmModel),
       llmBaseUrl: clearLlmConfig ? null : (llmBaseUrl ?? this.llmBaseUrl),
+      customSpotifyClientId: clearCustomClientId
+          ? null
+          : (customSpotifyClientId ?? this.customSpotifyClientId),
       error: error,
     );
   }
@@ -68,80 +58,22 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
 
   Future<void> _checkCredentials() async {
     try {
-      final hasSpotify = await _dataSource.hasSpotifyCredentials();
       final hasLlm = await _dataSource.hasLlmConfig();
-      final clientId = await _dataSource.getSpotifyClientId();
-      final clientSecret = await _dataSource.getSpotifyClientSecret();
       final llmApiKey = await _dataSource.getLlmApiKey();
       final llmModel = await _dataSource.getLlmModel();
       final llmBaseUrl = await _dataSource.getLlmBaseUrl();
+      final customClientId = await _dataSource.getCustomSpotifyClientId();
 
       state = state.copyWith(
         isLoading: false,
-        hasSpotifyCredentials: hasSpotify,
         hasLlmConfig: hasLlm,
-        spotifyClientId: clientId,
-        spotifyClientSecret: clientSecret,
         llmApiKey: llmApiKey,
         llmModel: llmModel,
         llmBaseUrl: llmBaseUrl,
+        customSpotifyClientId: customClientId,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
-    }
-  }
-
-  Future<bool> saveSpotifyCredentials({
-    required String clientId,
-    required String clientSecret,
-  }) async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-
-      // Validate inputs
-      if (clientId.trim().isEmpty || clientSecret.trim().isEmpty) {
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Client ID and Client Secret are required',
-        );
-        return false;
-      }
-
-      await _dataSource.saveSpotifyCredentials(
-        clientId: clientId.trim(),
-        clientSecret: clientSecret.trim(),
-      );
-
-      state = state.copyWith(
-        isLoading: false,
-        hasSpotifyCredentials: true,
-        spotifyClientId: clientId.trim(),
-        spotifyClientSecret: clientSecret.trim(),
-      );
-      return true;
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Failed to save credentials: $e',
-      );
-      return false;
-    }
-  }
-
-  Future<void> clearSpotifyCredentials() async {
-    try {
-      state = state.copyWith(isLoading: true);
-      await _dataSource.clearSpotifyCredentials();
-      state = state.copyWith(
-        isLoading: false,
-        hasSpotifyCredentials: false,
-        clearSpotifyCredentials: true,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Failed to clear credentials: $e',
-      );
     }
   }
 
@@ -202,6 +134,26 @@ class CredentialsNotifier extends StateNotifier<CredentialsState> {
     }
   }
 
+  Future<bool> saveCustomSpotifyClientId(String clientId) async {
+    try {
+      await _dataSource.saveCustomSpotifyClientId(clientId.trim());
+      state = state.copyWith(customSpotifyClientId: clientId.trim());
+      return true;
+    } catch (e) {
+      state = state.copyWith(error: 'Failed to save custom Client ID: $e');
+      return false;
+    }
+  }
+
+  Future<void> clearCustomSpotifyClientId() async {
+    try {
+      await _dataSource.clearCustomSpotifyClientId();
+      state = state.copyWith(clearCustomClientId: true);
+    } catch (e) {
+      state = state.copyWith(error: 'Failed to clear custom Client ID: $e');
+    }
+  }
+
   Future<void> refresh() async {
     await _checkCredentials();
   }
@@ -213,30 +165,12 @@ final credentialsProvider =
       return CredentialsNotifier(ref.watch(credentialsLocalDataSourceProvider));
     });
 
-/// Helper provider to get Spotify credentials for API calls
-final spotifyCredentialsProvider = FutureProvider<SpotifyCredentials?>((
-  ref,
-) async {
-  final dataSource = ref.watch(credentialsLocalDataSourceProvider);
-  final clientId = await dataSource.getSpotifyClientId();
-  final clientSecret = await dataSource.getSpotifyClientSecret();
-
-  if (clientId == null ||
-      clientId.isEmpty ||
-      clientSecret == null ||
-      clientSecret.isEmpty) {
-    return null;
-  }
-
-  return SpotifyCredentials(clientId: clientId, clientSecret: clientSecret);
+/// Derived provider that returns the effective Spotify Client ID
+/// (custom > default)
+final effectiveSpotifyClientIdProvider = Provider<String>((ref) {
+  final creds = ref.watch(credentialsProvider);
+  final custom = creds.customSpotifyClientId;
+  return (custom != null && custom.isNotEmpty)
+      ? custom
+      : AppConfig.spotifyClientId;
 });
-
-class SpotifyCredentials {
-  final String clientId;
-  final String clientSecret;
-
-  const SpotifyCredentials({
-    required this.clientId,
-    required this.clientSecret,
-  });
-}

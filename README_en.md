@@ -133,7 +133,7 @@ Click the picture-in-picture button in the title bar, and the window shrinks ins
 
 ### Prerequisites
 1. **Spotify Premium** subscription.
-2. A Spotify Developer App with `Client ID` and `Secret`.
+2. Download and open FullStop, click "Connect with Spotify" to authorize. No additional configuration needed.
 
 ### Installation (iOS)
 1. Download the latest `.ipa` file from [Releases](https://github.com/0Chencc/FullStop/releases).

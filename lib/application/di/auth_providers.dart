@@ -8,6 +8,7 @@ import '../../data/datasources/credentials_shared_prefs_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/entities/proxy_settings.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../providers/credentials_provider.dart';
 import 'core_providers.dart';
 import 'spotify_providers.dart';
 
@@ -50,17 +51,17 @@ final oauthServiceProvider = Provider<OAuthService>((ref) {
 // Auth Repository
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final localDataSource = ref.watch(authLocalDataSourceProvider);
-  final credentialsDataSource = ref.watch(credentialsLocalDataSourceProvider);
   final apiClient = ref.watch(spotifyApiClientProvider);
   final dio = ref.watch(authDioProvider);
   final oauthService = ref.watch(oauthServiceProvider);
+  final clientId = ref.watch(effectiveSpotifyClientIdProvider);
 
   return AuthRepositoryImpl(
     localDataSource: localDataSource,
-    credentialsDataSource: credentialsDataSource,
     apiClient: apiClient,
     dio: dio,
     oauthService: oauthService,
+    clientId: clientId,
   );
 });
 
@@ -72,8 +73,6 @@ class _PlaceholderCredentialsDataSource implements CredentialsLocalDataSource {
   Future<void> clearLlmCredentials() async {}
   @override
   Future<void> clearAppProxySettings() async {}
-  @override
-  Future<void> clearSpotifyCredentials() async {}
   @override
   Future<bool> getAudioFeaturesEnabled() async => false;
   @override
@@ -89,25 +88,23 @@ class _PlaceholderCredentialsDataSource implements CredentialsLocalDataSource {
   @override
   Future<AppProxySettings> getAppProxySettings() async => const AppProxySettings();
   @override
-  Future<String?> getSpotifyClientId() async => null;
-  @override
-  Future<String?> getSpotifyClientSecret() async => null;
-  @override
   Future<bool> hasGetSongBpmApiKey() async => false;
   @override
   Future<bool> hasLlmConfig() async => false;
   @override
-  Future<bool> hasSpotifyCredentials() async => false;
-  @override
   Future<void> saveAppProxySettings(AppProxySettings config) async {}
   @override
   Future<void> saveLlmCredentials({String apiKey = '', required String model, required String baseUrl}) async {}
-  @override
-  Future<void> saveSpotifyCredentials({required String clientId, required String clientSecret}) async {}
   @override
   Future<void> setAudioFeaturesEnabled(bool enabled) async {}
   @override
   Future<void> setGetSongBpmApiKey(String apiKey) async {}
   @override
   Future<void> setGpuAccelerationEnabled(bool enabled) async {}
+  @override
+  Future<String?> getCustomSpotifyClientId() async => null;
+  @override
+  Future<void> saveCustomSpotifyClientId(String clientId) async {}
+  @override
+  Future<void> clearCustomSpotifyClientId() async {}
 }

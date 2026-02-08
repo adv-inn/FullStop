@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../config/app_config.dart';
 import '../errors/failures.dart';
 import '../utils/logger.dart';
+import '../utils/pkce_utils.dart';
 import 'deep_link_service.dart';
 import 'url_launcher_service.dart';
 
@@ -16,8 +17,13 @@ class AuthCancelledException implements Exception {
 class OAuthAuthorizationResult {
   final String code;
   final String state;
+  final String codeVerifier;
 
-  const OAuthAuthorizationResult({required this.code, required this.state});
+  const OAuthAuthorizationResult({
+    required this.code,
+    required this.state,
+    required this.codeVerifier,
+  });
 }
 
 /// Abstract OAuth service interface
@@ -45,6 +51,7 @@ class SpotifyOAuthService implements OAuthService {
   Completer<Uri>? _activeCompleter;
   bool _isCancelled = false;
   String? _expectedState;
+  String? _codeVerifier;
   bool _isAuthenticating = false;
 
   SpotifyOAuthService({
@@ -73,6 +80,7 @@ class SpotifyOAuthService implements OAuthService {
     _linkSubscription = null;
     _activeCompleter = null;
     _expectedState = null;
+    _codeVerifier = null;
     _isAuthenticating = false;
   }
 
@@ -166,6 +174,10 @@ class SpotifyOAuthService implements OAuthService {
     final scopeString = scopes.join(' ');
     _expectedState = DateTime.now().millisecondsSinceEpoch.toString();
 
+    // PKCE: generate code_verifier and derive code_challenge
+    _codeVerifier = PkceUtils.generateCodeVerifier();
+    final codeChallenge = PkceUtils.generateCodeChallenge(_codeVerifier!);
+
     return Uri.parse(AppConfig.spotifyAuthUrl).replace(
       queryParameters: {
         'client_id': clientId,
@@ -174,6 +186,8 @@ class SpotifyOAuthService implements OAuthService {
         'scope': scopeString,
         'state': _expectedState,
         'show_dialog': 'true',
+        'code_challenge_method': 'S256',
+        'code_challenge': codeChallenge,
       },
     );
   }
@@ -198,6 +212,7 @@ class SpotifyOAuthService implements OAuthService {
     Uri callbackUri,
   ) async {
     final expectedState = _expectedState;
+    final codeVerifier = _codeVerifier!;
 
     await _linkSubscription?.cancel();
     _linkSubscription = null;
@@ -238,6 +253,10 @@ class SpotifyOAuthService implements OAuthService {
     _isAuthenticating = false;
     AppLogger.info('OAuth authorization completed successfully');
 
-    return Right(OAuthAuthorizationResult(code: code, state: returnedState!));
+    return Right(OAuthAuthorizationResult(
+      code: code,
+      state: returnedState!,
+      codeVerifier: codeVerifier,
+    ));
   }
 }

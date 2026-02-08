@@ -29,12 +29,6 @@
 
   "errorCopied": "错误信息已复制到剪贴板",
 
-  "reconfigureCredentials": "重新配置凭据",
-
-  "apiConfigured": "API 已配置",
-
-  "change": "更改",
-
   "credentialsStayOnDevice": "您的凭据仅保存在本地设备",
 
   "controlsExistingSession": "控制您现有的 Spotify 会话",
@@ -86,25 +80,6 @@
   "previous": "上一首",
 
   "next": "下一首",
-
-  "setupGuide": "设置向导",
-
-
-  "setupDescription": "首先，您需要创建一个 Spotify 开发者应用并输入您的凭据。",
-
-  "step1Title": "前往 Spotify 开发者控制台",
-
-  "step2Title": "创建新应用",
-
-  "step3Title": "添加重定向 URI",
-
-  "step4Title": "复制您的凭据",
-
-  "clientId": "Client ID",
-
-  "clientSecret": "Client Secret",
-
-  "saveAndContinue": "保存并继续",
 
   "errorInvalidClient": "API 凭据无效。请检查您的 Client ID 和 Secret。",
 
@@ -475,125 +450,17 @@
 
   "privacyNoDataCollectionDesc": "我们不收集、存储或传输任何使用分析、播放历史或个人信息。",
 
-  "privacyOAuthSecurity": "OAuth 安全",
-
-  "privacyOAuthSecurityDesc": "身份验证使用本地 HTTP 服务器（端口 8888-8891、8080 或 3000），并通过 state 参数进行 CSRF 保护。",
-
   "privacyYouControl": "数据由您掌控",
 
   "privacyYouControlDesc": "您可以随时在设置页面清除凭据。卸载应用将删除所有存储的数据。",
 
   "close": "关闭",
 
-  "welcomeToFullStop": "欢迎使用 FullStop",
-
-  "updateCredentials": "更新凭据",
-
-  "connectSpotifyToStart": "连接您的 Spotify 账户以开始使用",
-
-  "updateSpotifyCredentials": "更新您的 Spotify API 凭据",
-
-  "credentialsSecurelyStored": "您的凭据仅安全存储在您的设备上",
-
-  "privacyPolicy": "隐私政策",
-
-  "step1CreateApp": "第一步：创建 Spotify 应用",
-
-  "openDeveloperDashboard": "打开 Spotify 开发者控制台",
-
-  "openDeveloperDashboardHint": "点击下方按钮，在浏览器中打开 Spotify 开发者控制台。",
-
-  "createNewApp": "创建新应用",
-
-  "createNewAppDesc": "点击「Create App」并填写：\n• App name：任意名称（如 \"My Focus App\"）\n• App description：个人使用\n• Website：留空或填写任意 URL\n• 勾选「Web API」选项",
-
-  "createNewAppDescShort": "点击「Create App」并填写以下字段，勾选「Web API」选项。",
-
-  "appNameLabel": "App name（应用名称）",
-
-  "appNameCopied": "应用名称已复制！",
-
-  "appDescriptionLabel": "App description（应用描述）",
-
-  "appDescriptionCopied": "应用描述已复制！",
-
-  "redirectUriLabel": "Redirect URI（重定向 URI）",
-
-  "setRedirectUri": "设置重定向 URI（重要！）",
-
-  "setRedirectUriDesc": "在「Redirect URIs」字段中添加以下 URI：",
-
-  "copy": "复制",
-
-  "redirectUriCopied": "重定向 URI 已复制！",
-
-  "redirectUriWarning": "粘贴后点击「Add」，然后点击底部的「Save」！",
-
-  "step2EnterCredentials": "第二步：输入凭据",
-
-  "updateYourCredentials": "更新您的凭据",
-
-  "findCredentialsHint": "在 Spotify 开发者控制台的应用设置页面中找到您的凭据。",
-
-  "modifyCredentialsHint": "修改下方凭据，如正确则无需更改。",
-
-  "enterClientId": "输入您的 Client ID",
-
-  "clientIdRequired": "Client ID 为必填项",
-
-  "clientIdTooShort": "Client ID 似乎太短",
-
-  "enterClientSecret": "输入您的 Client Secret",
-
-  "clientSecretRequired": "Client Secret 为必填项",
-
-  "clientSecretTooShort": "Client Secret 似乎太短",
-
-  "whereToFindCredentials": "在哪里找到这些？",
-
-  "whereToFindCredentialsDesc": "在您的 Spotify 应用设置页面中，您会看到 Client ID。点击「View client secret」查看密钥。",
-
-  "step3ReadyToConnect": "第三步：准备连接",
-
-  "credentialsSaved": "凭据已保存！",
-
-  "waitingForCredentials": "等待输入凭据",
-
-  "credentialsSavedDesc": "您的 Spotify API 凭据已安全存储。现在可以连接 Spotify 了。",
-
-  "waitingForCredentialsDesc": "请返回第二步输入您的凭据。",
-
-  "spotifyPremiumRequired": "需要 Spotify Premium",
-
-  "spotifyPremiumRequiredDesc": "本应用需要 Spotify Premium 订阅才能使用播放控制功能。",
-
-  "back": "返回",
-
-  "nextEnterCredentials": "下一步：输入凭据",
-
-  "saveCredentials": "保存凭据",
-
-  "updateCredentialsButton": "更新凭据",
-
-  "connectToSpotify": "连接 Spotify",
-
-  "reconfigureApiCredentials": "重新配置 API 凭据",
-
-  "changeClientIdSecret": "更改您的 Client ID 和 Secret",
-
-  "reconfigureDialogTitle": "重新配置 API 凭据",
-
-  "reconfigureDialogContent": "这将清除当前的 API 凭据并登出。\n\n您需要重新输入 Client ID 和 Secret。",
-
-  "reconfigure": "重新配置",
-
   "redirectUriForSpotifyApp": "Spotify 应用的重定向 URI",
 
   "spotifyApi": "Spotify API",
 
   "configured": "已配置（{clientId}）",
-
-  "notConfigured": "未配置",
 
   "llmOpenAiCompatible": "OpenAI 兼容 API",
 
@@ -657,5 +524,21 @@
 
   "miniPlayer": "迷你播放器",
 
-  "exitMiniPlayer": "退出迷你播放器"
+  "exitMiniPlayer": "退出迷你播放器",
+
+  "advancedOptions": "高级选项",
+
+  "customClientId": "自定义 Client ID",
+
+  "customClientIdDescription": "公用 Client ID 在高频请求时可能被 Spotify 限流。你可以在 Spotify Developer Dashboard 创建自己的应用，使用自己的 Client ID。",
+
+  "customClientIdHint": "输入你的 Spotify Client ID",
+
+  "customClientIdSaved": "自定义 Client ID 已保存",
+
+  "customClientIdCleared": "已恢复使用默认 Client ID",
+
+  "useDefaultClient": "使用默认",
+
+  "customClientIdReauthRequired": "切换 Client ID 后需要重新登录，是否立即退出登录？"
 }

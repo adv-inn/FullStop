@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/errors/failures.dart';
+import 'credentials_provider.dart';
 import '../../core/services/device_activation_service.dart';
 import '../../core/utils/logger.dart';
 import '../../domain/entities/playback_state.dart';
 import '../di/injection_container.dart';
-import 'credentials_provider.dart';
 import 'focus_session_provider.dart';
 
 /// Result of a like/unlike operation
@@ -218,12 +218,11 @@ class PlaybackNotifier extends StateNotifier<PlaybackState> {
   /// Used when resuming a paused session
   Future<void> resume() async {
     final playbackRepo = ref.read(playbackRepositoryProvider);
-    final credentials = await ref.read(spotifyCredentialsProvider.future);
 
     // Ensure we have an active device before resuming
     final activationService = DeviceActivationService.instance(
       playbackRepository: playbackRepo,
-      clientId: credentials?.clientId,
+      clientId: ref.read(effectiveSpotifyClientIdProvider),
     );
 
     String? deviceId;

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../core/config/app_config.dart';
@@ -9,22 +8,21 @@ import '../../core/utils/logger.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_datasource.dart';
-import '../datasources/credentials_local_datasource.dart';
 import '../datasources/spotify_api_client.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
-  final CredentialsLocalDataSource credentialsDataSource;
   final SpotifyApiClient apiClient;
   final Dio dio;
   final OAuthService oauthService;
+  final String clientId;
 
   AuthRepositoryImpl({
     required this.localDataSource,
-    required this.credentialsDataSource,
     required this.apiClient,
     required this.dio,
     required this.oauthService,
+    required this.clientId,
   });
 
   @override
@@ -35,34 +33,18 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, String>> authenticate() async {
     try {
-      // Get credentials from secure storage
-      final clientId = await credentialsDataSource.getSpotifyClientId();
-      final clientSecret = await credentialsDataSource.getSpotifyClientSecret();
-
-      if (clientId == null ||
-          clientId.isEmpty ||
-          clientSecret == null ||
-          clientSecret.isEmpty) {
-        return const Left(
-          AuthFailure(
-            message:
-                'Spotify API credentials not configured. Please set up your credentials first.',
-          ),
-        );
-      }
-
-      // Use OAuth service to get authorization code
+      // Use OAuth service to get authorization code (with PKCE code_verifier)
       final authResult = await oauthService.authorize(
         clientId: clientId,
         scopes: AppConfig.spotifyScopes,
       );
 
       return authResult.fold((failure) => Left(failure), (result) async {
-        // Exchange code for tokens
+        // Exchange code for tokens using PKCE
         final tokenResponse = await _exchangeCodeForTokens(
           result.code,
           clientId,
-          clientSecret,
+          result.codeVerifier,
         );
 
         AppLogger.info('Authentication completed successfully');
@@ -77,11 +59,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Map<String, dynamic>> _exchangeCodeForTokens(
     String code,
     String clientId,
-    String clientSecret,
+    String codeVerifier,
   ) async {
-    final credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
-
-    AppLogger.info('Exchanging code for tokens...');
+    AppLogger.info('Exchanging code for tokens (PKCE)...');
     AppLogger.info('Client ID: ${clientId.substring(0, 4)}...${clientId.substring(clientId.length - 4)}');
     AppLogger.info('Redirect URI: ${AppConfig.spotifyRedirectUri}');
     AppLogger.info('Code: ${code.substring(0, 10)}...');
@@ -93,12 +73,11 @@ class AuthRepositoryImpl implements AuthRepository {
           'grant_type': 'authorization_code',
           'code': code,
           'redirect_uri': AppConfig.spotifyRedirectUri,
+          'client_id': clientId,
+          'code_verifier': codeVerifier,
         },
         options: Options(
-          headers: {
-            'Authorization': 'Basic $credentials',
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           contentType: Headers.formUrlEncodedContentType,
         ),
       );
@@ -134,29 +113,15 @@ class AuthRepositoryImpl implements AuthRepository {
         return const Left(AuthFailure(message: 'No refresh token available'));
       }
 
-      // Get credentials from secure storage
-      final clientId = await credentialsDataSource.getSpotifyClientId();
-      final clientSecret = await credentialsDataSource.getSpotifyClientSecret();
-
-      if (clientId == null ||
-          clientId.isEmpty ||
-          clientSecret == null ||
-          clientSecret.isEmpty) {
-        return const Left(
-          AuthFailure(message: 'Spotify API credentials not configured.'),
-        );
-      }
-
-      final credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
-
       final response = await dio.post(
         AppConfig.spotifyTokenUrl,
-        data: {'grant_type': 'refresh_token', 'refresh_token': refreshToken},
+        data: {
+          'grant_type': 'refresh_token',
+          'refresh_token': refreshToken,
+          'client_id': clientId,
+        },
         options: Options(
-          headers: {
-            'Authorization': 'Basic $credentials',
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           contentType: Headers.formUrlEncodedContentType,
         ),
       );

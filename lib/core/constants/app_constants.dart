@@ -6,10 +6,6 @@ class AppConstants {
   static const String tokenExpiryKey = 'spotify_token_expiry';
   static const String userProfileKey = 'user_profile';
 
-  // API Credentials keys
-  static const String spotifyClientIdKey = 'spotify_client_id';
-  static const String spotifyClientSecretKey = 'spotify_client_secret';
-
   // LLM Config keys
   static const String llmProviderKey = 'llm_provider';
   static const String llmApiKeyKey = 'llm_api_key';
@@ -27,6 +23,9 @@ class AppConstants {
   // Feature flags
   static const String audioFeaturesEnabledKey = 'audio_features_enabled';
   static const String gpuAccelerationEnabledKey = 'gpu_acceleration_enabled';
+
+  // Custom Spotify Client ID
+  static const String customSpotifyClientIdKey = 'custom_spotify_client_id';
 
   // GetSongBPM API
   static const String getSongBpmApiKeyKey = 'getsongbpm_api_key';

@@ -359,10 +359,6 @@ class AboutSection extends StatelessWidget {
                 l10n.privacyNoDataCollectionDesc,
               ),
               _buildPrivacySection(
-                l10n.privacyOAuthSecurity,
-                l10n.privacyOAuthSecurityDesc,
-              ),
-              _buildPrivacySection(
                 l10n.privacyYouControl,
                 l10n.privacyYouControlDesc,
               ),

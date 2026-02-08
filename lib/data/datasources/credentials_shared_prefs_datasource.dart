@@ -10,42 +10,6 @@ class CredentialsSharedPrefsDataSource implements CredentialsLocalDataSource {
 
   CredentialsSharedPrefsDataSource(this._prefs);
 
-  // Spotify credentials
-  @override
-  Future<String?> getSpotifyClientId() async {
-    return _prefs.getString(AppConstants.spotifyClientIdKey);
-  }
-
-  @override
-  Future<String?> getSpotifyClientSecret() async {
-    return _prefs.getString(AppConstants.spotifyClientSecretKey);
-  }
-
-  @override
-  Future<void> saveSpotifyCredentials({
-    required String clientId,
-    required String clientSecret,
-  }) async {
-    await _prefs.setString(AppConstants.spotifyClientIdKey, clientId);
-    await _prefs.setString(AppConstants.spotifyClientSecretKey, clientSecret);
-  }
-
-  @override
-  Future<void> clearSpotifyCredentials() async {
-    await _prefs.remove(AppConstants.spotifyClientIdKey);
-    await _prefs.remove(AppConstants.spotifyClientSecretKey);
-  }
-
-  @override
-  Future<bool> hasSpotifyCredentials() async {
-    final clientId = await getSpotifyClientId();
-    final clientSecret = await getSpotifyClientSecret();
-    return clientId != null &&
-        clientId.isNotEmpty &&
-        clientSecret != null &&
-        clientSecret.isNotEmpty;
-  }
-
   // LLM credentials
   @override
   Future<String?> getLlmApiKey() async {
@@ -165,6 +129,22 @@ class CredentialsSharedPrefsDataSource implements CredentialsLocalDataSource {
       AppConstants.gpuAccelerationEnabledKey,
       enabled.toString(),
     );
+  }
+
+  // Custom Spotify Client ID
+  @override
+  Future<String?> getCustomSpotifyClientId() async {
+    return _prefs.getString(AppConstants.customSpotifyClientIdKey);
+  }
+
+  @override
+  Future<void> saveCustomSpotifyClientId(String clientId) async {
+    await _prefs.setString(AppConstants.customSpotifyClientIdKey, clientId);
+  }
+
+  @override
+  Future<void> clearCustomSpotifyClientId() async {
+    await _prefs.remove(AppConstants.customSpotifyClientIdKey);
   }
 
   // GetSongBPM API

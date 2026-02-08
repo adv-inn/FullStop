@@ -1,4 +1,7 @@
 class AppConfig {
+  // Spotify Client ID (public client — safe to embed, PKCE replaces client_secret)
+  static const String spotifyClientId = '94fcde08534f4025a402cd2bba93e1f0';
+
   // Custom URL scheme for OAuth callback
   static const String urlScheme = 'fullstop';
 

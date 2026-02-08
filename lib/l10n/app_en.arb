@@ -71,21 +71,6 @@
     "description": "Snackbar message when error is copied"
   },
 
-  "reconfigureCredentials": "Reconfigure Credentials",
-  "@reconfigureCredentials": {
-    "description": "Button to reconfigure API credentials"
-  },
-
-  "apiConfigured": "API configured",
-  "@apiConfigured": {
-    "description": "Status text when API is configured"
-  },
-
-  "change": "Change",
-  "@change": {
-    "description": "Change button text"
-  },
-
   "credentialsStayOnDevice": "Your credentials stay on your device",
   "@credentialsStayOnDevice": {
     "description": "Security info text"
@@ -214,52 +199,6 @@
   "next": "Next",
   "@next": {
     "description": "Next track button"
-  },
-
-  "setupGuide": "Setup Guide",
-  "@setupGuide": {
-    "description": "Setup guide screen title"
-  },
-
-
-  "setupDescription": "To get started, you'll need to create a Spotify Developer App and enter your credentials.",
-  "@setupDescription": {
-    "description": "Setup description text"
-  },
-
-  "step1Title": "Go to Spotify Developer Dashboard",
-  "@step1Title": {
-    "description": "Setup step 1 title"
-  },
-
-  "step2Title": "Create a new app",
-  "@step2Title": {
-    "description": "Setup step 2 title"
-  },
-
-  "step3Title": "Add redirect URI",
-  "@step3Title": {
-    "description": "Setup step 3 title"
-  },
-
-  "step4Title": "Copy your credentials",
-  "@step4Title": {
-    "description": "Setup step 4 title"
-  },
-
-  "clientId": "Client ID",
-  "@clientId": {
-    "description": "Client ID field label"
-  },
-
-  "clientSecret": "Client Secret",
-  "@clientSecret": {
-    "description": "Client Secret field label"
-  },
-
-  "saveAndContinue": "Save & Continue",
-  "@saveAndContinue": {
-    "description": "Save and continue button"
   },
 
   "errorInvalidClient": "Invalid API credentials. Please check your Client ID and Secret.",
@@ -1293,16 +1232,6 @@
     "description": "Privacy section description"
   },
 
-  "privacyOAuthSecurity": "OAuth Security",
-  "@privacyOAuthSecurity": {
-    "description": "Privacy section title"
-  },
-
-  "privacyOAuthSecurityDesc": "Authentication uses a local HTTP server on ports 8888-8891, 8080, or 3000 with CSRF protection via state parameter.",
-  "@privacyOAuthSecurityDesc": {
-    "description": "Privacy section description"
-  },
-
   "privacyYouControl": "You Control Your Data",
   "@privacyYouControl": {
     "description": "Privacy section title"
@@ -1316,261 +1245,6 @@
   "close": "Close",
   "@close": {
     "description": "Close button text"
-  },
-
-  "welcomeToFullStop": "Welcome to FullStop",
-  "@welcomeToFullStop": {
-    "description": "Welcome message on setup screen"
-  },
-
-  "updateCredentials": "Update Credentials",
-  "@updateCredentials": {
-    "description": "Title when reconfiguring credentials"
-  },
-
-  "connectSpotifyToStart": "Connect your Spotify account to get started",
-  "@connectSpotifyToStart": {
-    "description": "Subtitle on setup screen"
-  },
-
-  "updateSpotifyCredentials": "Update your Spotify API credentials",
-  "@updateSpotifyCredentials": {
-    "description": "Subtitle when reconfiguring"
-  },
-
-  "credentialsSecurelyStored": "Your credentials are stored securely on your device only",
-  "@credentialsSecurelyStored": {
-    "description": "Security notice text"
-  },
-
-  "privacyPolicy": "Privacy Policy",
-  "@privacyPolicy": {
-    "description": "Privacy policy tooltip"
-  },
-
-  "step1CreateApp": "Step 1: Create a Spotify App",
-  "@step1CreateApp": {
-    "description": "Setup step 1 title"
-  },
-
-  "openDeveloperDashboard": "Open Spotify Developer Dashboard",
-  "@openDeveloperDashboard": {
-    "description": "Button to open Spotify developer dashboard"
-  },
-
-  "openDeveloperDashboardHint": "Click the button below to open the Spotify Developer Dashboard in your browser.",
-  "@openDeveloperDashboardHint": {
-    "description": "Hint for opening developer dashboard"
-  },
-
-  "createNewApp": "Create a New App",
-  "@createNewApp": {
-    "description": "Instruction to create new app"
-  },
-
-  "createNewAppDesc": "Click \"Create App\" and fill in:\n• App name: Any name (e.g., \"My Focus App\")\n• App description: Personal use\n• Website: Leave empty or use any URL\n• Check \"Web API\" option",
-  "@createNewAppDesc": {
-    "description": "Instructions for creating new app"
-  },
-
-  "createNewAppDescShort": "Click \"Create App\" and fill in the following fields. Check \"Web API\" option.",
-  "@createNewAppDescShort": {
-    "description": "Short instructions for creating new app"
-  },
-
-  "appNameLabel": "App name",
-  "@appNameLabel": {
-    "description": "Label for app name field"
-  },
-
-  "appNameCopied": "App name copied!",
-  "@appNameCopied": {
-    "description": "Toast when app name is copied"
-  },
-
-  "appDescriptionLabel": "App description",
-  "@appDescriptionLabel": {
-    "description": "Label for app description field"
-  },
-
-  "appDescriptionCopied": "App description copied!",
-  "@appDescriptionCopied": {
-    "description": "Toast when app description is copied"
-  },
-
-  "redirectUriLabel": "Redirect URI",
-  "@redirectUriLabel": {
-    "description": "Label for redirect URI field"
-  },
-
-  "setRedirectUri": "Set Redirect URI (IMPORTANT!)",
-  "@setRedirectUri": {
-    "description": "Redirect URI setup instruction"
-  },
-
-  "setRedirectUriDesc": "In \"Redirect URIs\" field, add this EXACT URI:",
-  "@setRedirectUriDesc": {
-    "description": "Redirect URI setup description"
-  },
-
-  "copy": "Copy",
-  "@copy": {
-    "description": "Copy button text"
-  },
-
-  "redirectUriCopied": "Redirect URI copied!",
-  "@redirectUriCopied": {
-    "description": "Toast when redirect URI is copied"
-  },
-
-  "redirectUriWarning": "Click \"Add\" after pasting, then click \"Save\" at the bottom!",
-  "@redirectUriWarning": {
-    "description": "Warning about saving redirect URI"
-  },
-
-  "step2EnterCredentials": "Step 2: Enter Your Credentials",
-  "@step2EnterCredentials": {
-    "description": "Setup step 2 title"
-  },
-
-  "updateYourCredentials": "Update Your Credentials",
-  "@updateYourCredentials": {
-    "description": "Title when updating credentials"
-  },
-
-  "findCredentialsHint": "Find your credentials in the app settings page on the Spotify Developer Dashboard.",
-  "@findCredentialsHint": {
-    "description": "Hint for finding credentials"
-  },
-
-  "modifyCredentialsHint": "Modify the credentials below. Leave unchanged if correct.",
-  "@modifyCredentialsHint": {
-    "description": "Hint when modifying credentials"
-  },
-
-  "enterClientId": "Enter your Client ID",
-  "@enterClientId": {
-    "description": "Client ID field placeholder"
-  },
-
-  "clientIdRequired": "Client ID is required",
-  "@clientIdRequired": {
-    "description": "Validation error for empty client ID"
-  },
-
-  "clientIdTooShort": "Client ID seems too short",
-  "@clientIdTooShort": {
-    "description": "Validation error for short client ID"
-  },
-
-  "enterClientSecret": "Enter your Client Secret",
-  "@enterClientSecret": {
-    "description": "Client Secret field placeholder"
-  },
-
-  "clientSecretRequired": "Client Secret is required",
-  "@clientSecretRequired": {
-    "description": "Validation error for empty client secret"
-  },
-
-  "clientSecretTooShort": "Client Secret seems too short",
-  "@clientSecretTooShort": {
-    "description": "Validation error for short client secret"
-  },
-
-  "whereToFindCredentials": "Where to find these?",
-  "@whereToFindCredentials": {
-    "description": "Help section title"
-  },
-
-  "whereToFindCredentialsDesc": "In your Spotify app's Settings page, you'll see Client ID. Click \"View client secret\" to reveal the secret.",
-  "@whereToFindCredentialsDesc": {
-    "description": "Help section description"
-  },
-
-  "step3ReadyToConnect": "Step 3: Ready to Connect",
-  "@step3ReadyToConnect": {
-    "description": "Setup step 3 title"
-  },
-
-  "credentialsSaved": "Credentials Saved!",
-  "@credentialsSaved": {
-    "description": "Success message when credentials are saved"
-  },
-
-  "waitingForCredentials": "Waiting for Credentials",
-  "@waitingForCredentials": {
-    "description": "Waiting state message"
-  },
-
-  "credentialsSavedDesc": "Your Spotify API credentials have been securely stored. You can now connect to Spotify.",
-  "@credentialsSavedDesc": {
-    "description": "Success description"
-  },
-
-  "waitingForCredentialsDesc": "Please go back to Step 2 and enter your credentials.",
-  "@waitingForCredentialsDesc": {
-    "description": "Hint when waiting for credentials"
-  },
-
-  "spotifyPremiumRequired": "Spotify Premium Required",
-  "@spotifyPremiumRequired": {
-    "description": "Premium requirement notice"
-  },
-
-  "spotifyPremiumRequiredDesc": "This app requires Spotify Premium for playback control features.",
-  "@spotifyPremiumRequiredDesc": {
-    "description": "Premium requirement description"
-  },
-
-  "back": "Back",
-  "@back": {
-    "description": "Back button text"
-  },
-
-  "nextEnterCredentials": "Next: Enter Credentials",
-  "@nextEnterCredentials": {
-    "description": "Next button text for step 1"
-  },
-
-  "saveCredentials": "Save Credentials",
-  "@saveCredentials": {
-    "description": "Save credentials button text"
-  },
-
-  "updateCredentialsButton": "Update Credentials",
-  "@updateCredentialsButton": {
-    "description": "Update credentials button text"
-  },
-
-  "connectToSpotify": "Connect to Spotify",
-  "@connectToSpotify": {
-    "description": "Final connect button text"
-  },
-
-  "reconfigureApiCredentials": "Reconfigure API Credentials",
-  "@reconfigureApiCredentials": {
-    "description": "Button to reconfigure API"
-  },
-
-  "changeClientIdSecret": "Change your Client ID and Secret",
-  "@changeClientIdSecret": {
-    "description": "Subtitle for reconfigure option"
-  },
-
-  "reconfigureDialogTitle": "Reconfigure API Credentials",
-  "@reconfigureDialogTitle": {
-    "description": "Dialog title for reconfigure"
-  },
-
-  "reconfigureDialogContent": "This will clear your current API credentials and log you out.\n\nYou will need to enter your Client ID and Secret again.",
-  "@reconfigureDialogContent": {
-    "description": "Dialog content for reconfigure"
-  },
-
-  "reconfigure": "Reconfigure",
-  "@reconfigure": {
-    "description": "Reconfigure button text"
   },
 
   "redirectUriForSpotifyApp": "Redirect URI for Spotify App",
@@ -1589,11 +1263,6 @@
     "placeholders": {
       "clientId": {"type": "String"}
     }
-  },
-
-  "notConfigured": "Not configured",
-  "@notConfigured": {
-    "description": "Status when API is not configured"
   },
 
   "llmOpenAiCompatible": "OpenAI-Compatible API",
@@ -1710,11 +1379,6 @@
     }
   },
 
-  "connectionFailed": "Connection Failed",
-  "@connectionFailed": {
-    "description": "Connection failed dialog title"
-  },
-
   "request": "Request:",
   "@request": {
     "description": "Request label in error dialog"
@@ -1763,5 +1427,45 @@
   "exitMiniPlayer": "Exit Mini Player",
   "@exitMiniPlayer": {
     "description": "Tooltip for exiting mini player mode"
+  },
+
+  "advancedOptions": "Advanced Options",
+  "@advancedOptions": {
+    "description": "Advanced options section title"
+  },
+
+  "customClientId": "Custom Client ID",
+  "@customClientId": {
+    "description": "Custom Spotify Client ID field label"
+  },
+
+  "customClientIdDescription": "The shared Client ID may be rate-limited by Spotify under heavy usage. You can create your own app on Spotify Developer Dashboard and use your own Client ID.",
+  "@customClientIdDescription": {
+    "description": "Description explaining why custom Client ID may be needed"
+  },
+
+  "customClientIdHint": "Enter your Spotify Client ID",
+  "@customClientIdHint": {
+    "description": "Hint for custom Client ID input"
+  },
+
+  "customClientIdSaved": "Custom Client ID saved",
+  "@customClientIdSaved": {
+    "description": "Toast when custom Client ID is saved"
+  },
+
+  "customClientIdCleared": "Restored to default Client ID",
+  "@customClientIdCleared": {
+    "description": "Toast when custom Client ID is cleared"
+  },
+
+  "useDefaultClient": "Use Default",
+  "@useDefaultClient": {
+    "description": "Button to clear custom Client ID and use default"
+  },
+
+  "customClientIdReauthRequired": "Switching Client ID requires re-login. Log out now?",
+  "@customClientIdReauthRequired": {
+    "description": "Dialog message when Client ID changes requiring re-authentication"
   }
 }

@@ -172,7 +172,7 @@ abstract class AppLocalizations {
   /// **'Click to cancel and return to login screen'**
   String get cancelHint;
 
-  /// Connection failed dialog title
+  /// Error title
   ///
   /// In en, this message translates to:
   /// **'Connection Failed'**
@@ -183,24 +183,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error message copied to clipboard'**
   String get errorCopied;
-
-  /// Button to reconfigure API credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Reconfigure Credentials'**
-  String get reconfigureCredentials;
-
-  /// Status text when API is configured
-  ///
-  /// In en, this message translates to:
-  /// **'API configured'**
-  String get apiConfigured;
-
-  /// Change button text
-  ///
-  /// In en, this message translates to:
-  /// **'Change'**
-  String get change;
 
   /// Security info text
   ///
@@ -357,60 +339,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get next;
-
-  /// Setup guide screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Setup Guide'**
-  String get setupGuide;
-
-  /// Setup description text
-  ///
-  /// In en, this message translates to:
-  /// **'To get started, you\'ll need to create a Spotify Developer App and enter your credentials.'**
-  String get setupDescription;
-
-  /// Setup step 1 title
-  ///
-  /// In en, this message translates to:
-  /// **'Go to Spotify Developer Dashboard'**
-  String get step1Title;
-
-  /// Setup step 2 title
-  ///
-  /// In en, this message translates to:
-  /// **'Create a new app'**
-  String get step2Title;
-
-  /// Setup step 3 title
-  ///
-  /// In en, this message translates to:
-  /// **'Add redirect URI'**
-  String get step3Title;
-
-  /// Setup step 4 title
-  ///
-  /// In en, this message translates to:
-  /// **'Copy your credentials'**
-  String get step4Title;
-
-  /// Client ID field label
-  ///
-  /// In en, this message translates to:
-  /// **'Client ID'**
-  String get clientId;
-
-  /// Client Secret field label
-  ///
-  /// In en, this message translates to:
-  /// **'Client Secret'**
-  String get clientSecret;
-
-  /// Save and continue button
-  ///
-  /// In en, this message translates to:
-  /// **'Save & Continue'**
-  String get saveAndContinue;
 
   /// Invalid client error message
   ///
@@ -1543,18 +1471,6 @@ abstract class AppLocalizations {
   /// Privacy section title
   ///
   /// In en, this message translates to:
-  /// **'OAuth Security'**
-  String get privacyOAuthSecurity;
-
-  /// Privacy section description
-  ///
-  /// In en, this message translates to:
-  /// **'Authentication uses a local HTTP server on ports 8888-8891, 8080, or 3000 with CSRF protection via state parameter.'**
-  String get privacyOAuthSecurityDesc;
-
-  /// Privacy section title
-  ///
-  /// In en, this message translates to:
   /// **'You Control Your Data'**
   String get privacyYouControl;
 
@@ -1569,312 +1485,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
-
-  /// Welcome message on setup screen
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to FullStop'**
-  String get welcomeToFullStop;
-
-  /// Title when reconfiguring credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Update Credentials'**
-  String get updateCredentials;
-
-  /// Subtitle on setup screen
-  ///
-  /// In en, this message translates to:
-  /// **'Connect your Spotify account to get started'**
-  String get connectSpotifyToStart;
-
-  /// Subtitle when reconfiguring
-  ///
-  /// In en, this message translates to:
-  /// **'Update your Spotify API credentials'**
-  String get updateSpotifyCredentials;
-
-  /// Security notice text
-  ///
-  /// In en, this message translates to:
-  /// **'Your credentials are stored securely on your device only'**
-  String get credentialsSecurelyStored;
-
-  /// Privacy policy tooltip
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy Policy'**
-  String get privacyPolicy;
-
-  /// Setup step 1 title
-  ///
-  /// In en, this message translates to:
-  /// **'Step 1: Create a Spotify App'**
-  String get step1CreateApp;
-
-  /// Button to open Spotify developer dashboard
-  ///
-  /// In en, this message translates to:
-  /// **'Open Spotify Developer Dashboard'**
-  String get openDeveloperDashboard;
-
-  /// Hint for opening developer dashboard
-  ///
-  /// In en, this message translates to:
-  /// **'Click the button below to open the Spotify Developer Dashboard in your browser.'**
-  String get openDeveloperDashboardHint;
-
-  /// Instruction to create new app
-  ///
-  /// In en, this message translates to:
-  /// **'Create a New App'**
-  String get createNewApp;
-
-  /// Instructions for creating new app
-  ///
-  /// In en, this message translates to:
-  /// **'Click \"Create App\" and fill in:\n• App name: Any name (e.g., \"My Focus App\")\n• App description: Personal use\n• Website: Leave empty or use any URL\n• Check \"Web API\" option'**
-  String get createNewAppDesc;
-
-  /// Short instructions for creating new app
-  ///
-  /// In en, this message translates to:
-  /// **'Click \"Create App\" and fill in the following fields. Check \"Web API\" option.'**
-  String get createNewAppDescShort;
-
-  /// Label for app name field
-  ///
-  /// In en, this message translates to:
-  /// **'App name'**
-  String get appNameLabel;
-
-  /// Toast when app name is copied
-  ///
-  /// In en, this message translates to:
-  /// **'App name copied!'**
-  String get appNameCopied;
-
-  /// Label for app description field
-  ///
-  /// In en, this message translates to:
-  /// **'App description'**
-  String get appDescriptionLabel;
-
-  /// Toast when app description is copied
-  ///
-  /// In en, this message translates to:
-  /// **'App description copied!'**
-  String get appDescriptionCopied;
-
-  /// Label for redirect URI field
-  ///
-  /// In en, this message translates to:
-  /// **'Redirect URI'**
-  String get redirectUriLabel;
-
-  /// Redirect URI setup instruction
-  ///
-  /// In en, this message translates to:
-  /// **'Set Redirect URI (IMPORTANT!)'**
-  String get setRedirectUri;
-
-  /// Redirect URI setup description
-  ///
-  /// In en, this message translates to:
-  /// **'In \"Redirect URIs\" field, add this EXACT URI:'**
-  String get setRedirectUriDesc;
-
-  /// Copy button text
-  ///
-  /// In en, this message translates to:
-  /// **'Copy'**
-  String get copy;
-
-  /// Toast when redirect URI is copied
-  ///
-  /// In en, this message translates to:
-  /// **'Redirect URI copied!'**
-  String get redirectUriCopied;
-
-  /// Warning about saving redirect URI
-  ///
-  /// In en, this message translates to:
-  /// **'Click \"Add\" after pasting, then click \"Save\" at the bottom!'**
-  String get redirectUriWarning;
-
-  /// Setup step 2 title
-  ///
-  /// In en, this message translates to:
-  /// **'Step 2: Enter Your Credentials'**
-  String get step2EnterCredentials;
-
-  /// Title when updating credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Update Your Credentials'**
-  String get updateYourCredentials;
-
-  /// Hint for finding credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Find your credentials in the app settings page on the Spotify Developer Dashboard.'**
-  String get findCredentialsHint;
-
-  /// Hint when modifying credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Modify the credentials below. Leave unchanged if correct.'**
-  String get modifyCredentialsHint;
-
-  /// Client ID field placeholder
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your Client ID'**
-  String get enterClientId;
-
-  /// Validation error for empty client ID
-  ///
-  /// In en, this message translates to:
-  /// **'Client ID is required'**
-  String get clientIdRequired;
-
-  /// Validation error for short client ID
-  ///
-  /// In en, this message translates to:
-  /// **'Client ID seems too short'**
-  String get clientIdTooShort;
-
-  /// Client Secret field placeholder
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your Client Secret'**
-  String get enterClientSecret;
-
-  /// Validation error for empty client secret
-  ///
-  /// In en, this message translates to:
-  /// **'Client Secret is required'**
-  String get clientSecretRequired;
-
-  /// Validation error for short client secret
-  ///
-  /// In en, this message translates to:
-  /// **'Client Secret seems too short'**
-  String get clientSecretTooShort;
-
-  /// Help section title
-  ///
-  /// In en, this message translates to:
-  /// **'Where to find these?'**
-  String get whereToFindCredentials;
-
-  /// Help section description
-  ///
-  /// In en, this message translates to:
-  /// **'In your Spotify app\'s Settings page, you\'ll see Client ID. Click \"View client secret\" to reveal the secret.'**
-  String get whereToFindCredentialsDesc;
-
-  /// Setup step 3 title
-  ///
-  /// In en, this message translates to:
-  /// **'Step 3: Ready to Connect'**
-  String get step3ReadyToConnect;
-
-  /// Success message when credentials are saved
-  ///
-  /// In en, this message translates to:
-  /// **'Credentials Saved!'**
-  String get credentialsSaved;
-
-  /// Waiting state message
-  ///
-  /// In en, this message translates to:
-  /// **'Waiting for Credentials'**
-  String get waitingForCredentials;
-
-  /// Success description
-  ///
-  /// In en, this message translates to:
-  /// **'Your Spotify API credentials have been securely stored. You can now connect to Spotify.'**
-  String get credentialsSavedDesc;
-
-  /// Hint when waiting for credentials
-  ///
-  /// In en, this message translates to:
-  /// **'Please go back to Step 2 and enter your credentials.'**
-  String get waitingForCredentialsDesc;
-
-  /// Premium requirement notice
-  ///
-  /// In en, this message translates to:
-  /// **'Spotify Premium Required'**
-  String get spotifyPremiumRequired;
-
-  /// Premium requirement description
-  ///
-  /// In en, this message translates to:
-  /// **'This app requires Spotify Premium for playback control features.'**
-  String get spotifyPremiumRequiredDesc;
-
-  /// Back button text
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get back;
-
-  /// Next button text for step 1
-  ///
-  /// In en, this message translates to:
-  /// **'Next: Enter Credentials'**
-  String get nextEnterCredentials;
-
-  /// Save credentials button text
-  ///
-  /// In en, this message translates to:
-  /// **'Save Credentials'**
-  String get saveCredentials;
-
-  /// Update credentials button text
-  ///
-  /// In en, this message translates to:
-  /// **'Update Credentials'**
-  String get updateCredentialsButton;
-
-  /// Final connect button text
-  ///
-  /// In en, this message translates to:
-  /// **'Connect to Spotify'**
-  String get connectToSpotify;
-
-  /// Button to reconfigure API
-  ///
-  /// In en, this message translates to:
-  /// **'Reconfigure API Credentials'**
-  String get reconfigureApiCredentials;
-
-  /// Subtitle for reconfigure option
-  ///
-  /// In en, this message translates to:
-  /// **'Change your Client ID and Secret'**
-  String get changeClientIdSecret;
-
-  /// Dialog title for reconfigure
-  ///
-  /// In en, this message translates to:
-  /// **'Reconfigure API Credentials'**
-  String get reconfigureDialogTitle;
-
-  /// Dialog content for reconfigure
-  ///
-  /// In en, this message translates to:
-  /// **'This will clear your current API credentials and log you out.\n\nYou will need to enter your Client ID and Secret again.'**
-  String get reconfigureDialogContent;
-
-  /// Reconfigure button text
-  ///
-  /// In en, this message translates to:
-  /// **'Reconfigure'**
-  String get reconfigure;
 
   /// Label for redirect URI info
   ///
@@ -1893,12 +1503,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Configured ({clientId})'**
   String configured(String clientId);
-
-  /// Status when API is not configured
-  ///
-  /// In en, this message translates to:
-  /// **'Not configured'**
-  String get notConfigured;
 
   /// LLM section title
   ///
@@ -2085,6 +1689,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exit Mini Player'**
   String get exitMiniPlayer;
+
+  /// Advanced options section title
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Options'**
+  String get advancedOptions;
+
+  /// Custom Spotify Client ID field label
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Client ID'**
+  String get customClientId;
+
+  /// Description explaining why custom Client ID may be needed
+  ///
+  /// In en, this message translates to:
+  /// **'The shared Client ID may be rate-limited by Spotify under heavy usage. You can create your own app on Spotify Developer Dashboard and use your own Client ID.'**
+  String get customClientIdDescription;
+
+  /// Hint for custom Client ID input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your Spotify Client ID'**
+  String get customClientIdHint;
+
+  /// Toast when custom Client ID is saved
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Client ID saved'**
+  String get customClientIdSaved;
+
+  /// Toast when custom Client ID is cleared
+  ///
+  /// In en, this message translates to:
+  /// **'Restored to default Client ID'**
+  String get customClientIdCleared;
+
+  /// Button to clear custom Client ID and use default
+  ///
+  /// In en, this message translates to:
+  /// **'Use Default'**
+  String get useDefaultClient;
+
+  /// Dialog message when Client ID changes requiring re-authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Switching Client ID requires re-login. Log out now?'**
+  String get customClientIdReauthRequired;
 }
 
 class _AppLocalizationsDelegate

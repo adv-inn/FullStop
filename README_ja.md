@@ -133,7 +133,7 @@ FullStopの**ミニモード**は、プレーヤーを画面の隅にそっと�
 
 ### 必要なもの
 1. **Spotify Premium** サブスクリプション。
-2. Spotify開発者アプリの `Client ID` と `Secret`。
+2. FullStop をダウンロードして開き、「Spotify に接続」をクリックするだけで認証完了。追加の設定は不要です。
 
 ### インストール (iOS)
 1. [Releases](https://github.com/0Chencc/FullStop/releases) から最新の `.ipa` ファイルをダウンロード。

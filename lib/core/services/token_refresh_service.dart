@@ -1,24 +1,22 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../config/app_config.dart';
 import '../utils/logger.dart';
 import '../../data/datasources/auth_local_datasource.dart';
-import '../../data/datasources/credentials_local_datasource.dart';
 
 /// Service responsible for refreshing Spotify access tokens.
 /// This is a low-level service used by the Dio interceptor.
 class TokenRefreshService {
   final AuthLocalDataSource authDataSource;
-  final CredentialsLocalDataSource credentialsDataSource;
   final Dio dio;
+  final String clientId;
 
   bool _isRefreshing = false;
   Future<String?>? _refreshFuture;
 
   TokenRefreshService({
     required this.authDataSource,
-    required this.credentialsDataSource,
     required this.dio,
+    required this.clientId,
   });
 
   /// Attempts to refresh the access token.
@@ -49,27 +47,15 @@ class TokenRefreshService {
         return null;
       }
 
-      final clientId = await credentialsDataSource.getSpotifyClientId();
-      final clientSecret = await credentialsDataSource.getSpotifyClientSecret();
-
-      if (clientId == null ||
-          clientId.isEmpty ||
-          clientSecret == null ||
-          clientSecret.isEmpty) {
-        AppLogger.warning('No Spotify credentials available for token refresh');
-        return null;
-      }
-
-      final credentials = base64Encode(utf8.encode('$clientId:$clientSecret'));
-
       final response = await dio.post(
         AppConfig.spotifyTokenUrl,
-        data: {'grant_type': 'refresh_token', 'refresh_token': refreshToken},
+        data: {
+          'grant_type': 'refresh_token',
+          'refresh_token': refreshToken,
+          'client_id': clientId,
+        },
         options: Options(
-          headers: {
-            'Authorization': 'Basic $credentials',
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           contentType: Headers.formUrlEncodedContentType,
         ),
       );

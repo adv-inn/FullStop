@@ -51,15 +51,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorCopied => 'エラーメッセージをクリップボードにコピーしました';
 
   @override
-  String get reconfigureCredentials => '認証情報を再設定';
-
-  @override
-  String get apiConfigured => 'API設定済み';
-
-  @override
-  String get change => '変更';
-
-  @override
   String get credentialsStayOnDevice => '認証情報はお使いのデバイスにのみ保存されます';
 
   @override
@@ -136,33 +127,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get next => '次へ';
-
-  @override
-  String get setupGuide => 'セットアップガイド';
-
-  @override
-  String get setupDescription => 'まず、Spotify開発者アプリを作成し、認証情報を入力する必要があります。';
-
-  @override
-  String get step1Title => 'Spotify開発者ダッシュボードにアクセス';
-
-  @override
-  String get step2Title => '新しいアプリを作成';
-
-  @override
-  String get step3Title => 'リダイレクトURIを追加';
-
-  @override
-  String get step4Title => '認証情報をコピー';
-
-  @override
-  String get clientId => 'Client ID';
-
-  @override
-  String get clientSecret => 'Client Secret';
-
-  @override
-  String get saveAndContinue => '保存して続行';
 
   @override
   String get errorInvalidClient => 'API認証情報が無効です。Client IDとSecretを確認してください。';
@@ -805,13 +769,6 @@ class AppLocalizationsJa extends AppLocalizations {
       '使用状況分析、再生履歴、個人情報を収集、保存、送信することはありません。';
 
   @override
-  String get privacyOAuthSecurity => 'OAuthセキュリティ';
-
-  @override
-  String get privacyOAuthSecurityDesc =>
-      '認証はポート8888-8891、8080、または3000のローカルHTTPサーバーを使用し、stateパラメータによるCSRF保護を行います。';
-
-  @override
   String get privacyYouControl => 'データはあなたの管理下に';
 
   @override
@@ -820,167 +777,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get close => '閉じる';
-
-  @override
-  String get welcomeToFullStop => 'FullStopへようこそ';
-
-  @override
-  String get updateCredentials => 'クレデンシャルを更新';
-
-  @override
-  String get connectSpotifyToStart => 'Spotifyアカウントを接続して開始';
-
-  @override
-  String get updateSpotifyCredentials => 'Spotify APIクレデンシャルを更新';
-
-  @override
-  String get credentialsSecurelyStored => 'クレデンシャルはデバイスにのみ安全に保存されます';
-
-  @override
-  String get privacyPolicy => 'プライバシーポリシー';
-
-  @override
-  String get step1CreateApp => 'ステップ1：Spotifyアプリを作成';
-
-  @override
-  String get openDeveloperDashboard => 'Spotify開発者ダッシュボードを開く';
-
-  @override
-  String get openDeveloperDashboardHint =>
-      '下のボタンをクリックして、ブラウザでSpotify開発者ダッシュボードを開きます。';
-
-  @override
-  String get createNewApp => '新しいアプリを作成';
-
-  @override
-  String get createNewAppDesc =>
-      '「Create App」をクリックして入力：\n• App name：任意の名前（例：「My Focus App」）\n• App description：個人使用\n• Website：空欄またはURLを入力\n• 「Web API」オプションをチェック';
-
-  @override
-  String get createNewAppDescShort =>
-      '「Create App」をクリックして以下のフィールドを入力し、「Web API」オプションをチェック。';
-
-  @override
-  String get appNameLabel => 'App name（アプリ名）';
-
-  @override
-  String get appNameCopied => 'アプリ名をコピーしました！';
-
-  @override
-  String get appDescriptionLabel => 'App description（アプリの説明）';
-
-  @override
-  String get appDescriptionCopied => 'アプリの説明をコピーしました！';
-
-  @override
-  String get redirectUriLabel => 'Redirect URI（リダイレクトURI）';
-
-  @override
-  String get setRedirectUri => 'リダイレクトURIを設定（重要！）';
-
-  @override
-  String get setRedirectUriDesc => '「Redirect URIs」フィールドに以下のURIを追加：';
-
-  @override
-  String get copy => 'コピー';
-
-  @override
-  String get redirectUriCopied => 'リダイレクトURIをコピーしました！';
-
-  @override
-  String get redirectUriWarning => '貼り付け後「Add」をクリックし、下の「Save」をクリック！';
-
-  @override
-  String get step2EnterCredentials => 'ステップ2：クレデンシャルを入力';
-
-  @override
-  String get updateYourCredentials => 'クレデンシャルを更新';
-
-  @override
-  String get findCredentialsHint =>
-      'Spotify開発者ダッシュボードのアプリ設定ページでクレデンシャルを確認できます。';
-
-  @override
-  String get modifyCredentialsHint => '以下のクレデンシャルを変更してください。正しい場合は変更不要です。';
-
-  @override
-  String get enterClientId => 'Client IDを入力';
-
-  @override
-  String get clientIdRequired => 'Client IDは必須です';
-
-  @override
-  String get clientIdTooShort => 'Client IDが短すぎます';
-
-  @override
-  String get enterClientSecret => 'Client Secretを入力';
-
-  @override
-  String get clientSecretRequired => 'Client Secretは必須です';
-
-  @override
-  String get clientSecretTooShort => 'Client Secretが短すぎます';
-
-  @override
-  String get whereToFindCredentials => 'どこで見つけられますか？';
-
-  @override
-  String get whereToFindCredentialsDesc =>
-      'SpotifyアプリのSettingsページでClient IDが表示されます。「View client secret」をクリックしてシークレットを表示します。';
-
-  @override
-  String get step3ReadyToConnect => 'ステップ3：接続準備完了';
-
-  @override
-  String get credentialsSaved => 'クレデンシャルを保存しました！';
-
-  @override
-  String get waitingForCredentials => 'クレデンシャルを待機中';
-
-  @override
-  String get credentialsSavedDesc =>
-      'Spotify APIクレデンシャルが安全に保存されました。Spotifyに接続できます。';
-
-  @override
-  String get waitingForCredentialsDesc => 'ステップ2に戻ってクレデンシャルを入力してください。';
-
-  @override
-  String get spotifyPremiumRequired => 'Spotify Premiumが必要';
-
-  @override
-  String get spotifyPremiumRequiredDesc =>
-      'このアプリの再生コントロール機能にはSpotify Premiumが必要です。';
-
-  @override
-  String get back => '戻る';
-
-  @override
-  String get nextEnterCredentials => '次へ：クレデンシャルを入力';
-
-  @override
-  String get saveCredentials => 'クレデンシャルを保存';
-
-  @override
-  String get updateCredentialsButton => 'クレデンシャルを更新';
-
-  @override
-  String get connectToSpotify => 'Spotifyに接続';
-
-  @override
-  String get reconfigureApiCredentials => 'APIクレデンシャルを再設定';
-
-  @override
-  String get changeClientIdSecret => 'Client IDとSecretを変更';
-
-  @override
-  String get reconfigureDialogTitle => 'APIクレデンシャルを再設定';
-
-  @override
-  String get reconfigureDialogContent =>
-      '現在のAPIクレデンシャルを削除してログアウトします。\n\nClient IDとSecretを再入力する必要があります。';
-
-  @override
-  String get reconfigure => '再設定';
 
   @override
   String get redirectUriForSpotifyApp => 'SpotifyアプリのリダイレクトURI';
@@ -992,9 +788,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String configured(String clientId) {
     return '設定済み（$clientId）';
   }
-
-  @override
-  String get notConfigured => '未設定';
 
   @override
   String get llmOpenAiCompatible => 'OpenAI互換API';
@@ -1095,4 +888,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get exitMiniPlayer => 'ミニプレーヤーを終了';
+
+  @override
+  String get advancedOptions => '詳細オプション';
+
+  @override
+  String get customClientId => 'カスタム Client ID';
+
+  @override
+  String get customClientIdDescription =>
+      '共有 Client ID は Spotify のレート制限を受ける可能性があります。Spotify Developer Dashboard で独自のアプリを作成し、自分の Client ID を使用できます。';
+
+  @override
+  String get customClientIdHint => 'Spotify Client ID を入力';
+
+  @override
+  String get customClientIdSaved => 'カスタム Client ID を保存しました';
+
+  @override
+  String get customClientIdCleared => 'デフォルトの Client ID に戻しました';
+
+  @override
+  String get useDefaultClient => 'デフォルトを使用';
+
+  @override
+  String get customClientIdReauthRequired =>
+      'Client ID の切り替えには再ログインが必要です。今すぐログアウトしますか？';
 }

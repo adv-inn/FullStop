@@ -13,14 +13,13 @@ import '../../core/services/token_refresh_service.dart';
 import '../../core/services/url_launcher_service.dart';
 import '../../core/services/window_service.dart';
 import '../../core/utils/logger.dart';
+import '../providers/credentials_provider.dart';
 import '../../data/datasources/auth_local_datasource.dart';
 import '../../data/datasources/auth_shared_prefs_datasource.dart';
-import '../../data/datasources/credentials_local_datasource.dart';
 import '../../domain/entities/proxy_settings.dart';
 import '../../data/services/app_links_deep_link_service.dart';
 import '../../data/services/default_url_launcher_service.dart';
 import '../../data/services/window_manager_service.dart';
-import 'auth_providers.dart' show credentialsLocalDataSourceProvider;
 
 // SharedPreferences provider for macOS/iOS
 final sharedPrefsProvider = FutureProvider<SharedPreferences>((ref) async {
@@ -99,17 +98,21 @@ final authDioProvider = Provider<Dio>((ref) {
 
 // Token Refresh Service (lazily initialized to avoid circular dependencies)
 TokenRefreshService? _tokenRefreshService;
+String? _lastTokenRefreshClientId;
 
 TokenRefreshService _getOrCreateTokenRefreshService(
   AuthLocalDataSource authDataSource,
-  CredentialsLocalDataSource credentialsDataSource,
   Dio authDio,
+  String clientId,
 ) {
-  _tokenRefreshService ??= TokenRefreshService(
-    authDataSource: authDataSource,
-    credentialsDataSource: credentialsDataSource,
-    dio: authDio,
-  );
+  if (_tokenRefreshService == null || _lastTokenRefreshClientId != clientId) {
+    _tokenRefreshService = TokenRefreshService(
+      clientId: clientId,
+      authDataSource: authDataSource,
+      dio: authDio,
+    );
+    _lastTokenRefreshClientId = clientId;
+  }
   return _tokenRefreshService!;
 }
 
@@ -150,12 +153,12 @@ final apiDioProvider = Provider<Dio>((ref) {
 
           // Get fresh data sources for token refresh
           final authLocalDataSource = ref.read(authLocalDataSourceProvider);
-          final credentialsDataSource = ref.read(credentialsLocalDataSourceProvider);
 
+          final clientId = ref.read(effectiveSpotifyClientIdProvider);
           final tokenRefreshService = _getOrCreateTokenRefreshService(
             authLocalDataSource,
-            credentialsDataSource,
             authDio,
+            clientId,
           );
 
           final newToken = await tokenRefreshService.refreshToken();

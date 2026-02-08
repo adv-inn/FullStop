@@ -130,12 +130,12 @@ FullStop 的**迷你模式**让播放器化身为屏幕角落的一抹优雅—�
 ## 开始使用
 
 ### 准备工作
-1.  **Spotify Premium** 订阅。
-2.  一个 Spotify 开发者 App 的 `Client ID` 和 `Secret`。
+1. **Spotify Premium** 订阅。
+2. 下载并打开 FullStop，点击「连接 Spotify」即可完成授权。无需任何额外配置。
 
 ### 安装 (iOS)
-1.  在 [Releases](https://github.com/0Chencc/FullStop/releases) 下载最新的 `.ipa` 文件。
-2.  使用 **AltStore**、**Sideloadly** 或 **TrollStore** 进行自签安装。
+1. 在 [Releases](https://github.com/0Chencc/FullStop/releases) 下载最新的 `.ipa` 文件。
+2. 使用 **AltStore**、**Sideloadly** 或 **TrollStore** 进行自签安装。
 
 ---
 

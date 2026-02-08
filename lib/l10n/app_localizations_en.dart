@@ -54,15 +54,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorCopied => 'Error message copied to clipboard';
 
   @override
-  String get reconfigureCredentials => 'Reconfigure Credentials';
-
-  @override
-  String get apiConfigured => 'API configured';
-
-  @override
-  String get change => 'Change';
-
-  @override
   String get credentialsStayOnDevice => 'Your credentials stay on your device';
 
   @override
@@ -140,34 +131,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get next => 'Next';
-
-  @override
-  String get setupGuide => 'Setup Guide';
-
-  @override
-  String get setupDescription =>
-      'To get started, you\'ll need to create a Spotify Developer App and enter your credentials.';
-
-  @override
-  String get step1Title => 'Go to Spotify Developer Dashboard';
-
-  @override
-  String get step2Title => 'Create a new app';
-
-  @override
-  String get step3Title => 'Add redirect URI';
-
-  @override
-  String get step4Title => 'Copy your credentials';
-
-  @override
-  String get clientId => 'Client ID';
-
-  @override
-  String get clientSecret => 'Client Secret';
-
-  @override
-  String get saveAndContinue => 'Save & Continue';
 
   @override
   String get errorInvalidClient =>
@@ -817,13 +780,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'We do not collect, store, or transmit any usage analytics, listening history, or personal information.';
 
   @override
-  String get privacyOAuthSecurity => 'OAuth Security';
-
-  @override
-  String get privacyOAuthSecurityDesc =>
-      'Authentication uses a local HTTP server on ports 8888-8891, 8080, or 3000 with CSRF protection via state parameter.';
-
-  @override
   String get privacyYouControl => 'You Control Your Data';
 
   @override
@@ -832,173 +788,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
-
-  @override
-  String get welcomeToFullStop => 'Welcome to FullStop';
-
-  @override
-  String get updateCredentials => 'Update Credentials';
-
-  @override
-  String get connectSpotifyToStart =>
-      'Connect your Spotify account to get started';
-
-  @override
-  String get updateSpotifyCredentials => 'Update your Spotify API credentials';
-
-  @override
-  String get credentialsSecurelyStored =>
-      'Your credentials are stored securely on your device only';
-
-  @override
-  String get privacyPolicy => 'Privacy Policy';
-
-  @override
-  String get step1CreateApp => 'Step 1: Create a Spotify App';
-
-  @override
-  String get openDeveloperDashboard => 'Open Spotify Developer Dashboard';
-
-  @override
-  String get openDeveloperDashboardHint =>
-      'Click the button below to open the Spotify Developer Dashboard in your browser.';
-
-  @override
-  String get createNewApp => 'Create a New App';
-
-  @override
-  String get createNewAppDesc =>
-      'Click \"Create App\" and fill in:\n• App name: Any name (e.g., \"My Focus App\")\n• App description: Personal use\n• Website: Leave empty or use any URL\n• Check \"Web API\" option';
-
-  @override
-  String get createNewAppDescShort =>
-      'Click \"Create App\" and fill in the following fields. Check \"Web API\" option.';
-
-  @override
-  String get appNameLabel => 'App name';
-
-  @override
-  String get appNameCopied => 'App name copied!';
-
-  @override
-  String get appDescriptionLabel => 'App description';
-
-  @override
-  String get appDescriptionCopied => 'App description copied!';
-
-  @override
-  String get redirectUriLabel => 'Redirect URI';
-
-  @override
-  String get setRedirectUri => 'Set Redirect URI (IMPORTANT!)';
-
-  @override
-  String get setRedirectUriDesc =>
-      'In \"Redirect URIs\" field, add this EXACT URI:';
-
-  @override
-  String get copy => 'Copy';
-
-  @override
-  String get redirectUriCopied => 'Redirect URI copied!';
-
-  @override
-  String get redirectUriWarning =>
-      'Click \"Add\" after pasting, then click \"Save\" at the bottom!';
-
-  @override
-  String get step2EnterCredentials => 'Step 2: Enter Your Credentials';
-
-  @override
-  String get updateYourCredentials => 'Update Your Credentials';
-
-  @override
-  String get findCredentialsHint =>
-      'Find your credentials in the app settings page on the Spotify Developer Dashboard.';
-
-  @override
-  String get modifyCredentialsHint =>
-      'Modify the credentials below. Leave unchanged if correct.';
-
-  @override
-  String get enterClientId => 'Enter your Client ID';
-
-  @override
-  String get clientIdRequired => 'Client ID is required';
-
-  @override
-  String get clientIdTooShort => 'Client ID seems too short';
-
-  @override
-  String get enterClientSecret => 'Enter your Client Secret';
-
-  @override
-  String get clientSecretRequired => 'Client Secret is required';
-
-  @override
-  String get clientSecretTooShort => 'Client Secret seems too short';
-
-  @override
-  String get whereToFindCredentials => 'Where to find these?';
-
-  @override
-  String get whereToFindCredentialsDesc =>
-      'In your Spotify app\'s Settings page, you\'ll see Client ID. Click \"View client secret\" to reveal the secret.';
-
-  @override
-  String get step3ReadyToConnect => 'Step 3: Ready to Connect';
-
-  @override
-  String get credentialsSaved => 'Credentials Saved!';
-
-  @override
-  String get waitingForCredentials => 'Waiting for Credentials';
-
-  @override
-  String get credentialsSavedDesc =>
-      'Your Spotify API credentials have been securely stored. You can now connect to Spotify.';
-
-  @override
-  String get waitingForCredentialsDesc =>
-      'Please go back to Step 2 and enter your credentials.';
-
-  @override
-  String get spotifyPremiumRequired => 'Spotify Premium Required';
-
-  @override
-  String get spotifyPremiumRequiredDesc =>
-      'This app requires Spotify Premium for playback control features.';
-
-  @override
-  String get back => 'Back';
-
-  @override
-  String get nextEnterCredentials => 'Next: Enter Credentials';
-
-  @override
-  String get saveCredentials => 'Save Credentials';
-
-  @override
-  String get updateCredentialsButton => 'Update Credentials';
-
-  @override
-  String get connectToSpotify => 'Connect to Spotify';
-
-  @override
-  String get reconfigureApiCredentials => 'Reconfigure API Credentials';
-
-  @override
-  String get changeClientIdSecret => 'Change your Client ID and Secret';
-
-  @override
-  String get reconfigureDialogTitle => 'Reconfigure API Credentials';
-
-  @override
-  String get reconfigureDialogContent =>
-      'This will clear your current API credentials and log you out.\n\nYou will need to enter your Client ID and Secret again.';
-
-  @override
-  String get reconfigure => 'Reconfigure';
 
   @override
   String get redirectUriForSpotifyApp => 'Redirect URI for Spotify App';
@@ -1010,9 +799,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String configured(String clientId) {
     return 'Configured ($clientId)';
   }
-
-  @override
-  String get notConfigured => 'Not configured';
 
   @override
   String get llmOpenAiCompatible => 'OpenAI-Compatible API';
@@ -1120,4 +906,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exitMiniPlayer => 'Exit Mini Player';
+
+  @override
+  String get advancedOptions => 'Advanced Options';
+
+  @override
+  String get customClientId => 'Custom Client ID';
+
+  @override
+  String get customClientIdDescription =>
+      'The shared Client ID may be rate-limited by Spotify under heavy usage. You can create your own app on Spotify Developer Dashboard and use your own Client ID.';
+
+  @override
+  String get customClientIdHint => 'Enter your Spotify Client ID';
+
+  @override
+  String get customClientIdSaved => 'Custom Client ID saved';
+
+  @override
+  String get customClientIdCleared => 'Restored to default Client ID';
+
+  @override
+  String get useDefaultClient => 'Use Default';
+
+  @override
+  String get customClientIdReauthRequired =>
+      'Switching Client ID requires re-login. Log out now?';
 }

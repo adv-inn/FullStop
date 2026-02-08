@@ -51,15 +51,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get errorCopied => '错误信息已复制到剪贴板';
 
   @override
-  String get reconfigureCredentials => '重新配置凭据';
-
-  @override
-  String get apiConfigured => 'API 已配置';
-
-  @override
-  String get change => '更改';
-
-  @override
   String get credentialsStayOnDevice => '您的凭据仅保存在本地设备';
 
   @override
@@ -136,33 +127,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get next => '下一首';
-
-  @override
-  String get setupGuide => '设置向导';
-
-  @override
-  String get setupDescription => '首先，您需要创建一个 Spotify 开发者应用并输入您的凭据。';
-
-  @override
-  String get step1Title => '前往 Spotify 开发者控制台';
-
-  @override
-  String get step2Title => '创建新应用';
-
-  @override
-  String get step3Title => '添加重定向 URI';
-
-  @override
-  String get step4Title => '复制您的凭据';
-
-  @override
-  String get clientId => 'Client ID';
-
-  @override
-  String get clientSecret => 'Client Secret';
-
-  @override
-  String get saveAndContinue => '保存并继续';
 
   @override
   String get errorInvalidClient => 'API 凭据无效。请检查您的 Client ID 和 Secret。';
@@ -802,13 +766,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get privacyNoDataCollectionDesc => '我们不收集、存储或传输任何使用分析、播放历史或个人信息。';
 
   @override
-  String get privacyOAuthSecurity => 'OAuth 安全';
-
-  @override
-  String get privacyOAuthSecurityDesc =>
-      '身份验证使用本地 HTTP 服务器（端口 8888-8891、8080 或 3000），并通过 state 参数进行 CSRF 保护。';
-
-  @override
   String get privacyYouControl => '数据由您掌控';
 
   @override
@@ -816,163 +773,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get close => '关闭';
-
-  @override
-  String get welcomeToFullStop => '欢迎使用 FullStop';
-
-  @override
-  String get updateCredentials => '更新凭据';
-
-  @override
-  String get connectSpotifyToStart => '连接您的 Spotify 账户以开始使用';
-
-  @override
-  String get updateSpotifyCredentials => '更新您的 Spotify API 凭据';
-
-  @override
-  String get credentialsSecurelyStored => '您的凭据仅安全存储在您的设备上';
-
-  @override
-  String get privacyPolicy => '隐私政策';
-
-  @override
-  String get step1CreateApp => '第一步：创建 Spotify 应用';
-
-  @override
-  String get openDeveloperDashboard => '打开 Spotify 开发者控制台';
-
-  @override
-  String get openDeveloperDashboardHint => '点击下方按钮，在浏览器中打开 Spotify 开发者控制台。';
-
-  @override
-  String get createNewApp => '创建新应用';
-
-  @override
-  String get createNewAppDesc =>
-      '点击「Create App」并填写：\n• App name：任意名称（如 \"My Focus App\"）\n• App description：个人使用\n• Website：留空或填写任意 URL\n• 勾选「Web API」选项';
-
-  @override
-  String get createNewAppDescShort => '点击「Create App」并填写以下字段，勾选「Web API」选项。';
-
-  @override
-  String get appNameLabel => 'App name（应用名称）';
-
-  @override
-  String get appNameCopied => '应用名称已复制！';
-
-  @override
-  String get appDescriptionLabel => 'App description（应用描述）';
-
-  @override
-  String get appDescriptionCopied => '应用描述已复制！';
-
-  @override
-  String get redirectUriLabel => 'Redirect URI（重定向 URI）';
-
-  @override
-  String get setRedirectUri => '设置重定向 URI（重要！）';
-
-  @override
-  String get setRedirectUriDesc => '在「Redirect URIs」字段中添加以下 URI：';
-
-  @override
-  String get copy => '复制';
-
-  @override
-  String get redirectUriCopied => '重定向 URI 已复制！';
-
-  @override
-  String get redirectUriWarning => '粘贴后点击「Add」，然后点击底部的「Save」！';
-
-  @override
-  String get step2EnterCredentials => '第二步：输入凭据';
-
-  @override
-  String get updateYourCredentials => '更新您的凭据';
-
-  @override
-  String get findCredentialsHint => '在 Spotify 开发者控制台的应用设置页面中找到您的凭据。';
-
-  @override
-  String get modifyCredentialsHint => '修改下方凭据，如正确则无需更改。';
-
-  @override
-  String get enterClientId => '输入您的 Client ID';
-
-  @override
-  String get clientIdRequired => 'Client ID 为必填项';
-
-  @override
-  String get clientIdTooShort => 'Client ID 似乎太短';
-
-  @override
-  String get enterClientSecret => '输入您的 Client Secret';
-
-  @override
-  String get clientSecretRequired => 'Client Secret 为必填项';
-
-  @override
-  String get clientSecretTooShort => 'Client Secret 似乎太短';
-
-  @override
-  String get whereToFindCredentials => '在哪里找到这些？';
-
-  @override
-  String get whereToFindCredentialsDesc =>
-      '在您的 Spotify 应用设置页面中，您会看到 Client ID。点击「View client secret」查看密钥。';
-
-  @override
-  String get step3ReadyToConnect => '第三步：准备连接';
-
-  @override
-  String get credentialsSaved => '凭据已保存！';
-
-  @override
-  String get waitingForCredentials => '等待输入凭据';
-
-  @override
-  String get credentialsSavedDesc => '您的 Spotify API 凭据已安全存储。现在可以连接 Spotify 了。';
-
-  @override
-  String get waitingForCredentialsDesc => '请返回第二步输入您的凭据。';
-
-  @override
-  String get spotifyPremiumRequired => '需要 Spotify Premium';
-
-  @override
-  String get spotifyPremiumRequiredDesc =>
-      '本应用需要 Spotify Premium 订阅才能使用播放控制功能。';
-
-  @override
-  String get back => '返回';
-
-  @override
-  String get nextEnterCredentials => '下一步：输入凭据';
-
-  @override
-  String get saveCredentials => '保存凭据';
-
-  @override
-  String get updateCredentialsButton => '更新凭据';
-
-  @override
-  String get connectToSpotify => '连接 Spotify';
-
-  @override
-  String get reconfigureApiCredentials => '重新配置 API 凭据';
-
-  @override
-  String get changeClientIdSecret => '更改您的 Client ID 和 Secret';
-
-  @override
-  String get reconfigureDialogTitle => '重新配置 API 凭据';
-
-  @override
-  String get reconfigureDialogContent =>
-      '这将清除当前的 API 凭据并登出。\n\n您需要重新输入 Client ID 和 Secret。';
-
-  @override
-  String get reconfigure => '重新配置';
 
   @override
   String get redirectUriForSpotifyApp => 'Spotify 应用的重定向 URI';
@@ -984,9 +784,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String configured(String clientId) {
     return '已配置（$clientId）';
   }
-
-  @override
-  String get notConfigured => '未配置';
 
   @override
   String get llmOpenAiCompatible => 'OpenAI 兼容 API';
@@ -1087,4 +884,29 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get exitMiniPlayer => '退出迷你播放器';
+
+  @override
+  String get advancedOptions => '高级选项';
+
+  @override
+  String get customClientId => '自定义 Client ID';
+
+  @override
+  String get customClientIdDescription =>
+      '公用 Client ID 在高频请求时可能被 Spotify 限流。你可以在 Spotify Developer Dashboard 创建自己的应用，使用自己的 Client ID。';
+
+  @override
+  String get customClientIdHint => '输入你的 Spotify Client ID';
+
+  @override
+  String get customClientIdSaved => '自定义 Client ID 已保存';
+
+  @override
+  String get customClientIdCleared => '已恢复使用默认 Client ID';
+
+  @override
+  String get useDefaultClient => '使用默认';
+
+  @override
+  String get customClientIdReauthRequired => '切换 Client ID 后需要重新登录，是否立即退出登录？';
 }

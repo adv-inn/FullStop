@@ -6,7 +6,6 @@ import 'package:window_manager/window_manager.dart';
 import 'l10n/app_localizations.dart';
 import 'application/di/core_providers.dart' show sharedPrefsProvider;
 import 'application/providers/auth_provider.dart';
-import 'application/providers/credentials_provider.dart';
 import 'application/providers/locale_provider.dart';
 import 'application/providers/navigation_provider.dart';
 import 'application/providers/playback_provider.dart';
@@ -14,7 +13,6 @@ import 'domain/entities/playback_state.dart';
 import 'core/services/system_tray_service.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/login_screen.dart';
-import 'presentation/screens/setup_guide_screen.dart';
 import 'presentation/themes/app_theme.dart';
 import 'presentation/widgets/custom_title_bar.dart';
 import 'presentation/widgets/mini_player_content.dart';
@@ -191,7 +189,7 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
                 key: _navigatorKey,
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute(
-                    builder: (context) => const _AppRouter(),
+                    builder: (context) => const _AuthRouter(),
                     settings: settings,
                   );
                 },
@@ -216,55 +214,19 @@ class _AppShellState extends ConsumerState<_AppShell> with WindowListener {
         ],
       );
     }
-    return const _AppRouter();
+    return const _AuthRouter();
   }
 }
 
-class _AppRouter extends ConsumerStatefulWidget {
-  const _AppRouter();
+/// Routes directly to auth flow — no setup guard needed with PKCE.
+class _AuthRouter extends ConsumerStatefulWidget {
+  const _AuthRouter();
 
   @override
-  ConsumerState<_AppRouter> createState() => _AppRouterState();
+  ConsumerState<_AuthRouter> createState() => _AuthRouterState();
 }
 
-class _AppRouterState extends ConsumerState<_AppRouter> {
-  bool _setupComplete = false;
-
-  void _onSetupComplete() {
-    setState(() {
-      _setupComplete = true;
-    });
-    // After setup, check auth status
-    ref.read(authProvider.notifier).checkAuthStatus();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final credentialsState = ref.watch(credentialsProvider);
-
-    // Show loading while checking credentials
-    if (credentialsState.isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    // If credentials not configured and setup not complete, show setup guide
-    if (!credentialsState.hasSpotifyCredentials && !_setupComplete) {
-      return SetupGuideScreen(onSetupComplete: _onSetupComplete);
-    }
-
-    // Credentials are configured, show auth flow
-    return const _AuthWrapper();
-  }
-}
-
-class _AuthWrapper extends ConsumerStatefulWidget {
-  const _AuthWrapper();
-
-  @override
-  ConsumerState<_AuthWrapper> createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends ConsumerState<_AuthWrapper> {
+class _AuthRouterState extends ConsumerState<_AuthRouter> {
   bool _hasCheckedAuth = false;
 
   @override

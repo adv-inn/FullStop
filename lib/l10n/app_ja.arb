@@ -29,12 +29,6 @@
 
   "errorCopied": "エラーメッセージをクリップボードにコピーしました",
 
-  "reconfigureCredentials": "認証情報を再設定",
-
-  "apiConfigured": "API設定済み",
-
-  "change": "変更",
-
   "credentialsStayOnDevice": "認証情報はお使いのデバイスにのみ保存されます",
 
   "controlsExistingSession": "既存のSpotifyセッションを操作します",
@@ -86,25 +80,6 @@
   "previous": "前へ",
 
   "next": "次へ",
-
-  "setupGuide": "セットアップガイド",
-
-
-  "setupDescription": "まず、Spotify開発者アプリを作成し、認証情報を入力する必要があります。",
-
-  "step1Title": "Spotify開発者ダッシュボードにアクセス",
-
-  "step2Title": "新しいアプリを作成",
-
-  "step3Title": "リダイレクトURIを追加",
-
-  "step4Title": "認証情報をコピー",
-
-  "clientId": "Client ID",
-
-  "clientSecret": "Client Secret",
-
-  "saveAndContinue": "保存して続行",
 
   "errorInvalidClient": "API認証情報が無効です。Client IDとSecretを確認してください。",
 
@@ -417,125 +392,17 @@
 
   "privacyNoDataCollectionDesc": "使用状況分析、再生履歴、個人情報を収集、保存、送信することはありません。",
 
-  "privacyOAuthSecurity": "OAuthセキュリティ",
-
-  "privacyOAuthSecurityDesc": "認証はポート8888-8891、8080、または3000のローカルHTTPサーバーを使用し、stateパラメータによるCSRF保護を行います。",
-
   "privacyYouControl": "データはあなたの管理下に",
 
   "privacyYouControlDesc": "設定ページからいつでもクレデンシャルを削除できます。アプリをアンインストールすると、すべての保存データが削除されます。",
 
   "close": "閉じる",
 
-  "welcomeToFullStop": "FullStopへようこそ",
-
-  "updateCredentials": "クレデンシャルを更新",
-
-  "connectSpotifyToStart": "Spotifyアカウントを接続して開始",
-
-  "updateSpotifyCredentials": "Spotify APIクレデンシャルを更新",
-
-  "credentialsSecurelyStored": "クレデンシャルはデバイスにのみ安全に保存されます",
-
-  "privacyPolicy": "プライバシーポリシー",
-
-  "step1CreateApp": "ステップ1：Spotifyアプリを作成",
-
-  "openDeveloperDashboard": "Spotify開発者ダッシュボードを開く",
-
-  "openDeveloperDashboardHint": "下のボタンをクリックして、ブラウザでSpotify開発者ダッシュボードを開きます。",
-
-  "createNewApp": "新しいアプリを作成",
-
-  "createNewAppDesc": "「Create App」をクリックして入力：\n• App name：任意の名前（例：「My Focus App」）\n• App description：個人使用\n• Website：空欄またはURLを入力\n• 「Web API」オプションをチェック",
-
-  "createNewAppDescShort": "「Create App」をクリックして以下のフィールドを入力し、「Web API」オプションをチェック。",
-
-  "appNameLabel": "App name（アプリ名）",
-
-  "appNameCopied": "アプリ名をコピーしました！",
-
-  "appDescriptionLabel": "App description（アプリの説明）",
-
-  "appDescriptionCopied": "アプリの説明をコピーしました！",
-
-  "redirectUriLabel": "Redirect URI（リダイレクトURI）",
-
-  "setRedirectUri": "リダイレクトURIを設定（重要！）",
-
-  "setRedirectUriDesc": "「Redirect URIs」フィールドに以下のURIを追加：",
-
-  "copy": "コピー",
-
-  "redirectUriCopied": "リダイレクトURIをコピーしました！",
-
-  "redirectUriWarning": "貼り付け後「Add」をクリックし、下の「Save」をクリック！",
-
-  "step2EnterCredentials": "ステップ2：クレデンシャルを入力",
-
-  "updateYourCredentials": "クレデンシャルを更新",
-
-  "findCredentialsHint": "Spotify開発者ダッシュボードのアプリ設定ページでクレデンシャルを確認できます。",
-
-  "modifyCredentialsHint": "以下のクレデンシャルを変更してください。正しい場合は変更不要です。",
-
-  "enterClientId": "Client IDを入力",
-
-  "clientIdRequired": "Client IDは必須です",
-
-  "clientIdTooShort": "Client IDが短すぎます",
-
-  "enterClientSecret": "Client Secretを入力",
-
-  "clientSecretRequired": "Client Secretは必須です",
-
-  "clientSecretTooShort": "Client Secretが短すぎます",
-
-  "whereToFindCredentials": "どこで見つけられますか？",
-
-  "whereToFindCredentialsDesc": "SpotifyアプリのSettingsページでClient IDが表示されます。「View client secret」をクリックしてシークレットを表示します。",
-
-  "step3ReadyToConnect": "ステップ3：接続準備完了",
-
-  "credentialsSaved": "クレデンシャルを保存しました！",
-
-  "waitingForCredentials": "クレデンシャルを待機中",
-
-  "credentialsSavedDesc": "Spotify APIクレデンシャルが安全に保存されました。Spotifyに接続できます。",
-
-  "waitingForCredentialsDesc": "ステップ2に戻ってクレデンシャルを入力してください。",
-
-  "spotifyPremiumRequired": "Spotify Premiumが必要",
-
-  "spotifyPremiumRequiredDesc": "このアプリの再生コントロール機能にはSpotify Premiumが必要です。",
-
-  "back": "戻る",
-
-  "nextEnterCredentials": "次へ：クレデンシャルを入力",
-
-  "saveCredentials": "クレデンシャルを保存",
-
-  "updateCredentialsButton": "クレデンシャルを更新",
-
-  "connectToSpotify": "Spotifyに接続",
-
-  "reconfigureApiCredentials": "APIクレデンシャルを再設定",
-
-  "changeClientIdSecret": "Client IDとSecretを変更",
-
-  "reconfigureDialogTitle": "APIクレデンシャルを再設定",
-
-  "reconfigureDialogContent": "現在のAPIクレデンシャルを削除してログアウトします。\n\nClient IDとSecretを再入力する必要があります。",
-
-  "reconfigure": "再設定",
-
   "redirectUriForSpotifyApp": "SpotifyアプリのリダイレクトURI",
 
   "spotifyApi": "Spotify API",
 
   "configured": "設定済み（{clientId}）",
-
-  "notConfigured": "未設定",
 
   "llmOpenAiCompatible": "OpenAI互換API",
 
@@ -599,5 +466,21 @@
 
   "miniPlayer": "ミニプレーヤー",
 
-  "exitMiniPlayer": "ミニプレーヤーを終了"
+  "exitMiniPlayer": "ミニプレーヤーを終了",
+
+  "advancedOptions": "詳細オプション",
+
+  "customClientId": "カスタム Client ID",
+
+  "customClientIdDescription": "共有 Client ID は Spotify のレート制限を受ける可能性があります。Spotify Developer Dashboard で独自のアプリを作成し、自分の Client ID を使用できます。",
+
+  "customClientIdHint": "Spotify Client ID を入力",
+
+  "customClientIdSaved": "カスタム Client ID を保存しました",
+
+  "customClientIdCleared": "デフォルトの Client ID に戻しました",
+
+  "useDefaultClient": "デフォルトを使用",
+
+  "customClientIdReauthRequired": "Client ID の切り替えには再ログインが必要です。今すぐログアウトしますか？"
 }

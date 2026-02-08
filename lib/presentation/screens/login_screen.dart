@@ -6,15 +6,27 @@ import '../../application/providers/auth_provider.dart';
 import '../../application/providers/credentials_provider.dart';
 import '../themes/app_theme.dart';
 import '../widgets/app_logo.dart';
-import 'setup_guide_screen.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  bool _advancedExpanded = false;
+  final _clientIdController = TextEditingController();
+
+  @override
+  void dispose() {
+    _clientIdController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    final credentialsState = ref.watch(credentialsProvider);
     final isLoading = authState.status == AuthStatus.loading;
 
     return Scaffold(
@@ -56,50 +68,6 @@ class LoginScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 48),
 
-                // Credentials status
-                if (credentialsState.hasSpotifyCredentials && !isLoading)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.spotifyGreen.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.check_circle,
-                          size: 16,
-                          color: AppTheme.spotifyGreen,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          AppLocalizations.of(context)!.apiConfigured,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppTheme.spotifyGreen,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        GestureDetector(
-                          onTap: () => _showReconfigureDialog(context, ref),
-                          child: Text(
-                            AppLocalizations.of(context)!.change,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppTheme.spotifyGreen,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(height: 24),
-
                 // Loading state with cancel option
                 if (isLoading) _buildLoadingState(context, ref),
 
@@ -119,6 +87,11 @@ class LoginScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                const SizedBox(height: 16),
+
+                // Advanced options (custom Client ID)
+                if (!isLoading) _buildAdvancedSection(context),
+
                 const SizedBox(height: 24),
 
                 // Info section
@@ -154,6 +127,168 @@ class LoginScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildAdvancedSection(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final creds = ref.watch(credentialsProvider);
+    final hasCustom =
+        creds.customSpotifyClientId != null &&
+        creds.customSpotifyClientId!.isNotEmpty;
+    final effectiveClientId = ref.watch(effectiveSpotifyClientIdProvider);
+
+    return Column(
+      children: [
+        // Clickable row to expand/collapse
+        InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            setState(() {
+              _advancedExpanded = !_advancedExpanded;
+              if (_advancedExpanded && hasCustom) {
+                _clientIdController.text = creds.customSpotifyClientId!;
+              }
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.tune,
+                  size: 16,
+                  color: AppTheme.spotifyLightGray,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  l10n.advancedOptions,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppTheme.spotifyLightGray,
+                  ),
+                ),
+                Icon(
+                  _advancedExpanded ? Icons.expand_less : Icons.expand_more,
+                  size: 18,
+                  color: AppTheme.spotifyLightGray,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (_advancedExpanded) ...[
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppTheme.spotifyDarkGray,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Current status
+                Row(
+                  children: [
+                    Icon(Icons.key, size: 16, color: AppTheme.spotifyLightGray),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n.configured(_maskClientId(effectiveClientId)),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: hasCustom
+                              ? AppTheme.spotifyGreen
+                              : AppTheme.spotifyLightGray,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  l10n.customClientIdDescription,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.spotifyLightGray.withValues(alpha: 0.8),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _clientIdController,
+                  decoration: InputDecoration(
+                    labelText: l10n.customClientId,
+                    hintText: l10n.customClientIdHint,
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                    suffixIcon: hasCustom
+                        ? IconButton(
+                            icon: const Icon(Icons.clear, size: 18),
+                            tooltip: l10n.useDefaultClient,
+                            onPressed: () => _clearCustomClientId(l10n),
+                          )
+                        : null,
+                  ),
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (hasCustom)
+                      TextButton(
+                        onPressed: () => _clearCustomClientId(l10n),
+                        child: Text(l10n.useDefaultClient),
+                      ),
+                    const SizedBox(width: 8),
+                    FilledButton(
+                      onPressed: () => _saveCustomClientId(l10n),
+                      child: Text(l10n.save),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Future<void> _saveCustomClientId(AppLocalizations l10n) async {
+    final value = _clientIdController.text.trim();
+    if (value.isEmpty) return;
+
+    final notifier = ref.read(credentialsProvider.notifier);
+    final success = await notifier.saveCustomSpotifyClientId(value);
+
+    if (!mounted) return;
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.customClientIdSaved)),
+      );
+    }
+  }
+
+  Future<void> _clearCustomClientId(AppLocalizations l10n) async {
+    final notifier = ref.read(credentialsProvider.notifier);
+    await notifier.clearCustomSpotifyClientId();
+    _clientIdController.clear();
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.customClientIdCleared)),
+    );
+  }
+
+  String _maskClientId(String clientId) {
+    if (clientId.length < 8) return '****';
+    return '${clientId.substring(0, 4)}...${clientId.substring(clientId.length - 4)}';
   }
 
   Widget _buildLoadingState(BuildContext context, WidgetRef ref) {
@@ -265,19 +400,6 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  void _showReconfigureDialog(BuildContext context, WidgetRef ref) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => SetupGuideScreen(
-          isReconfiguring: true,
-          onSetupComplete: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-    );
-  }
-
   String _getErrorMessage(BuildContext context, String? error) {
     final l10n = AppLocalizations.of(context)!;
     if (error == null) return 'An unknown error occurred';
@@ -377,14 +499,6 @@ class LoginScreen extends ConsumerWidget {
             displayMessage,
             style: TextStyle(color: Colors.red.shade300, fontSize: 12),
             textAlign: TextAlign.center,
-          ),
-          // Show reconfigure option on auth error
-          const SizedBox(height: 12),
-          TextButton.icon(
-            onPressed: () => _showReconfigureDialog(context, ref),
-            icon: const Icon(Icons.settings, size: 16),
-            label: Text(l10n.reconfigureCredentials),
-            style: TextButton.styleFrom(foregroundColor: Colors.red.shade300),
           ),
         ],
       ),
