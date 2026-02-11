@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
 import '../../application/providers/auth_provider.dart';
 import '../../application/providers/credentials_provider.dart';
+import '../../core/config/app_config.dart';
 import '../themes/app_theme.dart';
 import '../widgets/app_logo.dart';
 
@@ -15,11 +16,34 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  bool _advancedExpanded = false;
   final _clientIdController = TextEditingController();
+  bool _clientIdSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load existing client ID if any
+    final creds = ref.read(credentialsProvider);
+    if (creds.customSpotifyClientId != null &&
+        creds.customSpotifyClientId!.isNotEmpty) {
+      _clientIdController.text = creds.customSpotifyClientId!;
+      _clientIdSaved = true;
+    }
+    _clientIdController.addListener(_onClientIdChanged);
+  }
+
+  void _onClientIdChanged() {
+    // Mark unsaved when text changes after a save
+    if (_clientIdSaved &&
+        _clientIdController.text.trim() !=
+            ref.read(credentialsProvider).customSpotifyClientId) {
+      setState(() => _clientIdSaved = false);
+    }
+  }
 
   @override
   void dispose() {
+    _clientIdController.removeListener(_onClientIdChanged);
     _clientIdController.dispose();
     super.dispose();
   }
@@ -28,6 +52,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
     final isLoading = authState.status == AuthStatus.loading;
+    final l10n = AppLocalizations.of(context)!;
+    final effectiveClientId = ref.watch(effectiveSpotifyClientIdProvider);
+    final hasClientId = effectiveClientId.isNotEmpty && _clientIdSaved;
 
     return Scaffold(
       body: SafeArea(
@@ -44,12 +71,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 32),
-                // Logo
                 const AppLogo(size: 120),
                 const SizedBox(height: 32),
-                // Title
                 Text(
-                  AppLocalizations.of(context)!.appTitle,
+                  l10n.appTitle,
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -57,16 +82,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
-                // Subtitle
                 Text(
-                  AppLocalizations.of(context)!.focusOnFavoriteArtists,
+                  l10n.focusOnFavoriteArtists,
                   style: TextStyle(
                     fontSize: 16,
                     color: AppTheme.spotifyLightGray,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 36),
 
                 // Loading state with cancel option
                 if (isLoading) _buildLoadingState(context, ref),
@@ -75,23 +99,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 if (authState.status == AuthStatus.error)
                   _buildErrorMessage(context, ref, authState.errorMessage),
 
-                // Login button (hidden during loading)
+                // Client ID input (always visible, required)
+                if (!isLoading) _buildClientIdSection(context, l10n),
+
+                const SizedBox(height: 20),
+
+                // Login button (disabled without client ID)
                 if (!isLoading)
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
-                      onPressed: () => ref.read(authProvider.notifier).login(),
+                      onPressed: hasClientId
+                          ? () => ref.read(authProvider.notifier).login()
+                          : null,
                       icon: const Icon(Icons.login),
-                      label: Text(
-                        AppLocalizations.of(context)!.connectWithSpotify,
-                      ),
+                      label: Text(l10n.connectWithSpotify),
                     ),
                   ),
-                const SizedBox(height: 16),
-
-                // Advanced options (custom Client ID)
-                if (!isLoading) _buildAdvancedSection(context),
-
                 const SizedBox(height: 24),
 
                 // Info section
@@ -105,17 +129,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: [
                       _buildInfoRow(
                         Icons.lock_outline,
-                        AppLocalizations.of(context)!.credentialsStayOnDevice,
+                        l10n.credentialsStayOnDevice,
                       ),
                       const SizedBox(height: 8),
                       _buildInfoRow(
                         Icons.speaker_group,
-                        AppLocalizations.of(context)!.controlsExistingSession,
+                        l10n.controlsExistingSession,
                       ),
                       const SizedBox(height: 8),
                       _buildInfoRow(
                         Icons.workspace_premium,
-                        AppLocalizations.of(context)!.requiresPremium,
+                        l10n.requiresPremium,
                       ),
                     ],
                   ),
@@ -129,136 +153,94 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildAdvancedSection(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final creds = ref.watch(credentialsProvider);
-    final hasCustom =
-        creds.customSpotifyClientId != null &&
-        creds.customSpotifyClientId!.isNotEmpty;
-    final effectiveClientId = ref.watch(effectiveSpotifyClientIdProvider);
-
-    return Column(
-      children: [
-        // Clickable row to expand/collapse
-        InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: () {
-            setState(() {
-              _advancedExpanded = !_advancedExpanded;
-              if (_advancedExpanded && hasCustom) {
-                _clientIdController.text = creds.customSpotifyClientId!;
-              }
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.tune,
-                  size: 16,
-                  color: AppTheme.spotifyLightGray,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  l10n.advancedOptions,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppTheme.spotifyLightGray,
-                  ),
-                ),
-                Icon(
-                  _advancedExpanded ? Icons.expand_less : Icons.expand_more,
-                  size: 18,
-                  color: AppTheme.spotifyLightGray,
-                ),
-              ],
+  Widget _buildClientIdSection(BuildContext context, AppLocalizations l10n) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.spotifyDarkGray,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.customClientIdDescription,
+            style: TextStyle(
+              fontSize: 12,
+              color: AppTheme.spotifyLightGray.withValues(alpha: 0.8),
             ),
           ),
-        ),
-        if (_advancedExpanded) ...[
-          const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppTheme.spotifyDarkGray,
-              borderRadius: BorderRadius.circular(12),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _clientIdController,
+            decoration: InputDecoration(
+              labelText: l10n.customClientId,
+              hintText: l10n.customClientIdHint,
+              border: const OutlineInputBorder(),
+              isDense: true,
+              suffixIcon: _clientIdSaved
+                  ? Icon(Icons.check_circle, color: AppTheme.spotifyGreen, size: 20)
+                  : null,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FilledButton(
+                onPressed: () => _saveClientId(l10n),
+                child: Text(l10n.save),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Redirect URI info
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.blue.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
+            ),
+            child: Row(
               children: [
-                // Current status
-                Row(
-                  children: [
-                    Icon(Icons.key, size: 16, color: AppTheme.spotifyLightGray),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.configured(_maskClientId(effectiveClientId)),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: hasCustom
-                              ? AppTheme.spotifyGreen
-                              : AppTheme.spotifyLightGray,
+                const Icon(Icons.info_outline, color: Colors.blue, size: 18),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.redirectUriForSpotifyApp,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                          fontSize: 11,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  l10n.customClientIdDescription,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppTheme.spotifyLightGray.withValues(alpha: 0.8),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _clientIdController,
-                  decoration: InputDecoration(
-                    labelText: l10n.customClientId,
-                    hintText: l10n.customClientIdHint,
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                    suffixIcon: hasCustom
-                        ? IconButton(
-                            icon: const Icon(Icons.clear, size: 18),
-                            tooltip: l10n.useDefaultClient,
-                            onPressed: () => _clearCustomClientId(l10n),
-                          )
-                        : null,
-                  ),
-                  style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if (hasCustom)
-                      TextButton(
-                        onPressed: () => _clearCustomClientId(l10n),
-                        child: Text(l10n.useDefaultClient),
+                      const SizedBox(height: 2),
+                      SelectableText(
+                        AppConfig.spotifyRedirectUri,
+                        style: const TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 11,
+                          color: Colors.blue,
+                        ),
                       ),
-                    const SizedBox(width: 8),
-                    FilledButton(
-                      onPressed: () => _saveCustomClientId(l10n),
-                      child: Text(l10n.save),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ],
-      ],
+      ),
     );
   }
 
-  Future<void> _saveCustomClientId(AppLocalizations l10n) async {
+  Future<void> _saveClientId(AppLocalizations l10n) async {
     final value = _clientIdController.text.trim();
     if (value.isEmpty) return;
 
@@ -268,27 +250,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
+      setState(() => _clientIdSaved = true);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.customClientIdSaved)),
       );
     }
-  }
-
-  Future<void> _clearCustomClientId(AppLocalizations l10n) async {
-    final notifier = ref.read(credentialsProvider.notifier);
-    await notifier.clearCustomSpotifyClientId();
-    _clientIdController.clear();
-
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.customClientIdCleared)),
-    );
-  }
-
-  String _maskClientId(String clientId) {
-    if (clientId.length < 8) return '****';
-    return '${clientId.substring(0, 4)}...${clientId.substring(clientId.length - 4)}';
   }
 
   Widget _buildLoadingState(BuildContext context, WidgetRef ref) {
@@ -302,7 +268,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
       child: Column(
         children: [
-          // Animated loading indicator
           SizedBox(
             width: 60,
             height: 60,
@@ -323,7 +288,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          // Tip about browser
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
@@ -333,32 +297,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: AppTheme.spotifyGreen,
-                ),
+                Icon(Icons.info_outline, size: 16, color: AppTheme.spotifyGreen),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
                     AppLocalizations.of(context)!.afterAgreeCloseBrowser,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppTheme.spotifyGreen,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppTheme.spotifyGreen),
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 20),
-          // Cancel button - more prominent
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: () {
-                ref.read(authProvider.notifier).cancelLogin();
-              },
+              onPressed: () => ref.read(authProvider.notifier).cancelLogin(),
               icon: const Icon(Icons.cancel, size: 20),
               label: Text(AppLocalizations.of(context)!.cancelLogin),
               style: ElevatedButton.styleFrom(
@@ -403,15 +357,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String _getErrorMessage(BuildContext context, String? error) {
     final l10n = AppLocalizations.of(context)!;
     if (error == null) return 'An unknown error occurred';
-
     final lowerError = error.toLowerCase();
-
-    // Parse common errors and provide user-friendly messages
     if (lowerError.contains('invalid_client') ||
         lowerError.contains('invalid client')) {
-      if (lowerError.contains('redirect')) {
-        return l10n.errorRedirectUri;
-      }
+      if (lowerError.contains('redirect')) return l10n.errorRedirectUri;
       return l10n.errorInvalidClient;
     }
     if (lowerError.contains('redirect_uri') ||
@@ -436,8 +385,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (lowerError.contains('certificate') || lowerError.contains('ssl')) {
       return 'SSL certificate error. Please ensure your browser accepts the local certificate.';
     }
-
-    // Return the original error if not matched
     return error;
   }
 
@@ -473,7 +420,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
               ),
-              // Copy button
               IconButton(
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: rawError));

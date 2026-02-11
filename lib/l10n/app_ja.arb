@@ -472,7 +472,7 @@
 
   "customClientId": "カスタム Client ID",
 
-  "customClientIdDescription": "共有 Client ID は Spotify のレート制限を受ける可能性があります。Spotify Developer Dashboard で独自のアプリを作成し、自分の Client ID を使用できます。",
+  "customClientIdDescription": "Spotifyでは各開発者が独自のClient IDを使用する必要があります。Spotify Developer Dashboardでアプリを作成し、以下にClient IDを入力してください。",
 
   "customClientIdHint": "Spotify Client ID を入力",
 

@@ -893,7 +893,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get customClientIdDescription =>
-      '公用 Client ID 在高频请求时可能被 Spotify 限流。你可以在 Spotify Developer Dashboard 创建自己的应用，使用自己的 Client ID。';
+      'Spotify 要求每位开发者使用自己的 Client ID。请前往 Spotify Developer Dashboard 创建应用，将 Client ID 填入下方。';
 
   @override
   String get customClientIdHint => '输入你的 Spotify Client ID';

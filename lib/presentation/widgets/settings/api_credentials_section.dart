@@ -15,7 +15,7 @@ class ApiCredentialsSection extends ConsumerStatefulWidget {
 }
 
 class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
-  bool _advancedExpanded = false;
+  bool _editing = false;
   final _clientIdController = TextEditingController();
 
   @override
@@ -28,10 +28,7 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final effectiveClientId = ref.watch(effectiveSpotifyClientIdProvider);
-    final creds = ref.watch(credentialsProvider);
-    final hasCustom =
-        creds.customSpotifyClientId != null &&
-        creds.customSpotifyClientId!.isNotEmpty;
+    final hasClientId = effectiveClientId.isNotEmpty;
 
     return Column(
       children: [
@@ -39,38 +36,29 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
           leading: const Icon(Icons.key),
           title: Text(l10n.spotifyApi),
           subtitle: Text(
-            l10n.configured(_maskClientId(effectiveClientId)),
+            hasClientId
+                ? l10n.configured(_maskClientId(effectiveClientId))
+                : l10n.customClientIdHint,
           ),
-          trailing: Icon(Icons.check_circle, color: AppTheme.spotifyGreen),
-        ),
-        _buildRedirectUriInfo(context),
-        // Advanced options
-        ListTile(
-          leading: const Icon(Icons.tune),
-          title: Text(l10n.advancedOptions),
-          trailing: Icon(
-            _advancedExpanded ? Icons.expand_less : Icons.expand_more,
-          ),
+          trailing: hasClientId
+              ? Icon(Icons.check_circle, color: AppTheme.spotifyGreen)
+              : const Icon(Icons.warning_amber, color: Colors.orange),
           onTap: () {
             setState(() {
-              _advancedExpanded = !_advancedExpanded;
-              if (_advancedExpanded && hasCustom) {
-                _clientIdController.text = creds.customSpotifyClientId!;
+              _editing = !_editing;
+              if (_editing && hasClientId) {
+                _clientIdController.text = effectiveClientId;
               }
             });
           },
         ),
-        if (_advancedExpanded)
-          _buildAdvancedOptions(context, l10n, hasCustom),
+        _buildRedirectUriInfo(context),
+        if (_editing) _buildEditSection(context, l10n),
       ],
     );
   }
 
-  Widget _buildAdvancedOptions(
-    BuildContext context,
-    AppLocalizations l10n,
-    bool hasCustom,
-  ) {
+  Widget _buildEditSection(BuildContext context, AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(12),
@@ -97,13 +85,6 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
               hintText: l10n.customClientIdHint,
               border: const OutlineInputBorder(),
               isDense: true,
-              suffixIcon: hasCustom
-                  ? IconButton(
-                      icon: const Icon(Icons.clear, size: 18),
-                      tooltip: l10n.useDefaultClient,
-                      onPressed: () => _clearCustomClientId(context, l10n),
-                    )
-                  : null,
             ),
             style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
           ),
@@ -111,14 +92,8 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (hasCustom)
-                TextButton(
-                  onPressed: () => _clearCustomClientId(context, l10n),
-                  child: Text(l10n.useDefaultClient),
-                ),
-              const SizedBox(width: 8),
               FilledButton(
-                onPressed: () => _saveCustomClientId(context, l10n),
+                onPressed: () => _saveClientId(context, l10n),
                 child: Text(l10n.save),
               ),
             ],
@@ -128,7 +103,7 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
     );
   }
 
-  Future<void> _saveCustomClientId(
+  Future<void> _saveClientId(
     BuildContext context,
     AppLocalizations l10n,
   ) async {
@@ -146,22 +121,6 @@ class _ApiCredentialsSectionState extends ConsumerState<ApiCredentialsSection> {
       );
       _showReauthDialog(context, l10n);
     }
-  }
-
-  Future<void> _clearCustomClientId(
-    BuildContext context,
-    AppLocalizations l10n,
-  ) async {
-    final notifier = ref.read(credentialsProvider.notifier);
-    await notifier.clearCustomSpotifyClientId();
-    _clientIdController.clear();
-
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.customClientIdCleared)),
-    );
-    _showReauthDialog(context, l10n);
   }
 
   void _showReauthDialog(BuildContext context, AppLocalizations l10n) {

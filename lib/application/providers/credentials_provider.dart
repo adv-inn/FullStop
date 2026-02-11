@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/config/app_config.dart';
 import '../../data/datasources/credentials_local_datasource.dart';
 import '../di/injection_container.dart';
 
@@ -165,12 +164,9 @@ final credentialsProvider =
       return CredentialsNotifier(ref.watch(credentialsLocalDataSourceProvider));
     });
 
-/// Derived provider that returns the effective Spotify Client ID
-/// (custom > default)
+/// Derived provider that returns the user-configured Spotify Client ID.
+/// Returns empty string if not configured — login screen guards this.
 final effectiveSpotifyClientIdProvider = Provider<String>((ref) {
   final creds = ref.watch(credentialsProvider);
-  final custom = creds.customSpotifyClientId;
-  return (custom != null && custom.isNotEmpty)
-      ? custom
-      : AppConfig.spotifyClientId;
+  return creds.customSpotifyClientId ?? '';
 });

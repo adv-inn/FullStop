@@ -915,7 +915,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get customClientIdDescription =>
-      'The shared Client ID may be rate-limited by Spotify under heavy usage. You can create your own app on Spotify Developer Dashboard and use your own Client ID.';
+      'Spotify requires each developer to use their own Client ID. Create an app on Spotify Developer Dashboard and enter the Client ID below.';
 
   @override
   String get customClientIdHint => 'Enter your Spotify Client ID';
