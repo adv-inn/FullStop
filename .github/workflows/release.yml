@@ -67,7 +67,7 @@ jobs:
         run: dart format .
 
       - name: Upload generated code
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: generated-code
           path: lib/**/*.g.dart
@@ -214,7 +214,7 @@ jobs:
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: windows-release
           path: |
@@ -292,7 +292,7 @@ jobs:
           rm -rf dmg_contents
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: macos-release
           path: release/
@@ -398,7 +398,7 @@ jobs:
           ARCH=x86_64 ./appimagetool AppDir "release/${{ env.APP_NAME }}-${VERSION}-linux-x64.AppImage" || true
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: linux-release
           path: release/
@@ -475,7 +475,7 @@ jobs:
              "release/${{ env.APP_NAME }}-${VERSION}-android.apk"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: android-release
           path: release/
@@ -544,7 +544,7 @@ jobs:
           rm -rf Payload
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ios-release
           path: release/
