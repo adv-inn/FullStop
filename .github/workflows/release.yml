@@ -609,7 +609,7 @@ jobs:
           } > release_notes.md
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: "${{ env.APP_NAME }} v${{ needs.validate.outputs.version }}"
           tag_name: ${{ needs.validate.outputs.tag }}
